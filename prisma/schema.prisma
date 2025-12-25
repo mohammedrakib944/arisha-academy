@@ -1,0 +1,168 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum TransactionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum EnrollmentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id          String    @id @default(cuid())
+  username    String
+  phoneNumber String    @unique
+  role        UserRole  @default(USER)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  enrollments Enrollment[]
+  purchases   Purchase[]
+  transactions Transaction[]
+
+  @@map("users")
+}
+
+model Teacher {
+  id           String   @id @default(cuid())
+  name         String
+  bio          String?  @db.Text
+  image        String?
+  subjects     String[] // Array of subjects taught
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  courses CourseTeacher[]
+
+  @@map("teachers")
+}
+
+model Course {
+  id              String   @id @default(cuid())
+  thumbnail       String?
+  title           String
+  description     String?  @db.Text
+  price           Float
+  totalClasses    Int      @default(0)
+  totalExams      Int      @default(0)
+  overview        String?  @db.Text // Rich text content from Tiptap
+  routineImage    String?
+  courseOutlineUrl String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  teachers      CourseTeacher[]
+  subjects      CourseSubject[]
+  enrollments   Enrollment[]
+
+  @@map("courses")
+}
+
+model CourseTeacher {
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  teacherId String
+  teacher   Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+
+  @@id([courseId, teacherId])
+  @@map("course_teachers")
+}
+
+model CourseSubject {
+  id        String   @id @default(cuid())
+  name      String   // e.g., "Biology", "Chemistry"
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons   Lesson[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("course_subjects")
+}
+
+model Lesson {
+  id              String         @id @default(cuid())
+  title           String
+  description     String?        @db.Text
+  subjectId       String
+  subject         CourseSubject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@map("lessons")
+}
+
+model Book {
+  id          String   @id @default(cuid())
+  thumbnail   String?
+  title       String
+  description String?   @db.Text
+  price       Float
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  purchases Purchase[]
+
+  @@map("books")
+}
+
+model Enrollment {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId  String
+  course    Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  status    EnrollmentStatus @default(PENDING)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@unique([userId, courseId])
+  @@map("enrollments")
+}
+
+model Purchase {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookId    String
+  book      Book             @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  status    EnrollmentStatus @default(PENDING)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@unique([userId, bookId])
+  @@map("purchases")
+}
+
+model Transaction {
+  id            String            @id @default(cuid())
+  transactionId String            @unique // External transaction ID from payment gateway
+  phoneNumber   String
+  userId        String?
+  user          User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
+  courseId      String?
+  bookId        String?
+  status        TransactionStatus @default(PENDING)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  @@map("transactions")
+}
