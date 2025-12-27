@@ -36,7 +36,7 @@ export function ContentCard({
 }: ContentCardProps) {
   return (
     <Link href={href}>
-      <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full group">
+      <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full group flex flex-col justify-between">
         {thumbnail ? (
           <div className={`relative w-full ${imageHeight}`}>
             <Image src={thumbnail} alt={title} fill className="object-cover" />
@@ -52,7 +52,7 @@ export function ContentCard({
           </div>
         )}
         <CardHeader>
-          <CardTitle>{title}</CardTitle>
+          <CardTitle className="text-lg">{title}</CardTitle>
           {description && (
             <CardDescription className="line-clamp-2">
               {description}

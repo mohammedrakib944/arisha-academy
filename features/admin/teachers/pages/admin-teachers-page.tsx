@@ -25,7 +25,7 @@ export async function AdminTeachersPage() {
 
   return (
     <div className="min-h-screen">
-      <main className="container mx-auto px-4 py-8">
+      <main className="max-w-5xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-4xl font-bold">Manage Teachers</h1>
           <Link href="/admin/teachers/new">
@@ -36,7 +36,7 @@ export async function AdminTeachersPage() {
           {teachers.map((teacher) => (
             <Card
               key={teacher.id}
-              className="overflow-hidden shadow-none hover:shadow-lg transition-shadow h-fullsh"
+              className="overflow-hidden shadow-none hover:shadow-lg transition-shadow h-fullsh flex flex-col justify-between"
             >
               {teacher.image && (
                 <div className="relative w-full h-48">
@@ -67,7 +67,7 @@ export async function AdminTeachersPage() {
                   </CardDescription>
                 )}
               </CardHeader>
-              <CardContent>
+              <CardContent className="pb-0">
                 {teacher.subjects.length > 0 && (
                   <div className="flex flex-wrap gap-2 mb-3">
                     {teacher.subjects.map((subject, idx) => (

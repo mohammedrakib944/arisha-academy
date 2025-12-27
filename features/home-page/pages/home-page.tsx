@@ -10,7 +10,7 @@ export async function HomePage() {
 
   return (
     <div className="min-h-screen">
-      <main className="container mx-auto px-4 py-8">
+      <main className="max-w-6xl mx-auto px-4 py-8">
         <div className="mb-12 text-center">
           <h1 className="text-4xl font-bold mb-4">Welcome to Arisha Academy</h1>
           <p className="text-muted-foreground text-lg">

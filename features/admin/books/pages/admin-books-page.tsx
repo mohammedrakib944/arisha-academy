@@ -24,7 +24,7 @@ export async function AdminBooksPage() {
 
   return (
     <div className="min-h-screen">
-      <main className="container mx-auto px-4 py-8">
+      <main className="max-w-5xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-4xl font-bold">Manage Books</h1>
           <Link href="/admin/books/new">

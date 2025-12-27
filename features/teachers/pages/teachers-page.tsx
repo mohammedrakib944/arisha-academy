@@ -6,7 +6,7 @@ export async function TeachersPage() {
 
   return (
     <div className="min-h-screen">
-      <main className="container mx-auto px-4 py-8">
+      <main className="max-w-5xl mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold mb-8">Our Teachers</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {teachers.map((teacher) => (

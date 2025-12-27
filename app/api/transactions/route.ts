@@ -177,21 +177,39 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get("search") || "";
     const skip = (page - 1) * limit;
 
-    // Normalize phone number for search if provided
-    let normalizedSearch = "";
-    if (search) {
-      // Remove all non-digit characters for search
-      normalizedSearch = search.replace(/[^\d]/g, "");
-    }
-
     // Build where clause for search
-    const where = normalizedSearch
-      ? {
+    // Search by both transactionId and phoneNumber
+    let where: any = {};
+    if (search && search.trim()) {
+      const trimmedSearch = search.trim();
+      // Normalize phone number for search (remove non-digit characters)
+      const normalizedPhoneSearch = trimmedSearch.replace(/[^\d]/g, "");
+      
+      // Build OR condition to search both transactionId and phoneNumber
+      const searchConditions: any[] = [];
+      
+      // Search by transactionId (case-insensitive, partial match)
+      searchConditions.push({
+        transactionId: {
+          contains: trimmedSearch,
+          mode: "insensitive" as const,
+        },
+      });
+      
+      // Search by phoneNumber (normalized, partial match) - only if we have digits
+      if (normalizedPhoneSearch) {
+        searchConditions.push({
           phoneNumber: {
-            contains: normalizedSearch,
+            contains: normalizedPhoneSearch,
           },
-        }
-      : {};
+        });
+      }
+      
+      // Use OR condition to search both fields
+      where = {
+        OR: searchConditions,
+      };
+    }
 
     // Get total count for pagination
     const total = await prisma.transaction.count({ where });

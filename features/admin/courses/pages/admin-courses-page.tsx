@@ -24,7 +24,7 @@ export async function AdminCoursesPage() {
 
   return (
     <div className="min-h-screen">
-      <main className="container mx-auto px-4 py-8">
+      <main className="max-w-5xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-4xl font-bold">Manage Courses</h1>
           <Link href="/admin/courses/new">
@@ -33,7 +33,10 @@ export async function AdminCoursesPage() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses.map((course) => (
-            <Card key={course.id} className="overflow-hidden">
+            <Card
+              key={course.id}
+              className="overflow-hidden flex flex-col justify-between"
+            >
               {course.thumbnail && (
                 <div className="relative w-full h-48">
                   <Image
@@ -44,7 +47,7 @@ export async function AdminCoursesPage() {
                   />
                 </div>
               )}
-              <CardHeader>
+              <CardHeader className="pb-2">
                 <CardTitle>{course.title}</CardTitle>
                 {course.description && (
                   <CardDescription className="line-clamp-2">
@@ -52,21 +55,24 @@ export async function AdminCoursesPage() {
                   </CardDescription>
                 )}
               </CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xl font-bold text-primary">
-                    ${course.price}
-                  </span>
-                </div>
-              </CardContent>
-              <CardFooter className="flex gap-2">
-                <Link href={`/admin/courses/${course.id}`} className="flex-1">
-                  <Button className="w-full" size="sm">
-                    Edit
-                  </Button>
-                </Link>
-                <DeleteCourseButton courseId={course.id} />
-              </CardFooter>
+
+              <div>
+                <CardContent className="pb-0">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xl font-bold text-primary">
+                      ${course.price}
+                    </span>
+                  </div>
+                </CardContent>
+                <CardFooter className="flex gap-2">
+                  <Link href={`/admin/courses/${course.id}`} className="flex-1">
+                    <Button className="w-full" size="sm">
+                      Edit
+                    </Button>
+                  </Link>
+                  <DeleteCourseButton courseId={course.id} />
+                </CardFooter>
+              </div>
             </Card>
           ))}
         </div>

@@ -114,7 +114,7 @@ export async function ProfilePage() {
                         <Badge
                           variant={getStatusVariant(enrollment.status)}
                           className={cn(
-                            "w-fit mb-2 py-2 px-4 hover:bg-initial hover:text-initial",
+                            "w-fit py-2 px-4 hover:bg-initial hover:text-initial",
                             enrollment.status === "PENDING"
                               ? "bg-blue-100 text-blue-500"
                               : enrollment.status === "REJECTED"

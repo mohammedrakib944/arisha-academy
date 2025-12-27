@@ -30,7 +30,7 @@ export function TeacherCard({
     <Link href={href}>
       <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full">
         {image && (
-          <div className="relative w-full h-64">
+          <div className="relative w-full h-48">
             <Image src={image} alt={name} fill className="object-cover" />
           </div>
         )}
