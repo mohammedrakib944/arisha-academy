@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { isAdmin } from "@/lib/auth";
-import { uploadThumbnail } from "@/lib/image-upload";
+import { uploadThumbnail, deleteImageFile } from "@/lib/image-upload";
 import { bookSchema, type BookFormData } from "@/features/books/validations/book";
 import { revalidatePath } from "next/cache";
 
@@ -60,6 +60,10 @@ export async function updateBook(id: string, data: BookFormData) {
     let thumbnailUrl = existingBook.thumbnail;
 
     if (validated.thumbnail && validated.thumbnail.size > 0) {
+      // Delete old thumbnail if it exists
+      if (existingBook.thumbnail) {
+        await deleteImageFile(existingBook.thumbnail);
+      }
       thumbnailUrl = await uploadThumbnail(validated.thumbnail);
     }
 
@@ -92,9 +96,21 @@ export async function deleteBook(id: string) {
       return { success: false, error: "Unauthorized" };
     }
 
+    // Get the book to access image path before deletion
+    const book = await prisma.book.findUnique({
+      where: { id },
+      select: { thumbnail: true },
+    });
+
+    // Delete the book from database
     await prisma.book.delete({
       where: { id },
     });
+
+    // Delete associated image file
+    if (book) {
+      await deleteImageFile(book.thumbnail);
+    }
 
     revalidatePath("/admin/books");
     revalidatePath("/books");

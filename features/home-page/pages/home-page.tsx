@@ -3,7 +3,13 @@ import { getCourses } from "@/features/courses/actions/courses";
 import { getBooks } from "@/features/books/actions/books";
 import Link from "next/link";
 import Image from "next/image";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 export async function HomePage() {
@@ -111,4 +117,3 @@ export async function HomePage() {
     </div>
   );
 }
-

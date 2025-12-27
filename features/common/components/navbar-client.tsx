@@ -1,0 +1,247 @@
+"use client";
+
+import Link from "next/link";
+import { logout } from "@/features/auth/actions";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+  Menu,
+  ChevronDown,
+  LayoutDashboard,
+  BookOpen,
+  Users,
+  GraduationCap,
+  LogOut,
+  User,
+} from "lucide-react";
+import { useState } from "react";
+
+type User = {
+  id: string;
+  username: string;
+  phoneNumber: string;
+  role: "USER" | "ADMIN";
+  createdAt: Date;
+  updatedAt: Date;
+} | null;
+
+interface NavbarClientProps {
+  user: User;
+}
+
+const adminLinks = [
+  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/courses", label: "Manage Courses", icon: GraduationCap },
+  { href: "/admin/books", label: "Manage Books", icon: BookOpen },
+  { href: "/admin/teachers", label: "Manage Teachers", icon: Users },
+];
+
+const mainLinks = [
+  { href: "/courses", label: "Courses", icon: GraduationCap },
+  { href: "/books", label: "Books", icon: BookOpen },
+  { href: "/teachers", label: "Teachers", icon: Users },
+];
+
+export function NavbarClient({ user }: NavbarClientProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  return (
+    <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container mx-auto px-4">
+        <div className="flex h-16 items-center justify-between">
+          {/* Logo */}
+          <Link
+            href="/"
+            className="flex items-center space-x-2 text-2xl font-bold transition-colors hover:text-primary"
+          >
+            <GraduationCap className="h-6 w-6" />
+            <span>Arisha Academy</span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex md:items-center md:gap-6">
+            <Link
+              href="/courses"
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
+              Courses
+            </Link>
+            <Link
+              href="/books"
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
+              Books
+            </Link>
+            <Link
+              href="/teachers"
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
+              Teachers
+            </Link>
+
+            {user ? (
+              <>
+                {user.role === "ADMIN" && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        className="flex items-center gap-1 text-sm font-medium"
+                      >
+                        Admin
+                        <ChevronDown className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-56">
+                      <DropdownMenuLabel>Admin Panel</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      {adminLinks.map((link) => {
+                        const Icon = link.icon;
+                        return (
+                          <DropdownMenuItem key={link.href} asChild>
+                            <Link
+                              href={link.href}
+                              className="flex items-center gap-2 cursor-pointer"
+                            >
+                              <Icon className="h-4 w-4" />
+                              {link.label}
+                            </Link>
+                          </DropdownMenuItem>
+                        );
+                      })}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
+                <Link href="/profile">
+                  <Button variant="ghost" size="sm">
+                    Profile
+                  </Button>
+                </Link>
+                <form action={logout}>
+                  <Button type="submit" variant="ghost" size="sm">
+                    Logout
+                  </Button>
+                </form>
+              </>
+            ) : (
+              <Link href="/login">
+                <Button variant="ghost" size="sm">
+                  Login
+                </Button>
+              </Link>
+            )}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetTrigger asChild className="md:hidden">
+              <Button variant="ghost" size="icon">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+              <SheetHeader>
+                <SheetTitle className="flex items-center gap-2">
+                  <GraduationCap className="h-5 w-5" />
+                  Arisha Academy
+                </SheetTitle>
+              </SheetHeader>
+              <div className="flex flex-col pl-2">
+                {mainLinks.map((link) => {
+                  const Icon = link.icon;
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="flex items-center gap-3 px-2 py-2 text-sm font-medium transition-colors hover:text-primary rounded-md hover:bg-accent"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <Icon className="h-4 w-4" />
+                      {link.label}
+                    </Link>
+                  );
+                })}
+
+                {user ? (
+                  <>
+                    {user.role === "ADMIN" && (
+                      <>
+                        <div className="border-t pt-4 mt-2">
+                          <p className="px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+                            Admin
+                          </p>
+                          {adminLinks.map((link) => {
+                            const Icon = link.icon;
+                            return (
+                              <Link
+                                key={link.href}
+                                href={link.href}
+                                className="flex items-center gap-3 px-2 py-2 text-sm font-medium transition-colors hover:text-primary rounded-md hover:bg-accent"
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                <Icon className="h-4 w-4" />
+                                {link.label}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </>
+                    )}
+                    <div className="border-t pt-4 pl-2 pr-5 mt-2">
+                      <Link
+                        href="/profile"
+                        className="block text-sm font-medium transition-colors hover:text-primary flex items-center gap-3"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <Button size="sm">
+                          <User className="h-4 w-4" /> Profile
+                        </Button>
+                      </Link>
+                      <form action={logout} className="mt-5">
+                        <Button
+                          type="submit"
+                          variant="secondary"
+                          size="sm"
+                          className="w-full justify-start"
+                        >
+                          Logout <LogOut className="h-4 w-4" />
+                        </Button>
+                      </form>
+                    </div>
+                  </>
+                ) : (
+                  <div className="border-t pt-4 mt-2">
+                    <Link
+                      href="/login"
+                      className="block"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <Button variant="default" size="sm" className="w-full">
+                        Login
+                      </Button>
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </div>
+    </nav>
+  );
+}

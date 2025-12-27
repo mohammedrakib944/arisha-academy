@@ -9,7 +9,6 @@ import type { TeacherFormData } from "@/features/teachers/validations/teacher";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Form,
   FormControl,
@@ -20,6 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Plus, X } from "lucide-react";
+import { toast } from "sonner";
 
 type Teacher = {
   id: string;
@@ -55,12 +55,20 @@ export function TeacherForm({ teacher }: { teacher?: Teacher }) {
         : await createTeacher(transformedData);
 
       if (result.success) {
+        toast.success(
+          teacher ? "Teacher updated successfully!" : "Teacher created successfully!"
+        );
         router.push("/admin/teachers");
       } else {
-        throw new Error(result.error || "Failed to save teacher");
+        toast.error(result.error || "Failed to save teacher");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "An unexpected error occurred"
+      );
     }
   }
 
@@ -180,13 +188,6 @@ export function TeacherForm({ teacher }: { teacher?: Teacher }) {
           )}
         </div>
 
-        {form.formState.errors.root && (
-          <Alert variant="destructive">
-            <AlertDescription>
-              {form.formState.errors.root.message}
-            </AlertDescription>
-          </Alert>
-        )}
 
         <div className="flex gap-4">
           <Button

@@ -5,12 +5,19 @@ import { loginOrSignup } from "@/features/auth/actions/auth";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { authSchema, type AuthFormData } from "@/features/auth/validations/auth";
-import { useEffect } from "react";
-import { getCurrentUser } from "@/lib/auth";
+import {
+  authSchema,
+  type AuthFormData,
+} from "@/features/auth/validations/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Form,
@@ -26,14 +33,6 @@ export function LoginPage() {
   const form = useForm<AuthFormData>({
     resolver: zodResolver(authSchema),
   });
-
-  useEffect(() => {
-    getCurrentUser().then((user) => {
-      if (user) {
-        router.push("/profile");
-      }
-    });
-  }, [router]);
 
   async function onSubmit(data: AuthFormData) {
     try {
@@ -56,14 +55,19 @@ export function LoginPage() {
         <div className="max-w-md mx-auto">
           <Card>
             <CardHeader>
-              <CardTitle className="text-3xl text-center">Login / Sign Up</CardTitle>
+              <CardTitle className="text-3xl text-center">
+                Login / Sign Up
+              </CardTitle>
               <CardDescription className="text-center">
                 Enter your credentials to continue
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-4"
+                >
                   <FormField
                     control={form.control}
                     name="username"
@@ -113,4 +117,3 @@ export function LoginPage() {
     </div>
   );
 }
-

@@ -2,7 +2,11 @@
 
 import { prisma } from "@/lib/prisma";
 import { isAdmin } from "@/lib/auth";
-import { uploadThumbnail, uploadRoutineImage } from "@/lib/image-upload";
+import {
+  uploadThumbnail,
+  uploadRoutineImage,
+  deleteImageFile,
+} from "@/lib/image-upload";
 import {
   courseSchema,
   courseFormDataSchema,
@@ -160,10 +164,18 @@ export async function updateCourse(id: string, data: CourseFormData) {
     let routineImageUrl = existingCourse.routineImage;
 
     if (validated.thumbnail && validated.thumbnail.size > 0) {
+      // Delete old thumbnail if it exists
+      if (existingCourse.thumbnail) {
+        await deleteImageFile(existingCourse.thumbnail);
+      }
       thumbnailUrl = await uploadThumbnail(validated.thumbnail);
     }
 
     if (validated.routineImage && validated.routineImage.size > 0) {
+      // Delete old routine image if it exists
+      if (existingCourse.routineImage) {
+        await deleteImageFile(existingCourse.routineImage);
+      }
       routineImageUrl = await uploadRoutineImage(validated.routineImage);
     }
 
@@ -250,9 +262,22 @@ export async function deleteCourse(id: string) {
       return { success: false, error: "Unauthorized" };
     }
 
+    // Get the course to access image paths before deletion
+    const course = await prisma.course.findUnique({
+      where: { id },
+      select: { thumbnail: true, routineImage: true },
+    });
+
+    // Delete the course from database
     await prisma.course.delete({
       where: { id },
     });
+
+    // Delete associated image files
+    if (course) {
+      await deleteImageFile(course.thumbnail);
+      await deleteImageFile(course.routineImage);
+    }
 
     revalidatePath("/admin/courses");
     revalidatePath("/courses");

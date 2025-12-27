@@ -17,8 +17,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Plus, X } from "lucide-react";
+import { toast } from "sonner";
 
 type Teacher = {
   id: string;
@@ -128,15 +128,11 @@ export function CourseForm({
       if (data.thumbnail && data.thumbnail.length > 0) {
         const file = data.thumbnail[0];
         if (file.size > MAX_SIZE) {
-          setError("root", {
-            type: "manual",
-            message: `Thumbnail file size (${(
-              file.size /
-              (1024 * 1024)
-            ).toFixed(
+          toast.error(
+            `Thumbnail file size (${(file.size / (1024 * 1024)).toFixed(
               2
-            )}MB) exceeds 3MB limit. Please compress the image and try again.`,
-          });
+            )}MB) exceeds 3MB limit. Please compress the image and try again.`
+          );
           return;
         }
       }
@@ -144,15 +140,11 @@ export function CourseForm({
       if (data.routineImage && data.routineImage.length > 0) {
         const file = data.routineImage[0];
         if (file.size > MAX_SIZE) {
-          setError("root", {
-            type: "manual",
-            message: `Routine image file size (${(
-              file.size /
-              (1024 * 1024)
-            ).toFixed(
+          toast.error(
+            `Routine image file size (${(file.size / (1024 * 1024)).toFixed(
               2
-            )}MB) exceeds 3MB limit. Please compress the image and try again.`,
-          });
+            )}MB) exceeds 3MB limit. Please compress the image and try again.`
+          );
           return;
         }
       }
@@ -186,22 +178,20 @@ export function CourseForm({
         : await createCourse(transformedData);
 
       if (result.success) {
+        toast.success(
+          course ? "Course updated successfully!" : "Course created successfully!"
+        );
         router.push("/admin/courses");
       } else {
-        setError("root", {
-          type: "manual",
-          message: result.error || "Failed to save course",
-        });
+        toast.error(result.error || "Failed to save course");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      setError("root", {
-        type: "manual",
-        message:
-          error instanceof Error
-            ? error.message
-            : "An unexpected error occurred",
-      });
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "An unexpected error occurred"
+      );
     }
   }
 
@@ -704,11 +694,6 @@ export function CourseForm({
         )}
       </div>
 
-      {errors.root && (
-        <Alert variant="destructive">
-          <AlertDescription>{errors.root.message}</AlertDescription>
-        </Alert>
-      )}
 
       <div className="flex gap-4">
         <Button type="submit" disabled={isSubmitting}>

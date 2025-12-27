@@ -10,7 +10,6 @@ import {
 } from "@/features/transactions/validations/transaction";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Form,
   FormControl,
@@ -20,6 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 export function PurchaseForm({ courseId }: { courseId: string }) {
   const router = useRouter();
@@ -37,13 +37,17 @@ export function PurchaseForm({ courseId }: { courseId: string }) {
     try {
       const result = await submitTransaction(data);
       if (result.success) {
+        toast.success("Transaction submitted successfully!");
         router.push("/profile");
         router.refresh();
       } else {
-        throw new Error(result.error || "Failed to submit transaction");
+        toast.error(result.error || "Failed to submit transaction");
       }
     } catch (error) {
       console.error("Error:", error);
+      toast.error(
+        error instanceof Error ? error.message : "An unexpected error occurred"
+      );
     }
   }
 
@@ -84,13 +88,6 @@ export function PurchaseForm({ courseId }: { courseId: string }) {
                 </FormItem>
               )}
             />
-            {form.formState.errors.root && (
-              <Alert variant="destructive">
-                <AlertDescription>
-                  {form.formState.errors.root.message}
-                </AlertDescription>
-              </Alert>
-            )}
             <Button
               type="submit"
               className="w-full"

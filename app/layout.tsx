@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { geistSans, geistMono, hindSiliguri } from "@/assets/font/font";
+import PProviders from "@/components/progress-bar-provider";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,7 +20,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${hindSiliguri.variable} antialiased`}
       >
-        {children}
+        <PProviders>{children}</PProviders>
+        <Toaster />
       </body>
     </html>
   );

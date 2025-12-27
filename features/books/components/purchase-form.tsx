@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { toast } from "sonner";
 
 export function BookPurchaseForm({ bookId }: { bookId: string }) {
   const router = useRouter();
@@ -20,12 +20,23 @@ export function BookPurchaseForm({ bookId }: { bookId: string }) {
 
     formData.append("bookId", bookId);
 
-    const result = await submitTransaction(formData);
+    try {
+      const result = await submitTransaction(formData);
 
-    if (result.success) {
-      router.push("/profile");
-    } else {
-      setError(result.error || "Failed to submit transaction");
+      if (result.success) {
+        toast.success("Transaction submitted successfully!");
+        router.push("/profile");
+      } else {
+        toast.error(result.error || "Failed to submit transaction");
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "An unexpected error occurred"
+      );
       setLoading(false);
     }
   }
@@ -58,11 +69,6 @@ export function BookPurchaseForm({ bookId }: { bookId: string }) {
               placeholder="Enter your payment transaction ID"
             />
           </div>
-          {error && (
-            <Alert variant="destructive">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? "Submitting..." : "Submit Transaction"}
           </Button>

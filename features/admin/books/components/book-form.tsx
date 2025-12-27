@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Form,
   FormControl,
@@ -23,6 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { toast } from "sonner";
 
 type Book = {
   id: string;
@@ -58,12 +58,20 @@ export function BookForm({ book }: { book?: Book }) {
         : await createBook(transformedData);
 
       if (result.success) {
+        toast.success(
+          book ? "Book updated successfully!" : "Book created successfully!"
+        );
         router.push("/admin/books");
       } else {
-        throw new Error(result.error || "Failed to save book");
+        toast.error(result.error || "Failed to save book");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "An unexpected error occurred"
+      );
     }
   }
 
@@ -145,13 +153,6 @@ export function BookForm({ book }: { book?: Book }) {
           )}
         />
 
-        {form.formState.errors.root && (
-          <Alert variant="destructive">
-            <AlertDescription>
-              {form.formState.errors.root.message}
-            </AlertDescription>
-          </Alert>
-        )}
 
         <div className="flex gap-4">
           <Button type="submit" disabled={form.formState.isSubmitting}>
