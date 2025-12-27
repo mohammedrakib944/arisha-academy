@@ -2,7 +2,10 @@
 
 import { prisma } from "@/lib/prisma";
 import { setUserSession } from "@/lib/auth";
-import { authSchema, type AuthFormData } from "@/features/auth/validations/auth";
+import {
+  authSchema,
+  type AuthFormData,
+} from "@/features/auth/validations/auth";
 
 export async function loginOrSignup(data: AuthFormData) {
   try {
@@ -42,9 +45,7 @@ export async function loginOrSignup(data: AuthFormData) {
   }
 }
 
-export async function logout() {
+export async function logout(_formData?: FormData) {
   const { clearUserSession } = await import("@/lib/auth");
   await clearUserSession();
-  return { success: true };
 }
-

@@ -64,6 +64,7 @@ export function CourseForm({
     control,
     watch,
     setValue,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<CourseFormInput>({
     resolver: zodResolver(courseInputSchema),
@@ -121,6 +122,41 @@ export function CourseForm({
 
   async function onSubmit(data: CourseFormInput) {
     try {
+      // Check file sizes before submission
+      const MAX_SIZE = 3 * 1024 * 1024; // 3MB
+
+      if (data.thumbnail && data.thumbnail.length > 0) {
+        const file = data.thumbnail[0];
+        if (file.size > MAX_SIZE) {
+          setError("root", {
+            type: "manual",
+            message: `Thumbnail file size (${(
+              file.size /
+              (1024 * 1024)
+            ).toFixed(
+              2
+            )}MB) exceeds 3MB limit. Please compress the image and try again.`,
+          });
+          return;
+        }
+      }
+
+      if (data.routineImage && data.routineImage.length > 0) {
+        const file = data.routineImage[0];
+        if (file.size > MAX_SIZE) {
+          setError("root", {
+            type: "manual",
+            message: `Routine image file size (${(
+              file.size /
+              (1024 * 1024)
+            ).toFixed(
+              2
+            )}MB) exceeds 3MB limit. Please compress the image and try again.`,
+          });
+          return;
+        }
+      }
+
       // Transform FileList to File and ensure all required fields have defaults
       const transformedData: CourseFormData = {
         title: data.title,
@@ -152,10 +188,20 @@ export function CourseForm({
       if (result.success) {
         router.push("/admin/courses");
       } else {
-        throw new Error(result.error || "Failed to save course");
+        setError("root", {
+          type: "manual",
+          message: result.error || "Failed to save course",
+        });
       }
     } catch (error) {
       console.error("Error submitting form:", error);
+      setError("root", {
+        type: "manual",
+        message:
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred",
+      });
     }
   }
 
@@ -223,15 +269,15 @@ export function CourseForm({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-4xl">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-6 mx-auto max-w-4xl"
+    >
       <div>
         <label htmlFor="title" className="block mb-2 font-medium">
           Title *
         </label>
-        <Input
-          id="title"
-          {...register("title")}
-        />
+        <Input id="title" {...register("title")} />
         {errors.title && (
           <p className="mt-1 text-sm text-destructive">
             {errors.title.message}
@@ -243,11 +289,7 @@ export function CourseForm({
         <label htmlFor="description" className="block mb-2 font-medium">
           Description
         </label>
-        <Textarea
-          id="description"
-          {...register("description")}
-          rows={4}
-        />
+        <Textarea id="description" {...register("description")} rows={4} />
         {errors.description && (
           <p className="mt-1 text-sm text-destructive">
             {errors.description.message}
@@ -664,32 +706,22 @@ export function CourseForm({
 
       {errors.root && (
         <Alert variant="destructive">
-          <AlertDescription>
-            {errors.root.message}
-          </AlertDescription>
+          <AlertDescription>{errors.root.message}</AlertDescription>
         </Alert>
       )}
 
       <div className="flex gap-4">
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-        >
+        <Button type="submit" disabled={isSubmitting}>
           {isSubmitting
             ? "Saving..."
             : course
             ? "Update Course"
             : "Create Course"}
         </Button>
-        <Button
-          type="button"
-          variant="secondary"
-          onClick={() => router.back()}
-        >
+        <Button type="button" variant="secondary" onClick={() => router.back()}>
           Cancel
         </Button>
       </div>
     </form>
   );
 }
-

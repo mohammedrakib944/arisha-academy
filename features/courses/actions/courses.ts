@@ -3,7 +3,11 @@
 import { prisma } from "@/lib/prisma";
 import { isAdmin } from "@/lib/auth";
 import { uploadThumbnail, uploadRoutineImage } from "@/lib/image-upload";
-import { courseSchema, type CourseFormData } from "@/features/courses/validations/course";
+import {
+  courseSchema,
+  courseFormDataSchema,
+  type CourseFormData,
+} from "@/features/courses/validations/course";
 import { revalidatePath } from "next/cache";
 
 export async function createCourse(data: CourseFormData) {
@@ -12,7 +16,29 @@ export async function createCourse(data: CourseFormData) {
       return { success: false, error: "Unauthorized" };
     }
 
-    const validated = courseSchema.parse(data);
+    // Check file sizes before validation
+    if (data.thumbnail && data.thumbnail.size > 3 * 1024 * 1024) {
+      return {
+        success: false,
+        error: `Thumbnail file size exceeds 3MB limit. Current size: ${(
+          data.thumbnail.size /
+          (1024 * 1024)
+        ).toFixed(2)}MB`,
+      };
+    }
+
+    if (data.routineImage && data.routineImage.size > 3 * 1024 * 1024) {
+      return {
+        success: false,
+        error: `Routine image file size exceeds 3MB limit. Current size: ${(
+          data.routineImage.size /
+          (1024 * 1024)
+        ).toFixed(2)}MB`,
+      };
+    }
+
+    // Validate the data structure (File objects, not FileList)
+    const validated = courseFormDataSchema.parse(data);
 
     let thumbnailUrl: string | undefined;
     let routineImageUrl: string | undefined;
@@ -69,6 +95,22 @@ export async function createCourse(data: CourseFormData) {
     return { success: true, course };
   } catch (error) {
     if (error instanceof Error) {
+      // Check for body size limit errors
+      const errorMessage = error.message || "";
+      const errorDigest = (error as any).digest || "";
+
+      if (
+        errorMessage.includes("Body exceeded") ||
+        errorMessage.includes("413") ||
+        errorDigest.includes("@E394") ||
+        errorMessage.includes("bodySizeLimit")
+      ) {
+        return {
+          success: false,
+          error:
+            "Total file size exceeds 3MB limit. Please reduce the size of your images and try again.",
+        };
+      }
       return { success: false, error: error.message };
     }
     return { success: false, error: "Failed to create course" };
@@ -81,7 +123,29 @@ export async function updateCourse(id: string, data: CourseFormData) {
       return { success: false, error: "Unauthorized" };
     }
 
-    const validated = courseSchema.parse(data);
+    // Check file sizes before validation
+    if (data.thumbnail && data.thumbnail.size > 3 * 1024 * 1024) {
+      return {
+        success: false,
+        error: `Thumbnail file size exceeds 3MB limit. Current size: ${(
+          data.thumbnail.size /
+          (1024 * 1024)
+        ).toFixed(2)}MB`,
+      };
+    }
+
+    if (data.routineImage && data.routineImage.size > 3 * 1024 * 1024) {
+      return {
+        success: false,
+        error: `Routine image file size exceeds 3MB limit. Current size: ${(
+          data.routineImage.size /
+          (1024 * 1024)
+        ).toFixed(2)}MB`,
+      };
+    }
+
+    // Validate the data structure (File objects, not FileList)
+    const validated = courseFormDataSchema.parse(data);
 
     const existingCourse = await prisma.course.findUnique({
       where: { id },
@@ -158,6 +222,22 @@ export async function updateCourse(id: string, data: CourseFormData) {
     return { success: true, course };
   } catch (error) {
     if (error instanceof Error) {
+      // Check for body size limit errors
+      const errorMessage = error.message || "";
+      const errorDigest = (error as any).digest || "";
+
+      if (
+        errorMessage.includes("Body exceeded") ||
+        errorMessage.includes("413") ||
+        errorDigest.includes("@E394") ||
+        errorMessage.includes("bodySizeLimit")
+      ) {
+        return {
+          success: false,
+          error:
+            "Total file size exceeds 3MB limit. Please reduce the size of your images and try again.",
+        };
+      }
       return { success: false, error: error.message };
     }
     return { success: false, error: "Failed to update course" };
@@ -210,4 +290,3 @@ export async function getCourse(id: string) {
     },
   });
 }
-

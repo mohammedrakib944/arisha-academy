@@ -2,9 +2,12 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { submitTransaction } from "@/features/transactions/actions";
+import { submitTransaction } from "@/features/transactions/actions/transactions";
 import { useRouter } from "next/navigation";
-import { transactionSchema, type TransactionFormData } from "@/features/transactions/validations/transaction";
+import {
+  transactionSchema,
+  type TransactionFormData,
+} from "@/features/transactions/validations/transaction";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -93,7 +96,9 @@ export function PurchaseForm({ courseId }: { courseId: string }) {
               className="w-full"
               disabled={form.formState.isSubmitting}
             >
-              {form.formState.isSubmitting ? "Submitting..." : "Submit Transaction"}
+              {form.formState.isSubmitting
+                ? "Submitting..."
+                : "Submit Transaction"}
             </Button>
           </form>
         </Form>
@@ -101,4 +106,3 @@ export function PurchaseForm({ courseId }: { courseId: string }) {
     </Card>
   );
 }
-

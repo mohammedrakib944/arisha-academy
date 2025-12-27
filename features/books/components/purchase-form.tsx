@@ -1,32 +1,32 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { submitTransaction } from '@/features/transactions/actions'
-import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { useState } from "react";
+import { submitTransaction } from "@/features/transactions/actions/transactions";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export function BookPurchaseForm({ bookId }: { bookId: string }) {
-  const router = useRouter()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(formData: FormData) {
-    setLoading(true)
-    setError(null)
+    setLoading(true);
+    setError(null);
 
-    formData.append('bookId', bookId)
+    formData.append("bookId", bookId);
 
-    const result = await submitTransaction(formData)
+    const result = await submitTransaction(formData);
 
     if (result.success) {
-      router.push('/profile')
+      router.push("/profile");
     } else {
-      setError(result.error || 'Failed to submit transaction')
-      setLoading(false)
+      setError(result.error || "Failed to submit transaction");
+      setLoading(false);
     }
   }
 
@@ -63,16 +63,11 @@ export function BookPurchaseForm({ bookId }: { bookId: string }) {
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={loading}
-          >
-            {loading ? 'Submitting...' : 'Submit Transaction'}
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? "Submitting..." : "Submit Transaction"}
           </Button>
         </form>
       </CardContent>
     </Card>
-  )
+  );
 }
-
