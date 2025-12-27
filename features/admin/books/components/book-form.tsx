@@ -45,17 +45,22 @@ export function BookForm({ book }: { book?: Book }) {
 
   async function onSubmit(data: BookFormInput) {
     try {
-      const transformedData: BookFormData = {
-        ...data,
-        thumbnail:
-          data.thumbnail && data.thumbnail.length > 0
-            ? data.thumbnail[0]
-            : undefined,
-      };
+      // Create FormData for file upload
+      const formData = new FormData();
+      formData.append("title", data.title);
+      if (data.description) {
+        formData.append("description", data.description);
+      }
+      formData.append("price", data.price.toString());
+
+      // Append file if exists
+      if (data.thumbnail && data.thumbnail.length > 0) {
+        formData.append("thumbnail", data.thumbnail[0]);
+      }
 
       const result = book
-        ? await updateBook(book.id, transformedData)
-        : await createBook(transformedData);
+        ? await updateBook(book.id, formData as any)
+        : await createBook(formData as any);
 
       if (result.success) {
         toast.success(
@@ -66,11 +71,8 @@ export function BookForm({ book }: { book?: Book }) {
         toast.error(result.error || "Failed to save book");
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
       toast.error(
-        error instanceof Error
-          ? error.message
-          : "An unexpected error occurred"
+        error instanceof Error ? error.message : "An unexpected error occurred"
       );
     }
   }
@@ -79,7 +81,7 @@ export function BookForm({ book }: { book?: Book }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 max-w-2xl"
+        className="space-y-6 max-w-2xl mx-auto"
       >
         <FormField
           control={form.control}
@@ -152,7 +154,6 @@ export function BookForm({ book }: { book?: Book }) {
             </FormItem>
           )}
         />
-
 
         <div className="flex gap-4">
           <Button type="submit" disabled={form.formState.isSubmitting}>

@@ -27,15 +27,24 @@ export function BookPurchaseForm({ bookId }: { bookId: string }) {
         toast.success("Transaction submitted successfully!");
         router.push("/profile");
       } else {
-        toast.error(result.error || "Failed to submit transaction");
+        // Handle validation errors
+        if (result.errors && Array.isArray(result.errors)) {
+          const phoneError = result.errors.find(
+            (err: { field: string }) => err.field === "phoneNumber"
+          );
+          if (phoneError) {
+            setError(phoneError.message);
+          } else {
+            toast.error(result.message || "Please fix the errors in the form");
+          }
+        } else {
+          toast.error(result.error || "Failed to submit transaction");
+        }
         setLoading(false);
       }
     } catch (error) {
-      console.error("Error:", error);
       toast.error(
-        error instanceof Error
-          ? error.message
-          : "An unexpected error occurred"
+        error instanceof Error ? error.message : "An unexpected error occurred"
       );
       setLoading(false);
     }
@@ -55,9 +64,9 @@ export function BookPurchaseForm({ bookId }: { bookId: string }) {
               id="phoneNumber"
               name="phoneNumber"
               required
-              minLength={10}
-              maxLength={15}
+              placeholder="+880 or 01XXXXXXXXX"
             />
+            {error && <p className="text-sm text-destructive">{error}</p>}
           </div>
           <div className="space-y-2">
             <Label htmlFor="transactionId">Transaction ID</Label>

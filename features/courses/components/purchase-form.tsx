@@ -41,10 +41,20 @@ export function PurchaseForm({ courseId }: { courseId: string }) {
         router.push("/profile");
         router.refresh();
       } else {
-        toast.error(result.error || "Failed to submit transaction");
+        // Handle validation errors - set field-specific errors
+        if (result.errors && Array.isArray(result.errors)) {
+          result.errors.forEach((err: { field: string; message: string }) => {
+            form.setError(err.field as any, {
+              type: "manual",
+              message: err.message,
+            });
+          });
+          toast.error(result.message || "Please fix the errors in the form");
+        } else {
+          toast.error(result.error || "Failed to submit transaction");
+        }
       }
     } catch (error) {
-      console.error("Error:", error);
       toast.error(
         error instanceof Error ? error.message : "An unexpected error occurred"
       );
@@ -66,7 +76,11 @@ export function PurchaseForm({ courseId }: { courseId: string }) {
                 <FormItem>
                   <FormLabel>Phone Number</FormLabel>
                   <FormControl>
-                    <Input type="tel" {...field} />
+                    <Input
+                      type="tel"
+                      {...field}
+                      placeholder="+880 or 01XXXXXXXXX"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

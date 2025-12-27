@@ -1,51 +1,98 @@
-"use server";
-
-import { prisma } from "@/lib/prisma";
-import { setUserSession } from "@/lib/auth";
-import {
-  authSchema,
-  type AuthFormData,
+import axios from "axios";
+import type {
+  SignupFormData,
+  LoginFormData,
 } from "@/features/auth/validations/auth";
 
-export async function loginOrSignup(data: AuthFormData) {
+const api = axios.create({
+  baseURL: "/api",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+export async function signup(data: SignupFormData) {
   try {
-    const validated = authSchema.parse(data);
-
-    // Check if user exists
-    let user = await prisma.user.findUnique({
-      where: { phoneNumber: validated.phoneNumber },
-    });
-
-    // If user doesn't exist, create new user
-    if (!user) {
-      user = await prisma.user.create({
-        data: {
-          username: validated.username,
-          phoneNumber: validated.phoneNumber,
-        },
-      });
-    } else {
-      // Update username if it changed
-      if (user.username !== validated.username) {
-        user = await prisma.user.update({
-          where: { id: user.id },
-          data: { username: validated.username },
-        });
+    const response = await api.post("/auth/signup", data);
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const errorData = error.response?.data;
+      // Handle structured error response
+      if (errorData?.errors && Array.isArray(errorData.errors)) {
+        // Return first validation error message
+        const firstError = errorData.errors[0];
+        return {
+          success: false,
+          error: firstError?.message || errorData.message || "Signup failed",
+          errors: errorData.errors,
+        };
       }
+      return {
+        success: false,
+        error:
+          errorData?.error ||
+          errorData?.message ||
+          error.message ||
+          "Signup failed",
+        code: errorData?.code,
+      };
     }
-
-    await setUserSession(user.id);
-
-    return { success: true, user };
-  } catch (error) {
-    if (error instanceof Error) {
-      return { success: false, error: error.message };
-    }
-    return { success: false, error: "Authentication failed" };
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Signup failed",
+    };
   }
 }
 
-export async function logout(_formData?: FormData) {
-  const { clearUserSession } = await import("@/lib/auth");
-  await clearUserSession();
+export async function login(data: LoginFormData) {
+  try {
+    const response = await api.post("/auth/login", data);
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const errorData = error.response?.data;
+      // Handle structured error response
+      if (errorData?.errors && Array.isArray(errorData.errors)) {
+        // Return first validation error message
+        const firstError = errorData.errors[0];
+        return {
+          success: false,
+          error: firstError?.message || errorData.message || "Login failed",
+          errors: errorData.errors,
+        };
+      }
+      return {
+        success: false,
+        error:
+          errorData?.error ||
+          errorData?.message ||
+          error.message ||
+          "Login failed",
+        code: errorData?.code,
+      };
+    }
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Login failed",
+    };
+  }
+}
+
+export async function logout() {
+  try {
+    const response = await api.post("/auth/logout");
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      return {
+        success: false,
+        error: error.response?.data?.error || error.message || "Logout failed",
+      };
+    }
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Logout failed",
+    };
+  }
 }

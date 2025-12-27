@@ -1,16 +1,20 @@
-import { Navbar } from '@/features/common/components/navbar'
-import { getTeachers } from '@/features/teachers/actions/teachers'
-import Link from 'next/link'
-import Image from 'next/image'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { getTeachers } from "@/features/teachers/actions/teachers";
+import Link from "next/link";
+import Image from "next/image";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export async function TeachersPage() {
-  const teachers = await getTeachers()
+  const teachers = await getTeachers();
 
   return (
     <div className="min-h-screen">
-      <Navbar />
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold mb-8">Our Teachers</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -27,6 +31,18 @@ export async function TeachersPage() {
                     />
                   </div>
                 )}
+
+                {teacher.image && (
+                  <div className="relative w-24 h-24 -mt-12 ml-4">
+                    <Image
+                      src={teacher.image}
+                      alt={teacher.name}
+                      fill
+                      className="object-cover rounded-full border-2 border-primary p-0.5"
+                    />
+                  </div>
+                )}
+
                 <CardHeader>
                   <CardTitle>{teacher.name}</CardTitle>
                   {teacher.bio && (
@@ -57,6 +73,5 @@ export async function TeachersPage() {
         )}
       </main>
     </div>
-  )
+  );
 }
-

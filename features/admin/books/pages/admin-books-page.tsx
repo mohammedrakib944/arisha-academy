@@ -1,24 +1,29 @@
-import { Navbar } from '@/features/common/components/navbar'
-import { getCurrentUser, isAdmin } from '@/lib/auth'
-import { getBooks } from '@/features/books/actions/books'
-import { redirect } from 'next/navigation'
-import Link from 'next/link'
-import Image from 'next/image'
-import { DeleteBookButton } from '@/features/admin/books/components/delete-book-button'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { getCurrentUser, isAdmin } from "@/lib/auth";
+import { getBooks } from "@/features/books/actions/books";
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { DeleteBookButton } from "@/features/admin/books/components/delete-book-button";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export async function AdminBooksPage() {
-  const user = await getCurrentUser()
+  const user = await getCurrentUser();
   if (!user || !(await isAdmin())) {
-    redirect('/')
+    redirect("/");
   }
 
-  const books = await getBooks()
+  const books = await getBooks();
 
   return (
     <div className="min-h-screen">
-      <Navbar />
       <main className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-4xl font-bold">Manage Books</h1>
@@ -28,7 +33,10 @@ export async function AdminBooksPage() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {books.map((book) => (
-            <Card key={book.id} className="overflow-hidden">
+            <Card
+              key={book.id}
+              className="overflow-hidden shadow-none hover:shadow-lg transition-shadow h-full"
+            >
               {book.thumbnail && (
                 <div className="relative w-full h-48">
                   <Image
@@ -39,7 +47,19 @@ export async function AdminBooksPage() {
                   />
                 </div>
               )}
-              <CardHeader>
+
+              {book.thumbnail && (
+                <div className="relative w-24 h-24 -mt-12 ml-4">
+                  <Image
+                    src={book.thumbnail}
+                    alt={book.title}
+                    fill
+                    className="object-cover rounded"
+                  />
+                </div>
+              )}
+
+              <CardHeader className="p-4">
                 <CardTitle>{book.title}</CardTitle>
                 {book.description && (
                   <CardDescription className="line-clamp-2">
@@ -47,16 +67,16 @@ export async function AdminBooksPage() {
                   </CardDescription>
                 )}
               </CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between mb-3">
+              <CardContent className="pl-4 pb-4">
+                <div className="flex items-center justify-between">
                   <span className="text-xl font-bold text-primary">
-                    ${book.price}
+                    ৳ {book.price} tk
                   </span>
                 </div>
               </CardContent>
-              <CardFooter className="flex gap-2">
+              <CardFooter className="flex gap-2 px-4 pb-4">
                 <Link href={`/admin/books/${book.id}`} className="flex-1">
-                  <Button variant="secondary" className="w-full" size="sm">
+                  <Button className="w-full" size="sm">
                     Edit
                   </Button>
                 </Link>
@@ -72,6 +92,5 @@ export async function AdminBooksPage() {
         )}
       </main>
     </div>
-  )
+  );
 }
-

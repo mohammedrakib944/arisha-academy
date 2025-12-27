@@ -1,4 +1,3 @@
-import { Navbar } from "@/features/common/components/navbar";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
 import { getTeachers } from "@/features/teachers/actions/teachers";
 import { redirect } from "next/navigation";
@@ -14,7 +13,6 @@ export async function NewCoursePage() {
 
   return (
     <div className="min-h-screen">
-      <Navbar />
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-4xl text-center font-bold mb-8">
           Create New Course

@@ -1,4 +1,3 @@
-import { Navbar } from '@/features/common/components/navbar'
 import { getTeacher } from '@/features/teachers/actions/teachers'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
@@ -14,7 +13,6 @@ export async function TeacherDetailPage({ id }: { id: string }) {
 
   return (
     <div className="min-h-screen">
-      <Navbar />
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

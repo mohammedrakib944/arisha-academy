@@ -2,9 +2,15 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createTeacher, updateTeacher } from "@/features/teachers/actions/teachers";
+import {
+  createTeacher,
+  updateTeacher,
+} from "@/features/teachers/actions/teachers";
 import { useRouter } from "next/navigation";
-import { teacherInputSchema, type TeacherFormInput } from "@/features/teachers/validations/teacher";
+import {
+  teacherInputSchema,
+  type TeacherFormInput,
+} from "@/features/teachers/validations/teacher";
 import type { TeacherFormData } from "@/features/teachers/validations/teacher";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -45,40 +51,49 @@ export function TeacherForm({ teacher }: { teacher?: Teacher }) {
 
   async function onSubmit(data: TeacherFormInput) {
     try {
-      const transformedData: TeacherFormData = {
-        ...data,
-        image: data.image && data.image.length > 0 ? data.image[0] : undefined,
-      };
-      
+      // Create FormData for file upload
+      const formData = new FormData();
+      formData.append("name", data.name);
+      if (data.bio) {
+        formData.append("bio", data.bio);
+      }
+      formData.append("subjects", JSON.stringify(data.subjects || []));
+
+      // Append file if exists
+      if (data.image && data.image.length > 0) {
+        formData.append("image", data.image[0]);
+      }
+
       const result = teacher
-        ? await updateTeacher(teacher.id, transformedData)
-        : await createTeacher(transformedData);
+        ? await updateTeacher(teacher.id, formData as any)
+        : await createTeacher(formData as any);
 
       if (result.success) {
         toast.success(
-          teacher ? "Teacher updated successfully!" : "Teacher created successfully!"
+          teacher
+            ? "Teacher updated successfully!"
+            : "Teacher created successfully!"
         );
         router.push("/admin/teachers");
       } else {
         toast.error(result.error || "Failed to save teacher");
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
       toast.error(
-        error instanceof Error
-          ? error.message
-          : "An unexpected error occurred"
+        error instanceof Error ? error.message : "An unexpected error occurred"
       );
     }
   }
 
   function addSubject() {
-    const currentSubjects = form.getValues("subjects");
-    form.setValue("subjects", [...currentSubjects, ""], { shouldValidate: true });
+    const currentSubjects = form.getValues("subjects") || [];
+    form.setValue("subjects", [...currentSubjects, ""], {
+      shouldValidate: true,
+    });
   }
 
   function removeSubject(index: number) {
-    const currentSubjects = form.getValues("subjects");
+    const currentSubjects = form.getValues("subjects") || [];
     form.setValue(
       "subjects",
       currentSubjects.filter((_, i) => i !== index),
@@ -87,7 +102,7 @@ export function TeacherForm({ teacher }: { teacher?: Teacher }) {
   }
 
   function updateSubject(index: number, value: string) {
-    const currentSubjects = form.getValues("subjects");
+    const currentSubjects = form.getValues("subjects") || [];
     const updated = [...currentSubjects];
     updated[index] = value;
     form.setValue("subjects", updated, { shouldValidate: true });
@@ -95,7 +110,10 @@ export function TeacherForm({ teacher }: { teacher?: Teacher }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-w-2xl">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-6 max-w-2xl mx-auto"
+      >
         <FormField
           control={form.control}
           name="name"
@@ -139,9 +157,7 @@ export function TeacherForm({ teacher }: { teacher?: Teacher }) {
                 />
               </FormControl>
               {teacher?.image && (
-                <FormDescription>
-                  Current: {teacher.image}
-                </FormDescription>
+                <FormDescription>Current: {teacher.image}</FormDescription>
               )}
               <FormMessage />
             </FormItem>
@@ -162,7 +178,7 @@ export function TeacherForm({ teacher }: { teacher?: Teacher }) {
             </Button>
           </div>
           <div className="space-y-2">
-            {watchedSubjects.map((subject, index) => (
+            {(watchedSubjects || []).map((subject, index) => (
               <div key={index} className="flex gap-2">
                 <Input
                   placeholder="Subject name (e.g., Biology)"
@@ -188,17 +204,13 @@ export function TeacherForm({ teacher }: { teacher?: Teacher }) {
           )}
         </div>
 
-
         <div className="flex gap-4">
-          <Button
-            type="submit"
-            disabled={form.formState.isSubmitting}
-          >
+          <Button type="submit" disabled={form.formState.isSubmitting}>
             {form.formState.isSubmitting
               ? "Saving..."
               : teacher
-                ? "Update Teacher"
-                : "Create Teacher"}
+              ? "Update Teacher"
+              : "Create Teacher"}
           </Button>
           <Button
             type="button"

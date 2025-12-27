@@ -1,4 +1,3 @@
-import { Navbar } from "@/features/common/components/navbar";
 import { getCourses } from "@/features/courses/actions/courses";
 import { getBooks } from "@/features/books/actions/books";
 import Link from "next/link";
@@ -18,7 +17,6 @@ export async function HomePage() {
 
   return (
     <div className="min-h-screen">
-      <Navbar />
       <main className="container mx-auto px-4 py-8">
         <div className="mb-12 text-center">
           <h1 className="text-4xl font-bold mb-4">Welcome to Arisha Academy</h1>

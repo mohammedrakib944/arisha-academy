@@ -1,4 +1,3 @@
-import { Navbar } from '@/features/common/components/navbar'
 import { getCurrentUser, isAdmin } from '@/lib/auth'
 import { getTeacher } from '@/features/teachers/actions/teachers'
 import { redirect, notFound } from 'next/navigation'
@@ -18,7 +17,6 @@ export async function EditTeacherPage({ id }: { id: string }) {
 
   return (
     <div className="min-h-screen">
-      <Navbar />
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold mb-8">Edit Teacher</h1>
         <TeacherForm teacher={teacher} />

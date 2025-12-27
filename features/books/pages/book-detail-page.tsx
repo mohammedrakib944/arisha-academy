@@ -1,4 +1,3 @@
-import { Navbar } from '@/features/common/components/navbar'
 import { getBook } from '@/features/books/actions/books'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
@@ -13,7 +12,6 @@ export async function BookDetailPage({ id }: { id: string }) {
 
   return (
     <div className="min-h-screen">
-      <Navbar />
       <main className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div>

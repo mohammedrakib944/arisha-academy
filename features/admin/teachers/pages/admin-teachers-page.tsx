@@ -1,25 +1,30 @@
-import { Navbar } from '@/features/common/components/navbar'
-import { getCurrentUser, isAdmin } from '@/lib/auth'
-import { getTeachers } from '@/features/teachers/actions/teachers'
-import { redirect } from 'next/navigation'
-import Link from 'next/link'
-import Image from 'next/image'
-import { DeleteTeacherButton } from '@/features/admin/teachers/components/delete-teacher-button'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { getCurrentUser, isAdmin } from "@/lib/auth";
+import { getTeachers } from "@/features/teachers/actions/teachers";
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { DeleteTeacherButton } from "@/features/admin/teachers/components/delete-teacher-button";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export async function AdminTeachersPage() {
-  const user = await getCurrentUser()
+  const user = await getCurrentUser();
   if (!user || !(await isAdmin())) {
-    redirect('/')
+    redirect("/");
   }
 
-  const teachers = await getTeachers()
+  const teachers = await getTeachers();
 
   return (
     <div className="min-h-screen">
-      <Navbar />
       <main className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-4xl font-bold">Manage Teachers</h1>
@@ -29,7 +34,10 @@ export async function AdminTeachersPage() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {teachers.map((teacher) => (
-            <Card key={teacher.id} className="overflow-hidden">
+            <Card
+              key={teacher.id}
+              className="overflow-hidden shadow-none hover:shadow-lg transition-shadow h-fullsh"
+            >
               {teacher.image && (
                 <div className="relative w-full h-48">
                   <Image
@@ -37,6 +45,17 @@ export async function AdminTeachersPage() {
                     alt={teacher.name}
                     fill
                     className="object-cover"
+                  />
+                </div>
+              )}
+
+              {teacher.image && (
+                <div className="relative w-24 h-24 -mt-12 ml-4">
+                  <Image
+                    src={teacher.image}
+                    alt={teacher.name}
+                    fill
+                    className="object-cover rounded-full border-2 border-primary p-0.5"
                   />
                 </div>
               )}
@@ -61,7 +80,7 @@ export async function AdminTeachersPage() {
               </CardContent>
               <CardFooter className="flex gap-2">
                 <Link href={`/admin/teachers/${teacher.id}`} className="flex-1">
-                  <Button variant="secondary" className="w-full" size="sm">
+                  <Button className="w-full" size="sm">
                     Edit
                   </Button>
                 </Link>
@@ -77,6 +96,5 @@ export async function AdminTeachersPage() {
         )}
       </main>
     </div>
-  )
+  );
 }
-

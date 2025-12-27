@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { logout } from "@/features/auth/actions";
 import { Button } from "@/components/ui/button";
 import {
@@ -58,6 +59,14 @@ const mainLinks = [
 
 export function NavbarClient({ user }: NavbarClientProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (href: string) => {
+    if (href === "/") {
+      return pathname === "/";
+    }
+    return pathname.startsWith(href);
+  };
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -74,24 +83,20 @@ export function NavbarClient({ user }: NavbarClientProps) {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex md:items-center md:gap-6">
-            <Link
-              href="/courses"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              Courses
-            </Link>
-            <Link
-              href="/books"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              Books
-            </Link>
-            <Link
-              href="/teachers"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              Teachers
-            </Link>
+            {mainLinks.map((link) => {
+              const Icon = link.icon;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                    isActive(link.href) ? "text-primary font-semibold" : ""
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
 
             {user ? (
               <>
@@ -111,11 +116,14 @@ export function NavbarClient({ user }: NavbarClientProps) {
                       <DropdownMenuSeparator />
                       {adminLinks.map((link) => {
                         const Icon = link.icon;
+                        const active = isActive(link.href);
                         return (
                           <DropdownMenuItem key={link.href} asChild>
                             <Link
                               href={link.href}
-                              className="flex items-center gap-2 cursor-pointer"
+                              className={`flex items-center gap-2 cursor-pointer ${
+                                active ? "text-primary font-semibold" : ""
+                              }`}
                             >
                               <Icon className="h-4 w-4" />
                               {link.label}
@@ -127,19 +135,36 @@ export function NavbarClient({ user }: NavbarClientProps) {
                   </DropdownMenu>
                 )}
                 <Link href="/profile">
-                  <Button variant="ghost" size="sm">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className={
+                      isActive("/profile") ? "text-primary font-semibold" : ""
+                    }
+                  >
                     Profile
                   </Button>
                 </Link>
-                <form action={logout}>
-                  <Button type="submit" variant="ghost" size="sm">
-                    Logout
-                  </Button>
-                </form>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={async () => {
+                    await logout();
+                    window.location.href = "/";
+                  }}
+                >
+                  Logout
+                </Button>
               </>
             ) : (
               <Link href="/login">
-                <Button variant="ghost" size="sm">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={
+                    isActive("/login") ? "text-primary font-semibold" : ""
+                  }
+                >
                   Login
                 </Button>
               </Link>
@@ -164,11 +189,16 @@ export function NavbarClient({ user }: NavbarClientProps) {
               <div className="flex flex-col pl-2">
                 {mainLinks.map((link) => {
                   const Icon = link.icon;
+                  const active = isActive(link.href);
                   return (
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="flex items-center gap-3 px-2 py-2 text-sm font-medium transition-colors hover:text-primary rounded-md hover:bg-accent"
+                      className={`flex items-center gap-3 px-2 py-2 text-sm font-medium transition-colors rounded-md hover:bg-accent ${
+                        active
+                          ? "text-primary font-semibold bg-accent"
+                          : "hover:text-primary"
+                      }`}
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <Icon className="h-4 w-4" />
@@ -187,11 +217,16 @@ export function NavbarClient({ user }: NavbarClientProps) {
                           </p>
                           {adminLinks.map((link) => {
                             const Icon = link.icon;
+                            const active = isActive(link.href);
                             return (
                               <Link
                                 key={link.href}
                                 href={link.href}
-                                className="flex items-center gap-3 px-2 py-2 text-sm font-medium transition-colors hover:text-primary rounded-md hover:bg-accent"
+                                className={`flex items-center gap-3 px-2 py-2 text-sm font-medium transition-colors rounded-md hover:bg-accent ${
+                                  active
+                                    ? "text-primary font-semibold bg-accent"
+                                    : "hover:text-primary"
+                                }`}
                                 onClick={() => setMobileMenuOpen(false)}
                               >
                                 <Icon className="h-4 w-4" />
@@ -208,20 +243,28 @@ export function NavbarClient({ user }: NavbarClientProps) {
                         className="block text-sm font-medium transition-colors hover:text-primary flex items-center gap-3"
                         onClick={() => setMobileMenuOpen(false)}
                       >
-                        <Button size="sm">
+                        <Button
+                          size="sm"
+                          className={
+                            isActive("/profile")
+                              ? "text-primary font-semibold"
+                              : ""
+                          }
+                        >
                           <User className="h-4 w-4" /> Profile
                         </Button>
                       </Link>
-                      <form action={logout} className="mt-5">
-                        <Button
-                          type="submit"
-                          variant="secondary"
-                          size="sm"
-                          className="w-full justify-start"
-                        >
-                          Logout <LogOut className="h-4 w-4" />
-                        </Button>
-                      </form>
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        className="w-full justify-start mt-5"
+                        onClick={async () => {
+                          await logout();
+                          window.location.href = "/";
+                        }}
+                      >
+                        Logout <LogOut className="h-4 w-4" />
+                      </Button>
                     </div>
                   </>
                 ) : (

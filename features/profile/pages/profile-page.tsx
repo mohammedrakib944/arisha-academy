@@ -1,18 +1,23 @@
-import { Navbar } from '@/features/common/components/navbar'
-import { getCurrentUser } from '@/lib/auth'
-import { prisma } from '@/lib/prisma'
-import { redirect } from 'next/navigation'
-import Link from 'next/link'
-import Image from 'next/image'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import { getCurrentUser } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 export async function ProfilePage() {
-  const user = await getCurrentUser()
+  const user = await getCurrentUser();
 
   if (!user) {
-    redirect('/login')
+    redirect("/login");
   }
 
   const enrollments = await prisma.enrollment.findMany({
@@ -26,35 +31,36 @@ export async function ProfilePage() {
         },
       },
     },
-    orderBy: { createdAt: 'desc' },
-  })
+    orderBy: { createdAt: "desc" },
+  });
 
   const purchases = await prisma.purchase.findMany({
     where: { userId: user.id },
     include: {
       book: true,
     },
-    orderBy: { createdAt: 'desc' },
-  })
+    orderBy: { createdAt: "desc" },
+  });
 
-  const getStatusVariant = (status: string): "default" | "secondary" | "destructive" | "outline" => {
+  const getStatusVariant = (
+    status: string
+  ): "default" | "secondary" | "destructive" | "outline" => {
     switch (status) {
-      case 'APPROVED':
-        return 'default'
-      case 'REJECTED':
-        return 'destructive'
+      case "APPROVED":
+        return "default";
+      case "REJECTED":
+        return "destructive";
       default:
-        return 'secondary'
+        return "secondary";
     }
-  }
+  };
 
   return (
     <div className="min-h-screen">
-      <Navbar />
-      <main className="container mx-auto px-4 py-8">
+      <main className="max-w-4xl mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold mb-8">My Profile</h1>
         <div className="mb-8">
-          <h2 className="text-2xl font-semibold mb-2">User Information</h2>
+          <h2 className="text-2xl font-semibold mb-2">Information</h2>
           <Card>
             <CardContent className="pt-6">
               <p className="mb-2">
@@ -87,7 +93,9 @@ export async function ProfilePage() {
                   )}
                   <CardHeader>
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-lg">{enrollment.course.title}</CardTitle>
+                      <CardTitle className="text-lg">
+                        {enrollment.course.title}
+                      </CardTitle>
                       <Badge variant={getStatusVariant(enrollment.status)}>
                         {enrollment.status}
                       </Badge>
@@ -131,7 +139,9 @@ export async function ProfilePage() {
                   )}
                   <CardHeader>
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-lg">{purchase.book.title}</CardTitle>
+                      <CardTitle className="text-lg">
+                        {purchase.book.title}
+                      </CardTitle>
                       <Badge variant={getStatusVariant(purchase.status)}>
                         {purchase.status}
                       </Badge>
@@ -156,6 +166,5 @@ export async function ProfilePage() {
         </div>
       </main>
     </div>
-  )
+  );
 }
-

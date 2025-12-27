@@ -3,21 +3,47 @@
 import { prisma } from "@/lib/prisma";
 import { isAdmin } from "@/lib/auth";
 import { uploadThumbnail, deleteImageFile } from "@/lib/image-upload";
-import { bookSchema, type BookFormData } from "@/features/books/validations/book";
+import { bookInputSchema } from "@/features/books/validations/book";
 import { revalidatePath } from "next/cache";
 
-export async function createBook(data: BookFormData) {
+// Helper to create a FileList-like object from a File
+function createFileList(file: File): FileList {
+  return {
+    length: 1,
+    item: (index: number) => (index === 0 ? file : null),
+    0: file,
+    [Symbol.iterator]: function* () {
+      yield file;
+    },
+  } as FileList;
+}
+
+export async function createBook(formData: FormData) {
   try {
     if (!(await isAdmin())) {
       return { success: false, error: "Unauthorized" };
     }
 
-    const validated = bookSchema.parse(data);
+    // Extract data from FormData
+    const title = formData.get("title") as string;
+    const description = formData.get("description") as string | null;
+    const priceStr = formData.get("price") as string;
+    const thumbnail = formData.get("thumbnail") as File | null;
+
+    const price = priceStr ? parseFloat(priceStr) : 0;
+
+    // Validate the data
+    const validated = bookInputSchema.parse({
+      title,
+      description: description || undefined,
+      price,
+      thumbnail: thumbnail ? createFileList(thumbnail) : undefined,
+    });
 
     let thumbnailUrl: string | undefined;
 
-    if (validated.thumbnail && validated.thumbnail.size > 0) {
-      thumbnailUrl = await uploadThumbnail(validated.thumbnail);
+    if (thumbnail && thumbnail.size > 0) {
+      thumbnailUrl = await uploadThumbnail(thumbnail);
     }
 
     const book = await prisma.book.create({
@@ -41,13 +67,27 @@ export async function createBook(data: BookFormData) {
   }
 }
 
-export async function updateBook(id: string, data: BookFormData) {
+export async function updateBook(id: string, formData: FormData) {
   try {
     if (!(await isAdmin())) {
       return { success: false, error: "Unauthorized" };
     }
 
-    const validated = bookSchema.parse(data);
+    // Extract data from FormData
+    const title = formData.get("title") as string;
+    const description = formData.get("description") as string | null;
+    const priceStr = formData.get("price") as string;
+    const thumbnail = formData.get("thumbnail") as File | null;
+
+    const price = priceStr ? parseFloat(priceStr) : 0;
+
+    // Validate the data
+    const validated = bookInputSchema.parse({
+      title,
+      description: description || undefined,
+      price,
+      thumbnail: thumbnail ? createFileList(thumbnail) : undefined,
+    });
 
     const existingBook = await prisma.book.findUnique({
       where: { id },
@@ -59,12 +99,12 @@ export async function updateBook(id: string, data: BookFormData) {
 
     let thumbnailUrl = existingBook.thumbnail;
 
-    if (validated.thumbnail && validated.thumbnail.size > 0) {
+    if (thumbnail && thumbnail.size > 0) {
       // Delete old thumbnail if it exists
       if (existingBook.thumbnail) {
         await deleteImageFile(existingBook.thumbnail);
       }
-      thumbnailUrl = await uploadThumbnail(validated.thumbnail);
+      thumbnailUrl = await uploadThumbnail(thumbnail);
     }
 
     const book = await prisma.book.update({
@@ -132,4 +172,3 @@ export async function getBook(id: string) {
     where: { id },
   });
 }
-

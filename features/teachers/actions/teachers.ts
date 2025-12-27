@@ -3,21 +3,47 @@
 import { prisma } from "@/lib/prisma";
 import { isAdmin } from "@/lib/auth";
 import { uploadTeacherImage, deleteImageFile } from "@/lib/image-upload";
-import { teacherSchema, type TeacherFormData } from "@/features/teachers/validations/teacher";
+import { teacherInputSchema } from "@/features/teachers/validations/teacher";
 import { revalidatePath } from "next/cache";
 
-export async function createTeacher(data: TeacherFormData) {
+// Helper to create a FileList-like object from a File
+function createFileList(file: File): FileList {
+  return {
+    length: 1,
+    item: (index: number) => (index === 0 ? file : null),
+    0: file,
+    [Symbol.iterator]: function* () {
+      yield file;
+    },
+  } as FileList;
+}
+
+export async function createTeacher(formData: FormData) {
   try {
     if (!(await isAdmin())) {
       return { success: false, error: "Unauthorized" };
     }
 
-    const validated = teacherSchema.parse(data);
+    // Extract data from FormData
+    const name = formData.get("name") as string;
+    const bio = formData.get("bio") as string | null;
+    const subjectsJson = formData.get("subjects") as string;
+    const image = formData.get("image") as File | null;
+
+    const subjects = subjectsJson ? JSON.parse(subjectsJson) : [];
+
+    // Validate the data
+    const validated = teacherInputSchema.parse({
+      name,
+      bio: bio || undefined,
+      subjects,
+      image: image ? createFileList(image) : undefined,
+    });
 
     let imageUrl: string | undefined;
 
-    if (validated.image && validated.image.size > 0) {
-      imageUrl = await uploadTeacherImage(validated.image);
+    if (image && image.size > 0) {
+      imageUrl = await uploadTeacherImage(image);
     }
 
     const teacher = await prisma.teacher.create({
@@ -41,13 +67,27 @@ export async function createTeacher(data: TeacherFormData) {
   }
 }
 
-export async function updateTeacher(id: string, data: TeacherFormData) {
+export async function updateTeacher(id: string, formData: FormData) {
   try {
     if (!(await isAdmin())) {
       return { success: false, error: "Unauthorized" };
     }
 
-    const validated = teacherSchema.parse(data);
+    // Extract data from FormData
+    const name = formData.get("name") as string;
+    const bio = formData.get("bio") as string | null;
+    const subjectsJson = formData.get("subjects") as string;
+    const image = formData.get("image") as File | null;
+
+    const subjects = subjectsJson ? JSON.parse(subjectsJson) : [];
+
+    // Validate the data
+    const validated = teacherInputSchema.parse({
+      name,
+      bio: bio || undefined,
+      subjects,
+      image: image ? createFileList(image) : undefined,
+    });
 
     const existingTeacher = await prisma.teacher.findUnique({
       where: { id },
@@ -59,12 +99,12 @@ export async function updateTeacher(id: string, data: TeacherFormData) {
 
     let imageUrl = existingTeacher.image;
 
-    if (validated.image && validated.image.size > 0) {
+    if (image && image.size > 0) {
       // Delete old image if it exists
       if (existingTeacher.image) {
         await deleteImageFile(existingTeacher.image);
       }
-      imageUrl = await uploadTeacherImage(validated.image);
+      imageUrl = await uploadTeacherImage(image);
     }
 
     const teacher = await prisma.teacher.update({
@@ -122,9 +162,15 @@ export async function deleteTeacher(id: string) {
 }
 
 export async function getTeachers() {
-  return prisma.teacher.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  try {
+    return await prisma.teacher.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (error) {
+    console.error("Error fetching teachers:", error);
+    // Return empty array on error instead of throwing
+    return [];
+  }
 }
 
 export async function getTeacher(id: string) {
@@ -137,4 +183,3 @@ export async function getTeacher(id: string) {
     },
   });
 }
-

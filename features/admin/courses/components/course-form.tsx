@@ -179,18 +179,17 @@ export function CourseForm({
 
       if (result.success) {
         toast.success(
-          course ? "Course updated successfully!" : "Course created successfully!"
+          course
+            ? "Course updated successfully!"
+            : "Course created successfully!"
         );
         router.push("/admin/courses");
       } else {
         toast.error(result.error || "Failed to save course");
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
       toast.error(
-        error instanceof Error
-          ? error.message
-          : "An unexpected error occurred"
+        error instanceof Error ? error.message : "An unexpected error occurred"
       );
     }
   }
@@ -693,7 +692,6 @@ export function CourseForm({
           </p>
         )}
       </div>
-
 
       <div className="flex gap-4">
         <Button type="submit" disabled={isSubmitting}>

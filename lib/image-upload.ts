@@ -54,19 +54,24 @@ export async function uploadTeacherImage(file: File): Promise<string> {
  * Deletes an image file from the public/uploads directory
  * @param imagePath - The public URL path (e.g., "/uploads/thumbnails/filename.webp")
  */
-export async function deleteImageFile(imagePath: string | null | undefined): Promise<void> {
+export async function deleteImageFile(
+  imagePath: string | null | undefined
+): Promise<void> {
   if (!imagePath) return;
 
   try {
     // Remove leading slash and convert to file system path
-    const filePath = join(process.cwd(), "public", imagePath.startsWith("/") ? imagePath.slice(1) : imagePath);
-    
+    const filePath = join(
+      process.cwd(),
+      "public",
+      imagePath.startsWith("/") ? imagePath.slice(1) : imagePath
+    );
+
     // Check if file exists before attempting to delete
     if (existsSync(filePath)) {
       await unlink(filePath);
     }
   } catch (error) {
     // Log error but don't throw - we don't want to fail the operation if image deletion fails
-    console.error(`Failed to delete image file: ${imagePath}`, error);
   }
 }
