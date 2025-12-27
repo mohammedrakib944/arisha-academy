@@ -109,7 +109,7 @@ export async function CourseDetailPage({ id }: { id: string }) {
                 </div>
               </div>
             )}
-            {course.courseOutlineUrl && (
+            {/* {course.courseOutlineUrl && (
               <div className="mb-6">
                 <a
                   href={course.courseOutlineUrl}
@@ -119,7 +119,7 @@ export async function CourseDetailPage({ id }: { id: string }) {
                   <Button variant="outline">Download Course Outline</Button>
                 </a>
               </div>
-            )}
+            )} */}
           </div>
           <div className="col-span-2">
             <PurchaseForm courseId={course.id} />

@@ -5,7 +5,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { TransactionList } from "@/features/admin/transactions/components/transaction-list";
-import { getTransactionsServer } from "@/features/transactions/actions/transactions-server";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -16,8 +15,6 @@ export async function AdminDashboardPage() {
   if (!user || !(await isAdmin())) {
     redirect("/");
   }
-
-  const transactions = await getTransactionsServer();
 
   const adminCards = [
     {
@@ -63,8 +60,7 @@ export async function AdminDashboardPage() {
           ))}
         </div>
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Recent Transactions</h2>
-          <TransactionList transactions={transactions} />
+          <TransactionList />
         </div>
       </main>
     </div>

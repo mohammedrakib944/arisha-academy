@@ -164,14 +164,47 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     if (!(await isAdmin())) {
-      return NextResponse.json([], { status: 200 });
+      return NextResponse.json(
+        { transactions: [], total: 0, page: 1, totalPages: 0 },
+        { status: 200 }
+      );
     }
 
+    // Get query parameters
+    const searchParams = request.nextUrl.searchParams;
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const limit = parseInt(searchParams.get("limit") || "10", 10);
+    const search = searchParams.get("search") || "";
+    const skip = (page - 1) * limit;
+
+    // Normalize phone number for search if provided
+    let normalizedSearch = "";
+    if (search) {
+      // Remove all non-digit characters for search
+      normalizedSearch = search.replace(/[^\d]/g, "");
+    }
+
+    // Build where clause for search
+    const where = normalizedSearch
+      ? {
+          phoneNumber: {
+            contains: normalizedSearch,
+          },
+        }
+      : {};
+
+    // Get total count for pagination
+    const total = await prisma.transaction.count({ where });
+
+    // Fetch transactions with pagination and search
     const transactions = await prisma.transaction.findMany({
+      where,
       include: {
         user: true,
       },
       orderBy: { createdAt: "desc" },
+      skip,
+      take: limit,
     });
 
     // Fetch course and book details for each transaction
@@ -202,8 +235,17 @@ export async function GET(request: NextRequest) {
       })
     );
 
-    return NextResponse.json(transactionsWithDetails);
+    const totalPages = Math.ceil(total / limit);
+
+    return NextResponse.json({
+      transactions: transactionsWithDetails,
+      total,
+      page,
+      limit,
+      totalPages,
+    });
   } catch (error) {
+    console.error("Error fetching transactions:", error);
     return NextResponse.json(
       { error: "Failed to fetch transactions" },
       { status: 500 }

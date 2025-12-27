@@ -66,12 +66,30 @@ export async function submitTransaction(data: TransactionFormData | FormData) {
 }
 
 // Client-side function for client components
-export async function getTransactions() {
+export async function getTransactions(params?: {
+  page?: number;
+  limit?: number;
+  search?: string;
+}) {
   try {
-    const response = await api.get("/transactions");
+    const searchParams = new URLSearchParams();
+    if (params?.page) searchParams.set("page", params.page.toString());
+    if (params?.limit) searchParams.set("limit", params.limit.toString());
+    if (params?.search) searchParams.set("search", params.search);
+
+    const queryString = searchParams.toString();
+    const url = `/transactions${queryString ? `?${queryString}` : ""}`;
+    const response = await api.get(url);
     return response.data;
   } catch (error: unknown) {
-    return [];
+    console.error("Error fetching transactions:", error);
+    return {
+      transactions: [],
+      total: 0,
+      page: 1,
+      limit: 10,
+      totalPages: 0,
+    };
   }
 }
 

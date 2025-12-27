@@ -511,10 +511,11 @@ export function CourseForm({
 
       <div>
         <label htmlFor="courseOutlineUrl" className="block mb-2 font-medium">
-          Course Outline URL
+          Facebook Group Link
         </label>
         <Input
           type="url"
+          required
           id="courseOutlineUrl"
           {...register("courseOutlineUrl")}
         />

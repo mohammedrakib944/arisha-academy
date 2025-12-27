@@ -88,7 +88,10 @@ export async function ProfilePage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {validEnrollments.map((enrollment) => (
-                <Card key={enrollment.id} className="overflow-hidden">
+                <Card
+                  key={enrollment.id}
+                  className="overflow-hidden flex flex-col justify-between"
+                >
                   {enrollment.course.thumbnail && (
                     <div className="relative w-full h-48">
                       <Image
@@ -125,8 +128,14 @@ export async function ProfilePage() {
                         </Badge>
                       </div>
                     ) : (
-                      <Link href={`/courses/${enrollment.course.id}`}>
-                        <Button className="w-full">
+                      <Link
+                        href={enrollment.course.courseOutlineUrl || "#"}
+                        target="_blank"
+                      >
+                        <Button
+                          className="w-full"
+                          disabled={!enrollment.course.courseOutlineUrl}
+                        >
                           Join Group <ArrowRight />
                         </Button>
                       </Link>
