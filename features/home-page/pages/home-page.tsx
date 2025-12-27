@@ -1,15 +1,8 @@
 import { getCourses } from "@/features/courses/actions/courses";
 import { getBooks } from "@/features/books/actions/books";
 import Link from "next/link";
-import Image from "next/image";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { ContentCard } from "@/features/common/components/content-card";
 
 export async function HomePage() {
   const courses = await getCourses();
@@ -34,38 +27,18 @@ export async function HomePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {courses.slice(0, 6).map((course) => (
-              <Link key={course.id} href={`/courses/${course.id}`}>
-                <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full">
-                  {course.thumbnail && (
-                    <div className="relative w-full h-48">
-                      <Image
-                        src={course.thumbnail}
-                        alt={course.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  )}
-                  <CardHeader>
-                    <CardTitle>{course.title}</CardTitle>
-                    {course.description && (
-                      <CardDescription className="line-clamp-2">
-                        {course.description}
-                      </CardDescription>
-                    )}
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center justify-between">
-                      <span className="text-2xl font-bold text-primary">
-                        ${course.price}
-                      </span>
-                      <span className="text-sm text-muted-foreground">
-                        {course.totalClasses} Classes
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
+              <ContentCard
+                key={course.id}
+                id={course.id}
+                href={`/courses/${course.id}`}
+                thumbnail={course.thumbnail}
+                title={course.title}
+                description={course.description}
+                price={course.price}
+                currency="৳"
+                metadata={`${course.totalClasses} Classes`}
+                imageHeight="h-48"
+              />
             ))}
           </div>
         </section>
@@ -79,35 +52,17 @@ export async function HomePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {books.slice(0, 6).map((book) => (
-              <Link key={book.id} href={`/books/${book.id}`}>
-                <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full">
-                  {book.thumbnail && (
-                    <div className="relative w-full h-48">
-                      <Image
-                        src={book.thumbnail}
-                        alt={book.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  )}
-                  <CardHeader>
-                    <CardTitle>{book.title}</CardTitle>
-                    {book.description && (
-                      <CardDescription className="line-clamp-2">
-                        {book.description}
-                      </CardDescription>
-                    )}
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center justify-between">
-                      <span className="text-2xl font-bold text-primary">
-                        ${book.price}
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
+              <ContentCard
+                key={book.id}
+                id={book.id}
+                href={`/books/${book.id}`}
+                thumbnail={book.thumbnail}
+                title={book.title}
+                description={book.description}
+                price={book.price}
+                currency="$"
+                imageHeight="h-48"
+              />
             ))}
           </div>
         </section>

@@ -1,19 +1,26 @@
-import { getCurrentUser, isAdmin } from '@/lib/auth'
-import { getCourses } from '@/features/courses/actions/courses'
-import { redirect } from 'next/navigation'
-import Link from 'next/link'
-import Image from 'next/image'
-import { DeleteCourseButton } from '@/features/admin/courses/components/delete-course-button'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { getCurrentUser, isAdmin } from "@/lib/auth";
+import { getCourses } from "@/features/courses/actions/courses";
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { DeleteCourseButton } from "@/features/admin/courses/components/delete-course-button";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export async function AdminCoursesPage() {
-  const user = await getCurrentUser()
+  const user = await getCurrentUser();
   if (!user || !(await isAdmin())) {
-    redirect('/')
+    redirect("/");
   }
 
-  const courses = await getCourses()
+  const courses = await getCourses();
 
   return (
     <div className="min-h-screen">
@@ -54,7 +61,7 @@ export async function AdminCoursesPage() {
               </CardContent>
               <CardFooter className="flex gap-2">
                 <Link href={`/admin/courses/${course.id}`} className="flex-1">
-                  <Button variant="secondary" className="w-full" size="sm">
+                  <Button className="w-full" size="sm">
                     Edit
                   </Button>
                 </Link>
@@ -70,6 +77,5 @@ export async function AdminCoursesPage() {
         )}
       </main>
     </div>
-  )
+  );
 }
-

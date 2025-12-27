@@ -62,7 +62,7 @@ export function PurchaseForm({ courseId }: { courseId: string }) {
   }
 
   return (
-    <Card className="sticky top-4">
+    <Card className="sticky top-24">
       <CardHeader>
         <CardTitle>Enroll Now</CardTitle>
       </CardHeader>

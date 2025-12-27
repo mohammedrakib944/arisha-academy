@@ -200,3 +200,108 @@
 .ProseMirror s {
   text-decoration: line-through;
 }
+
+/* Course Overview HTML Content Styles */
+.course-overview {
+  @apply text-foreground;
+}
+
+.course-overview h1,
+.course-overview h2,
+.course-overview h3,
+.course-overview h4,
+.course-overview h5,
+.course-overview h6 {
+  @apply font-bold text-foreground;
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+.course-overview h1 {
+  @apply text-3xl;
+}
+
+.course-overview h2 {
+  @apply text-2xl;
+}
+
+.course-overview h3 {
+  @apply text-xl;
+}
+
+.course-overview h4 {
+  @apply text-lg;
+}
+
+.course-overview p {
+  @apply mb-4 text-foreground;
+  line-height: 1.75;
+}
+
+.course-overview ul,
+.course-overview ol {
+  @apply mb-4 ml-6;
+  list-style-position: outside;
+}
+
+.course-overview ul {
+  @apply list-disc;
+}
+
+.course-overview ol {
+  @apply list-decimal;
+}
+
+.course-overview li {
+  @apply mb-2 text-foreground;
+  line-height: 1.75;
+}
+
+.course-overview a {
+  @apply text-primary underline hover:text-primary/80;
+}
+
+.course-overview strong {
+  @apply font-bold text-foreground;
+}
+
+.course-overview em {
+  @apply italic text-foreground;
+}
+
+.course-overview blockquote {
+  @apply border-l-4 border-muted pl-4 my-4 italic text-muted-foreground;
+}
+
+.course-overview code {
+  @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-foreground;
+}
+
+.course-overview pre {
+  @apply bg-muted p-4 rounded-lg overflow-x-auto my-4;
+}
+
+.course-overview pre code {
+  @apply bg-transparent p-0;
+}
+
+.course-overview hr {
+  @apply border-t border-border my-6;
+}
+
+.course-overview img {
+  @apply max-w-full h-auto rounded-lg my-4;
+}
+
+.course-overview table {
+  @apply w-full border-collapse my-4;
+}
+
+.course-overview th,
+.course-overview td {
+  @apply border border-border px-4 py-2 text-foreground;
+}
+
+.course-overview th {
+  @apply bg-muted font-bold;
+}

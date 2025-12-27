@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { geistSans, geistMono, hindSiliguri } from "@/assets/font/font";
-import PProviders from "@/components/progress-bar-provider";
 import { Toaster } from "sonner";
 import { Navbar } from "@/features/common/components/navbar";
 import "./globals.css";
@@ -21,10 +20,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${hindSiliguri.variable} antialiased`}
       >
-        <PProviders>
-          <Navbar />
-          {children}
-        </PProviders>
+        <Navbar />
+        {children}
         <Toaster />
       </body>
     </html>

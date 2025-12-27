@@ -1,7 +1,5 @@
 import { getCourses } from "@/features/courses/actions/courses";
-import Link from "next/link";
-import Image from "next/image";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ContentCard } from "@/features/common/components/content-card";
 
 export async function CoursesPage() {
   const courses = await getCourses();
@@ -12,38 +10,18 @@ export async function CoursesPage() {
         <h1 className="text-4xl font-bold mb-8">All Courses</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses.map((course) => (
-            <Link key={course.id} href={`/courses/${course.id}`}>
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full">
-                {course.thumbnail && (
-                  <div className="relative w-full h-48">
-                    <Image
-                      src={course.thumbnail}
-                      alt={course.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                )}
-                <CardHeader>
-                  <CardTitle>{course.title}</CardTitle>
-                  {course.description && (
-                    <CardDescription className="line-clamp-2">
-                      {course.description}
-                    </CardDescription>
-                  )}
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-primary">
-                      ${course.price}
-                    </span>
-                    <span className="text-sm text-muted-foreground">
-                      {course.totalClasses} Classes
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
+            <ContentCard
+              key={course.id}
+              id={course.id}
+              href={`/courses/${course.id}`}
+              thumbnail={course.thumbnail}
+              title={course.title}
+              description={course.description}
+              price={course.price}
+              currency="৳"
+              metadata={`${course.totalClasses} Classes`}
+              imageHeight="h-64"
+            />
           ))}
         </div>
         {courses.length === 0 && (
@@ -55,4 +33,3 @@ export async function CoursesPage() {
     </div>
   );
 }
-
