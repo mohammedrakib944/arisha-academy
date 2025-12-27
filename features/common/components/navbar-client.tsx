@@ -268,7 +268,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
                     </div>
                   </>
                 ) : (
-                  <div className="border-t pt-4 mt-2">
+                  <div className="border-t pt-4 pr-2 mt-2">
                     <Link
                       href="/login"
                       className="block"

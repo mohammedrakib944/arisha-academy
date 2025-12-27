@@ -13,6 +13,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { ArrowRight } from "lucide-react";
 
 export async function ProfilePage() {
   const user = await getCurrentUser();
@@ -99,29 +100,37 @@ export async function ProfilePage() {
                     </div>
                   )}
                   <CardHeader className="p-3 pb-0">
-                    <Badge
-                      variant={getStatusVariant(enrollment.status)}
-                      className={cn(
-                        "w-fit mb-2 bg-blue-100 text-blue-500 py-2 px-4 hover:bg-initial hover:text-initial",
-                        enrollment.status === "APPROVED"
-                          ? "bg-green-100 text-green-500"
-                          : enrollment.status === "REJECTED"
-                          ? "bg-red-100 text-red-500"
-                          : ""
-                      )}
-                    >
-                      {enrollment.status === "PENDING"
-                        ? "Waiting for Approval"
-                        : enrollment.status}
-                    </Badge>
                     <CardTitle className="text-lg">
                       {enrollment.course.title}
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="p-3">
-                    <Link href={`/courses/${enrollment.course.id}`}>
-                      <Button className="w-full">View Details →</Button>
-                    </Link>
+                  <CardContent className="p-3 relative">
+                    {enrollment.status === "PENDING" ||
+                    enrollment.status === "REJECTED" ? (
+                      <div className="flex items-center justify-center">
+                        <Badge
+                          variant={getStatusVariant(enrollment.status)}
+                          className={cn(
+                            "w-fit mb-2 py-2 px-4 hover:bg-initial hover:text-initial",
+                            enrollment.status === "PENDING"
+                              ? "bg-blue-100 text-blue-500"
+                              : enrollment.status === "REJECTED"
+                              ? "bg-red-100 text-red-500"
+                              : ""
+                          )}
+                        >
+                          {enrollment.status === "PENDING"
+                            ? "Waiting for Approval"
+                            : enrollment.status}
+                        </Badge>
+                      </div>
+                    ) : (
+                      <Link href={`/courses/${enrollment.course.id}`}>
+                        <Button className="w-full">
+                          Join Group <ArrowRight />
+                        </Button>
+                      </Link>
+                    )}
                   </CardContent>
                 </Card>
               ))}

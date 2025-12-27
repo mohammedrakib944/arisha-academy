@@ -3,6 +3,7 @@ import { geistSans, geistMono, hindSiliguri } from "@/assets/font/font";
 import { Toaster } from "sonner";
 import { Navbar } from "@/features/common/components/navbar";
 import "./globals.css";
+import { Footer } from "@/features/common";
 
 export const metadata: Metadata = {
   title: "Arisha Academy",
@@ -22,6 +23,7 @@ export default function RootLayout({
       >
         <Navbar />
         {children}
+        <Footer />
         <Toaster />
       </body>
     </html>
