@@ -5,7 +5,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { TransactionList } from "@/features/admin/transactions/components/transaction-list";
-import { getTransactions } from "@/features/transactions/actions/transactions";
+import { getTransactionsServer } from "@/features/transactions/actions/transactions-server";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -17,7 +17,7 @@ export async function AdminDashboardPage() {
     redirect("/");
   }
 
-  const transactions = await getTransactions();
+  const transactions = await getTransactionsServer();
 
   const adminCards = [
     {

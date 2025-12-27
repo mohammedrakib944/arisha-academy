@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export async function ProfilePage() {
   const user = await getCurrentUser();
@@ -34,6 +35,9 @@ export async function ProfilePage() {
     orderBy: { createdAt: "desc" },
   });
 
+  // Filter out enrollments with null courses (in case course was deleted)
+  const validEnrollments = enrollments.filter((e) => e.course !== null);
+
   const purchases = await prisma.purchase.findMany({
     where: { userId: user.id },
     include: {
@@ -41,6 +45,9 @@ export async function ProfilePage() {
     },
     orderBy: { createdAt: "desc" },
   });
+
+  // Filter out purchases with null books (in case book was deleted)
+  const validPurchases = purchases.filter((p) => p.book !== null);
 
   const getStatusVariant = (
     status: string
@@ -75,11 +82,11 @@ export async function ProfilePage() {
 
         <div className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">Enrolled Courses</h2>
-          {enrollments.length === 0 ? (
+          {validEnrollments.length === 0 ? (
             <p className="text-muted-foreground">No enrolled courses yet.</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {enrollments.map((enrollment) => (
+              {validEnrollments.map((enrollment) => (
                 <Card key={enrollment.id} className="overflow-hidden">
                   {enrollment.course.thumbnail && (
                     <div className="relative w-full h-48">
@@ -91,26 +98,29 @@ export async function ProfilePage() {
                       />
                     </div>
                   )}
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-lg">
-                        {enrollment.course.title}
-                      </CardTitle>
-                      <Badge variant={getStatusVariant(enrollment.status)}>
-                        {enrollment.status}
-                      </Badge>
-                    </div>
-                    {enrollment.course.description && (
-                      <CardDescription>
-                        {enrollment.course.description}
-                      </CardDescription>
-                    )}
+                  <CardHeader className="p-3 pb-0">
+                    <Badge
+                      variant={getStatusVariant(enrollment.status)}
+                      className={cn(
+                        "w-fit mb-2 bg-blue-100 text-blue-500 py-2 px-4 hover:bg-initial hover:text-initial",
+                        enrollment.status === "APPROVED"
+                          ? "bg-green-100 text-green-500"
+                          : enrollment.status === "REJECTED"
+                          ? "bg-red-100 text-red-500"
+                          : ""
+                      )}
+                    >
+                      {enrollment.status === "PENDING"
+                        ? "Waiting for Approval"
+                        : enrollment.status}
+                    </Badge>
+                    <CardTitle className="text-lg">
+                      {enrollment.course.title}
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="p-3">
                     <Link href={`/courses/${enrollment.course.id}`}>
-                      <Button variant="link" className="p-0 h-auto">
-                        View Details →
-                      </Button>
+                      <Button className="w-full">View Details →</Button>
                     </Link>
                   </CardContent>
                 </Card>
@@ -121,11 +131,11 @@ export async function ProfilePage() {
 
         <div>
           <h2 className="text-2xl font-semibold mb-4">Purchased Books</h2>
-          {purchases.length === 0 ? (
+          {validPurchases.length === 0 ? (
             <p className="text-muted-foreground">No purchased books yet.</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {purchases.map((purchase) => (
+              {validPurchases.map((purchase) => (
                 <Card key={purchase.id} className="overflow-hidden">
                   {purchase.book.thumbnail && (
                     <div className="relative w-full h-48">
@@ -143,7 +153,9 @@ export async function ProfilePage() {
                         {purchase.book.title}
                       </CardTitle>
                       <Badge variant={getStatusVariant(purchase.status)}>
-                        {purchase.status}
+                        {purchase.status === "PENDING"
+                          ? "Waiting for Approval"
+                          : purchase.status}
                       </Badge>
                     </div>
                     {purchase.book.description && (

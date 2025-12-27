@@ -65,6 +65,7 @@ export async function submitTransaction(data: TransactionFormData | FormData) {
   }
 }
 
+// Client-side function for client components
 export async function getTransactions() {
   try {
     const response = await api.get("/transactions");

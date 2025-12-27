@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> | { id: string } }
 ) {
   try {
     if (!(await isAdmin())) {
@@ -25,8 +25,12 @@ export async function PATCH(
       );
     }
 
+    // Handle both Promise and direct params (Next.js 15 compatibility)
+    const resolvedParams = params instanceof Promise ? await params : params;
+    const transactionId = resolvedParams.id;
+
     const transaction = await prisma.transaction.findUnique({
-      where: { id: params.id },
+      where: { id: transactionId },
       include: { user: true },
     });
 
@@ -39,7 +43,7 @@ export async function PATCH(
 
     // Update transaction
     await prisma.transaction.update({
-      where: { id: params.id },
+      where: { id: transactionId },
       data: { status },
     });
 
@@ -75,8 +79,11 @@ export async function PATCH(
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error("Error updating transaction:", error);
+    const errorMessage =
+      error instanceof Error ? error.message : "Failed to update transaction";
     return NextResponse.json(
-      { success: false, error: "Failed to update transaction" },
+      { success: false, error: errorMessage },
       { status: 500 }
     );
   }
