@@ -10,7 +10,7 @@ export function DeleteCourseButton({ courseId }: { courseId: string }) {
   const [loading, setLoading] = useState(false)
 
   async function handleDelete() {
-    if (!confirm('Are you sure you want to delete this course?')) {
+    if (!confirm('আপনি কি এই কোর্সটি মুছে ফেলতে নিশ্চিত?')) {
       return
     }
 
@@ -27,7 +27,7 @@ export function DeleteCourseButton({ courseId }: { courseId: string }) {
       variant="destructive"
       size="sm"
     >
-      {loading ? '...' : 'Delete'}
+      {loading ? '...' : 'মুছুন'}
     </Button>
   )
 }

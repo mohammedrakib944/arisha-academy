@@ -7,7 +7,7 @@ export async function BooksPage() {
   return (
     <div className="min-h-screen">
       <main className="max-w-5xl mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8">All Books</h1>
+        <h1 className="text-4xl font-bold mb-8">সব বই</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {books.map((book) => (
             <ContentCard
@@ -25,7 +25,7 @@ export async function BooksPage() {
         </div>
         {books.length === 0 && (
           <p className="text-center text-muted-foreground py-12">
-            No books available yet.
+            এখনও কোন বই নেই।
           </p>
         )}
       </main>

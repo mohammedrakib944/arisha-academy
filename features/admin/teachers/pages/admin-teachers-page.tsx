@@ -27,9 +27,9 @@ export async function AdminTeachersPage() {
     <div className="min-h-screen">
       <main className="max-w-5xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-4xl font-bold">Manage Teachers</h1>
+          <h1 className="text-4xl font-bold">শিক্ষক পরিচালনা</h1>
           <Link href="/admin/teachers/new">
-            <Button>Create New Teacher</Button>
+            <Button>নতুন শিক্ষক তৈরি করুন</Button>
           </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -80,9 +80,9 @@ export async function AdminTeachersPage() {
               </CardContent>
               <CardFooter className="flex gap-2">
                 <Link href={`/admin/teachers/${teacher.id}`} className="flex-1">
-                  <Button className="w-full" size="sm">
-                    Edit
-                  </Button>
+                    <Button className="w-full" size="sm">
+                      সম্পাদনা
+                    </Button>
                 </Link>
                 <DeleteTeacherButton teacherId={teacher.id} />
               </CardFooter>
@@ -91,7 +91,7 @@ export async function AdminTeachersPage() {
         </div>
         {teachers.length === 0 && (
           <p className="text-center text-muted-foreground py-12">
-            No teachers yet. Create your first teacher!
+            এখনও কোন শিক্ষক নেই। আপনার প্রথম শিক্ষক তৈরি করুন!
           </p>
         )}
       </main>

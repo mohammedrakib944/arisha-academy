@@ -26,9 +26,9 @@ export async function AdminCoursesPage() {
     <div className="min-h-screen">
       <main className="max-w-5xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-4xl font-bold">Manage Courses</h1>
+          <h1 className="text-4xl font-bold">কোর্স পরিচালনা</h1>
           <Link href="/admin/courses/new">
-            <Button>Create New Course</Button>
+            <Button>নতুন কোর্স তৈরি করুন</Button>
           </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -67,7 +67,7 @@ export async function AdminCoursesPage() {
                 <CardFooter className="flex gap-2">
                   <Link href={`/admin/courses/${course.id}`} className="flex-1">
                     <Button className="w-full" size="sm">
-                      Edit
+                      সম্পাদনা
                     </Button>
                   </Link>
                   <DeleteCourseButton courseId={course.id} />
@@ -78,7 +78,7 @@ export async function AdminCoursesPage() {
         </div>
         {courses.length === 0 && (
           <p className="text-center text-muted-foreground py-12">
-            No courses yet. Create your first course!
+            এখনও কোন কোর্স নেই। আপনার প্রথম কোর্স তৈরি করুন!
           </p>
         )}
       </main>

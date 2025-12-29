@@ -10,19 +10,21 @@ export async function HomePage() {
 
   return (
     <div className="min-h-screen">
-      <main className="max-w-6xl mx-auto px-4 py-8">
-        <div className="mb-12 text-center">
-          <h1 className="text-4xl font-bold mb-4">Welcome to Arisha Academy</h1>
-          <p className="text-muted-foreground text-lg">
-            Discover our courses and books
+      <main className="max-w-6xl mx-auto px-4 pt-8 pb-24">
+        <div className="bg-gradient-to-bl from-blue-600 to-orange-200 p-6 lg:min-h-80 bg-cover bg-top mb-12 text-center rounded-lg bg-blend-overlay flex flex-col items-center justify-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white ">
+            আরিশা একাডেমিতে স্বাগতম
+          </h1>
+          <p className="text-lg md:text-xl text-white/80">
+            আমাদের কোর্স এবং বই দেখুন
           </p>
         </div>
 
         <section className="mb-12">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-bold">Featured Courses</h2>
+            <h2 className="text-3xl font-bold">বিশেষ কোর্স</h2>
             <Link href="/courses">
-              <Button variant="ghost">View All</Button>
+              <Button variant="ghost">সব দেখুন</Button>
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -33,10 +35,9 @@ export async function HomePage() {
                 href={`/courses/${course.id}`}
                 thumbnail={course.thumbnail}
                 title={course.title}
-                description={course.description}
                 price={course.price}
                 currency="৳"
-                metadata={`${course.totalClasses} Classes`}
+                metadata={`${course.totalClasses} ক্লাস`}
                 imageHeight="h-48"
               />
             ))}
@@ -45,9 +46,9 @@ export async function HomePage() {
 
         <section>
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-bold">Featured Books</h2>
+            <h2 className="text-3xl font-bold">বিশেষ বই</h2>
             <Link href="/books">
-              <Button variant="ghost">View All</Button>
+              <Button variant="ghost">সব দেখুন</Button>
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -58,7 +59,6 @@ export async function HomePage() {
                 href={`/books/${book.id}`}
                 thumbnail={book.thumbnail}
                 title={book.title}
-                description={book.description}
                 price={book.price}
                 currency="$"
                 imageHeight="h-48"

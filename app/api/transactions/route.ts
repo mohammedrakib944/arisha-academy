@@ -76,8 +76,6 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    console.log("Transaction created:", transaction.id);
-
     // If user exists, create enrollment or purchase
     if (user) {
       if (validated.courseId) {
@@ -96,7 +94,6 @@ export async function POST(request: NextRequest) {
             },
             update: {},
           });
-          console.log("Enrollment created/updated:", enrollment.id);
         } catch (error) {
           console.error("Error creating enrollment:", error);
         }
@@ -118,13 +115,10 @@ export async function POST(request: NextRequest) {
             },
             update: {},
           });
-          console.log("Purchase created/updated:", purchase.id);
         } catch (error) {
           console.error("Error creating purchase:", error);
         }
       }
-    } else {
-      console.log("No user found - enrollment/purchase not created");
     }
 
     revalidatePath("/profile");
@@ -184,10 +178,10 @@ export async function GET(request: NextRequest) {
       const trimmedSearch = search.trim();
       // Normalize phone number for search (remove non-digit characters)
       const normalizedPhoneSearch = trimmedSearch.replace(/[^\d]/g, "");
-      
+
       // Build OR condition to search both transactionId and phoneNumber
       const searchConditions: any[] = [];
-      
+
       // Search by transactionId (case-insensitive, partial match)
       searchConditions.push({
         transactionId: {
@@ -195,7 +189,7 @@ export async function GET(request: NextRequest) {
           mode: "insensitive" as const,
         },
       });
-      
+
       // Search by phoneNumber (normalized, partial match) - only if we have digits
       if (normalizedPhoneSearch) {
         searchConditions.push({
@@ -204,7 +198,7 @@ export async function GET(request: NextRequest) {
           },
         });
       }
-      
+
       // Use OR condition to search both fields
       where = {
         OR: searchConditions,

@@ -13,17 +13,17 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   const quickLinks = [
-    { href: "/courses", label: "Courses" },
-    { href: "/books", label: "Books" },
-    { href: "/teachers", label: "Teachers" },
-    { href: "/profile", label: "Profile" },
+    { href: "/courses", label: "কোর্স" },
+    { href: "/books", label: "বই" },
+    { href: "/teachers", label: "শিক্ষক" },
+    { href: "/profile", label: "প্রোফাইল" },
   ];
 
   const adminLinks = [
-    { href: "/admin", label: "Dashboard" },
-    { href: "/admin/courses", label: "Manage Courses" },
-    { href: "/admin/books", label: "Manage Books" },
-    { href: "/admin/teachers", label: "Manage Teachers" },
+    { href: "/admin", label: "ড্যাশবোর্ড" },
+    { href: "/admin/courses", label: "কোর্স পরিচালনা" },
+    { href: "/admin/books", label: "বই পরিচালনা" },
+    { href: "/admin/teachers", label: "শিক্ষক পরিচালনা" },
   ];
 
   return (
@@ -37,11 +37,11 @@ export function Footer() {
               className="flex items-center space-x-2 text-2xl font-bold transition-colors hover:text-primary"
             >
               <GraduationCap className="h-6 w-6" />
-              <span>Arisha Academy</span>
+              <span>আরিশা একাডেমি</span>
             </Link>
             <p className="text-sm text-muted-foreground">
-              A school for children aged 3 to 18 years old. Empowering young
-              minds with quality education and nurturing their potential.
+              ৩ থেকে ১৮ বছর বয়সী শিশুদের জন্য একটি স্কুল। মানসম্মত শিক্ষার
+              মাধ্যমে তরুণ মনের ক্ষমতায়ন এবং তাদের সম্ভাবনার বিকাশ।
             </p>
             <div className="flex space-x-4">
               <a
@@ -70,7 +70,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Quick Links</h3>
+            <h3 className="text-lg font-semibold">দ্রুত লিংক</h3>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.href}>
@@ -87,7 +87,7 @@ export function Footer() {
 
           {/* Admin Links */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Admin</h3>
+            <h3 className="text-lg font-semibold">অ্যাডমিন</h3>
             <ul className="space-y-2">
               {adminLinks.map((link) => (
                 <li key={link.href}>
@@ -104,7 +104,7 @@ export function Footer() {
 
           {/* Contact Info */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Contact Us</h3>
+            <h3 className="text-lg font-semibold">যোগাযোগ</h3>
             <ul className="space-y-3">
               <li className="flex items-start space-x-3">
                 <Phone className="h-5 w-5 text-muted-foreground mt-0.5" />
@@ -135,20 +135,20 @@ export function Footer() {
         <div className="mt-8 border-t pt-8">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <p className="text-sm text-muted-foreground">
-              © {currentYear} Arisha Academy. All rights reserved.
+              © {currentYear} আরিশা একাডেমি। সর্বস্বত্ব সংরক্ষিত।
             </p>
             <div className="flex space-x-6">
               <Link
                 href="#"
                 className="text-sm text-muted-foreground transition-colors hover:text-primary"
               >
-                Privacy Policy
+                গোপনীয়তা নীতি
               </Link>
               <Link
                 href="#"
                 className="text-sm text-muted-foreground transition-colors hover:text-primary"
               >
-                Terms of Service
+                সেবার শর্তাবলী
               </Link>
             </div>
           </div>

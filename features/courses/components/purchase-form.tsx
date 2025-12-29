@@ -37,7 +37,7 @@ export function PurchaseForm({ courseId }: { courseId: string }) {
     try {
       const result = await submitTransaction(data);
       if (result.success) {
-        toast.success("Transaction submitted successfully!");
+        toast.success("লেনদেন সফলভাবে জমা দেওয়া হয়েছে!");
         router.push("/profile");
         router.refresh();
       } else {
@@ -64,7 +64,7 @@ export function PurchaseForm({ courseId }: { courseId: string }) {
   return (
     <Card className="sticky top-24">
       <CardHeader>
-        <CardTitle>Enroll Now</CardTitle>
+        <CardTitle>এখনই নিবন্ধন করুন</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -74,12 +74,12 @@ export function PurchaseForm({ courseId }: { courseId: string }) {
               name="phoneNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
+                  <FormLabel>ফোন নম্বর</FormLabel>
                   <FormControl>
                     <Input
                       type="tel"
                       {...field}
-                      placeholder="+880 or 01XXXXXXXXX"
+                      placeholder="+880 বা 01XXXXXXXXX"
                     />
                   </FormControl>
                   <FormMessage />
@@ -91,11 +91,11 @@ export function PurchaseForm({ courseId }: { courseId: string }) {
               name="transactionId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Transaction ID</FormLabel>
+                  <FormLabel>লেনদেন আইডি</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="Enter your payment transaction ID"
+                      placeholder="আপনার পেমেন্ট লেনদেন আইডি লিখুন"
                     />
                   </FormControl>
                   <FormMessage />
@@ -108,8 +108,8 @@ export function PurchaseForm({ courseId }: { courseId: string }) {
               disabled={form.formState.isSubmitting}
             >
               {form.formState.isSubmitting
-                ? "Submitting..."
-                : "Submit Transaction"}
+                ? "জমা দেওয়া হচ্ছে..."
+                : "লেনদেন জমা দিন"}
             </Button>
           </form>
         </Form>

@@ -10,7 +10,7 @@ export function DeleteTeacherButton({ teacherId }: { teacherId: string }) {
   const [loading, setLoading] = useState(false)
 
   async function handleDelete() {
-    if (!confirm('Are you sure you want to delete this teacher?')) {
+    if (!confirm('আপনি কি এই শিক্ষককে মুছে ফেলতে নিশ্চিত?')) {
       return
     }
 
@@ -27,7 +27,7 @@ export function DeleteTeacherButton({ teacherId }: { teacherId: string }) {
       variant="destructive"
       size="sm"
     >
-      {loading ? '...' : 'Delete'}
+      {loading ? '...' : 'মুছুন'}
     </Button>
   )
 }

@@ -66,25 +66,25 @@ export async function ProfilePage() {
   return (
     <div className="min-h-screen">
       <main className="max-w-4xl mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8">My Profile</h1>
+        <h1 className="text-4xl font-bold mb-8">আমার প্রোফাইল</h1>
         <div className="mb-8">
-          <h2 className="text-2xl font-semibold mb-2">Information</h2>
+          <h2 className="text-2xl font-semibold mb-2">তথ্য</h2>
           <Card>
             <CardContent className="pt-6">
               <p className="mb-2">
-                <strong>Username:</strong> {user.username}
+                <strong>ব্যবহারকারীর নাম:</strong> {user.username}
               </p>
               <p>
-                <strong>Phone Number:</strong> {user.phoneNumber}
+                <strong>ফোন নম্বর:</strong> {user.phoneNumber}
               </p>
             </CardContent>
           </Card>
         </div>
 
         <div className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Enrolled Courses</h2>
+          <h2 className="text-2xl font-semibold mb-4">নিবন্ধিত কোর্স</h2>
           {validEnrollments.length === 0 ? (
-            <p className="text-muted-foreground">No enrolled courses yet.</p>
+            <p className="text-muted-foreground">এখনও কোন নিবন্ধিত কোর্স নেই।</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {validEnrollments.map((enrollment) => (
@@ -123,7 +123,7 @@ export async function ProfilePage() {
                           )}
                         >
                           {enrollment.status === "PENDING"
-                            ? "Waiting for Approval"
+                            ? "অনুমোদনের জন্য অপেক্ষা করছে"
                             : enrollment.status}
                         </Badge>
                       </div>
@@ -136,7 +136,7 @@ export async function ProfilePage() {
                           className="w-full"
                           disabled={!enrollment.course.courseOutlineUrl}
                         >
-                          Join Group <ArrowRight />
+                          গ্রুপে যোগ দিন <ArrowRight />
                         </Button>
                       </Link>
                     )}
@@ -148,9 +148,9 @@ export async function ProfilePage() {
         </div>
 
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Purchased Books</h2>
+          <h2 className="text-2xl font-semibold mb-4">ক্রয়কৃত বই</h2>
           {validPurchases.length === 0 ? (
-            <p className="text-muted-foreground">No purchased books yet.</p>
+            <p className="text-muted-foreground">এখনও কোন ক্রয়কৃত বই নেই।</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {validPurchases.map((purchase) => (
@@ -172,7 +172,7 @@ export async function ProfilePage() {
                       </CardTitle>
                       <Badge variant={getStatusVariant(purchase.status)}>
                         {purchase.status === "PENDING"
-                          ? "Waiting for Approval"
+                          ? "অনুমোদনের জন্য অপেক্ষা করছে"
                           : purchase.status}
                       </Badge>
                     </div>
@@ -185,7 +185,7 @@ export async function ProfilePage() {
                   <CardContent>
                     <Link href={`/books/${purchase.book.id}`}>
                       <Button variant="link" className="p-0 h-auto">
-                        View Details →
+                        বিস্তারিত দেখুন →
                       </Button>
                     </Link>
                   </CardContent>

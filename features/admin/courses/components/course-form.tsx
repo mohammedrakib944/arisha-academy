@@ -95,7 +95,7 @@ export function CourseForm({
     extensions: [
       StarterKit,
       Placeholder.configure({
-        placeholder: "Enter course overview...",
+        placeholder: "কোর্সের সারসংক্ষেপ লিখুন...",
       }),
     ],
     content: course?.overview || "",
@@ -180,8 +180,8 @@ export function CourseForm({
       if (result.success) {
         toast.success(
           course
-            ? "Course updated successfully!"
-            : "Course created successfully!"
+            ? "কোর্স সফলভাবে আপডেট হয়েছে!"
+            : "কোর্স সফলভাবে তৈরি হয়েছে!"
         );
         router.push("/admin/courses");
       } else {
@@ -264,7 +264,7 @@ export function CourseForm({
     >
       <div>
         <label htmlFor="title" className="block mb-2 font-medium">
-          Title *
+          শিরোনাম *
         </label>
         <Input id="title" {...register("title")} />
         {errors.title && (
@@ -276,7 +276,7 @@ export function CourseForm({
 
       <div>
         <label htmlFor="description" className="block mb-2 font-medium">
-          Description
+          বিবরণ
         </label>
         <Textarea id="description" {...register("description")} rows={4} />
         {errors.description && (
@@ -289,7 +289,7 @@ export function CourseForm({
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label htmlFor="price" className="block mb-2 font-medium">
-            Price *
+            মূল্য *
           </label>
           <Input
             type="number"
@@ -306,7 +306,7 @@ export function CourseForm({
         </div>
         <div>
           <label htmlFor="totalClasses" className="block mb-2 font-medium">
-            Total Classes
+            মোট ক্লাস
           </label>
           <Input
             type="number"
@@ -324,7 +324,7 @@ export function CourseForm({
 
       <div>
         <label htmlFor="totalExams" className="block mb-2 font-medium">
-          Total Exams
+          মোট পরীক্ষা
         </label>
         <Input
           type="number"
@@ -341,7 +341,7 @@ export function CourseForm({
 
       <div>
         <label htmlFor="overview" className="block mb-2 font-medium">
-          Overview (Rich Text)
+          সারসংক্ষেপ (রিচ টেক্সট)
         </label>
         <Controller
           name="overview"
@@ -511,7 +511,7 @@ export function CourseForm({
 
       <div>
         <label htmlFor="courseOutlineUrl" className="block mb-2 font-medium">
-          Facebook Group Link
+          ফেসবুক গ্রুপ লিংক
         </label>
         <Input
           type="url"
@@ -527,7 +527,7 @@ export function CourseForm({
       </div>
 
       <div>
-        <label className="block mb-2 font-medium">Thumbnail</label>
+        <label className="block mb-2 font-medium">থাম্বনেইল</label>
         <Input
           type="file"
           id="thumbnail"
@@ -536,7 +536,7 @@ export function CourseForm({
         />
         {course?.thumbnail && (
           <p className="mt-2 text-sm text-muted-foreground">
-            Current: {course.thumbnail}
+            বর্তমান: {course.thumbnail}
           </p>
         )}
         {errors.thumbnail && (
@@ -547,7 +547,7 @@ export function CourseForm({
       </div>
 
       <div>
-        <label className="block mb-2 font-medium">Routine Image</label>
+        <label className="block mb-2 font-medium">রুটিন ছবি</label>
         <Input
           type="file"
           id="routineImage"
@@ -556,7 +556,7 @@ export function CourseForm({
         />
         {course?.routineImage && (
           <p className="mt-2 text-sm text-muted-foreground">
-            Current: {course.routineImage}
+            বর্তমান: {course.routineImage}
           </p>
         )}
         {errors.routineImage && (
@@ -567,7 +567,7 @@ export function CourseForm({
       </div>
 
       <div>
-        <label className="block mb-2 font-medium">Teachers</label>
+        <label className="block mb-2 font-medium">শিক্ষক</label>
         <div className="space-y-2">
           {teachers.map((teacher) => (
             <label key={teacher.id} className="flex items-center gap-2">
@@ -601,7 +601,7 @@ export function CourseForm({
 
       <div>
         <div className="flex items-center justify-between mb-4">
-          <label className="block font-medium">Subjects & Lessons</label>
+          <label className="block font-medium">বিষয় ও পাঠ</label>
           <Button
             type="button"
             variant="secondary"
@@ -609,7 +609,7 @@ export function CourseForm({
             onClick={addSubject}
           >
             <Plus className="h-4 w-4 mr-1" />
-            Add Subject
+            বিষয় যোগ করুন
           </Button>
         </div>
         <div className="space-y-4">
@@ -618,7 +618,7 @@ export function CourseForm({
               <div className="flex items-center gap-2 mb-3">
                 <Input
                   type="text"
-                  placeholder="Subject name (e.g., Biology)"
+                  placeholder="বিষয়ের নাম (যেমন: জীববিজ্ঞান)"
                   value={subject.name}
                   onChange={(e) => updateSubject(subjectIndex, e.target.value)}
                   className="flex-1"
@@ -630,7 +630,7 @@ export function CourseForm({
                   onClick={() => removeSubject(subjectIndex)}
                 >
                   <X className="h-4 w-4 mr-1" />
-                  Remove
+                  সরান
                 </Button>
               </div>
               <div className="space-y-2">
@@ -638,7 +638,7 @@ export function CourseForm({
                   <div key={lessonIndex} className="flex gap-2">
                     <Input
                       type="text"
-                      placeholder="Lesson title"
+                      placeholder="পাঠের শিরোনাম"
                       value={lesson.title}
                       onChange={(e) =>
                         updateLesson(
@@ -652,7 +652,7 @@ export function CourseForm({
                     />
                     <Input
                       type="text"
-                      placeholder="Description (optional)"
+                      placeholder="বিবরণ (ঐচ্ছিক)"
                       value={lesson.description}
                       onChange={(e) =>
                         updateLesson(
@@ -681,7 +681,7 @@ export function CourseForm({
                   onClick={() => addLesson(subjectIndex)}
                 >
                   <Plus className="h-4 w-4 mr-1" />
-                  Add Lesson
+                  পাঠ যোগ করুন
                 </Button>
               </div>
             </div>
@@ -697,13 +697,13 @@ export function CourseForm({
       <div className="flex gap-4">
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting
-            ? "Saving..."
+            ? "সংরক্ষণ করা হচ্ছে..."
             : course
-            ? "Update Course"
-            : "Create Course"}
+            ? "কোর্স আপডেট করুন"
+            : "কোর্স তৈরি করুন"}
         </Button>
         <Button type="button" variant="secondary" onClick={() => router.back()}>
-          Cancel
+          বাতিল
         </Button>
       </div>
     </form>

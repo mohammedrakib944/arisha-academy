@@ -5,11 +5,10 @@ import { PurchaseForm } from "@/features/courses/components/purchase-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import PaymentProcess from "../components/payment-process";
 
 export async function CourseDetailPage({ id }: { id: string }) {
   const course = await getCourse(id);
-
-  console.log("Course Detail Page: ", course);
 
   if (!course) {
     notFound();
@@ -35,23 +34,23 @@ export async function CourseDetailPage({ id }: { id: string }) {
               {course.description}
             </p>
             <div className="mb-6">
-              <h2 className="text-2xl font-bold mb-4">Price</h2>
-              <p className="text-4xl font-bold text-primary">${course.price}</p>
+              <h2 className="text-2xl font-bold mb-4">মূল্য</h2>
+              <p className="text-4xl font-bold text-primary">৳{course.price}</p>
             </div>
             <div className="mb-6">
-              <h2 className="text-2xl font-bold mb-4">Course Details</h2>
+              <h2 className="text-2xl font-bold mb-4">কোর্সের বিবরণ</h2>
               <div className="space-y-2">
                 <p>
-                  <strong>Total Classes:</strong> {course.totalClasses}
+                  <strong>মোট ক্লাস:</strong> {course.totalClasses}
                 </p>
                 <p>
-                  <strong>Total Exams:</strong> {course.totalExams}
+                  <strong>মোট পরীক্ষা:</strong> {course.totalExams}
                 </p>
               </div>
             </div>
             {course.teachers.length > 0 && (
               <div className="mb-6">
-                <h2 className="text-2xl font-bold mb-4">Teachers</h2>
+                <h2 className="text-2xl font-bold mb-4">শিক্ষক</h2>
                 <div className="flex flex-wrap gap-2">
                   {course.teachers.map((ct) => (
                     <Badge key={ct.teacherId} variant="secondary">
@@ -63,7 +62,7 @@ export async function CourseDetailPage({ id }: { id: string }) {
             )}
             {course.subjects.length > 0 && (
               <div className="mb-6">
-                <h2 className="text-2xl font-bold mb-4">Subjects & Lessons</h2>
+                <h2 className="text-2xl font-bold mb-4">বিষয় ও পাঠ</h2>
                 <div className="space-y-4">
                   {course.subjects.map((subject) => (
                     <Card key={subject.id}>
@@ -88,7 +87,7 @@ export async function CourseDetailPage({ id }: { id: string }) {
             )}
             {course.overview && (
               <div className="mb-6">
-                <h2 className="text-2xl font-bold mb-4">Overview</h2>
+                <h2 className="text-2xl font-bold mb-4">সারসংক্ষেপ</h2>
                 <div
                   className="course-overview"
                   dangerouslySetInnerHTML={{ __html: course.overview }}
@@ -97,11 +96,11 @@ export async function CourseDetailPage({ id }: { id: string }) {
             )}
             {course.routineImage && (
               <div className="mb-6">
-                <h2 className="text-2xl font-bold mb-4">Routine</h2>
+                <h2 className="text-2xl font-bold mb-4">রুটিন</h2>
                 <div className="relative w-full h-auto">
                   <Image
                     src={course.routineImage}
-                    alt="Course Routine"
+                    alt="কোর্স রুটিন"
                     width={800}
                     height={600}
                     className="rounded-lg"
@@ -109,19 +108,9 @@ export async function CourseDetailPage({ id }: { id: string }) {
                 </div>
               </div>
             )}
-            {/* {course.courseOutlineUrl && (
-              <div className="mb-6">
-                <a
-                  href={course.courseOutlineUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Button variant="outline">Download Course Outline</Button>
-                </a>
-              </div>
-            )} */}
           </div>
           <div className="col-span-2">
+            <PaymentProcess />
             <PurchaseForm courseId={course.id} />
           </div>
         </div>

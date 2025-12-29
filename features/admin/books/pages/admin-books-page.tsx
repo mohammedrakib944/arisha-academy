@@ -26,9 +26,9 @@ export async function AdminBooksPage() {
     <div className="min-h-screen">
       <main className="max-w-5xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-4xl font-bold">Manage Books</h1>
+          <h1 className="text-4xl font-bold">বই পরিচালনা</h1>
           <Link href="/admin/books/new">
-            <Button>Create New Book</Button>
+            <Button>নতুন বই তৈরি করুন</Button>
           </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -76,9 +76,9 @@ export async function AdminBooksPage() {
               </CardContent>
               <CardFooter className="flex gap-2 px-4 pb-4">
                 <Link href={`/admin/books/${book.id}`} className="flex-1">
-                  <Button className="w-full" size="sm">
-                    Edit
-                  </Button>
+                    <Button className="w-full" size="sm">
+                      সম্পাদনা
+                    </Button>
                 </Link>
                 <DeleteBookButton bookId={book.id} />
               </CardFooter>
@@ -87,7 +87,7 @@ export async function AdminBooksPage() {
         </div>
         {books.length === 0 && (
           <p className="text-center text-muted-foreground py-12">
-            No books yet. Create your first book!
+            এখনও কোন বই নেই। আপনার প্রথম বই তৈরি করুন!
           </p>
         )}
       </main>

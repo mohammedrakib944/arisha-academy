@@ -20,27 +20,27 @@ export async function AdminDashboardPage() {
     {
       color: "#daf6ff",
       href: "/admin/courses",
-      title: "Manage Courses",
-      description: "Create, edit, and delete courses",
+      title: "কোর্স পরিচালনা",
+      description: "কোর্স তৈরি, সম্পাদনা এবং মুছুন",
     },
     {
       color: "#ffe5e4",
       href: "/admin/books",
-      title: "Manage Books",
-      description: "Create, edit, and delete books",
+      title: "বই পরিচালনা",
+      description: "বই তৈরি, সম্পাদনা এবং মুছুন",
     },
     {
       color: "#ceffd3",
       href: "/admin/teachers",
-      title: "Manage Teachers",
-      description: "Create, edit, and delete teachers",
+      title: "শিক্ষক পরিচালনা",
+      description: "শিক্ষক তৈরি, সম্পাদনা এবং মুছুন",
     },
   ];
 
   return (
     <div className="min-h-screen">
       <main className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8">Admin Dashboard</h1>
+        <h1 className="text-4xl font-bold mb-8">অ্যাডমিন ড্যাশবোর্ড</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           {adminCards.map((card) => (
             <Link key={card.href} href={card.href}>

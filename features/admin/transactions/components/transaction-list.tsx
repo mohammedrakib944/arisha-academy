@@ -124,15 +124,15 @@ export function TransactionList() {
   return (
     <div className="space-y-4">
       <div className="grid lg:grid-cols-2 gap-4">
-        <div className="text-2xl font-bold">Transactions</div>
+        <div className="text-2xl font-bold">লেনদেন</div>
         <div className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="text"
-            placeholder="Search by Transaction ID or phone number..."
+            placeholder="লেনদেন আইডি বা ফোন নম্বর দিয়ে খুঁজুন..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9"
+            className="pl-9 h-10 border-2 border-primary"
           />
         </div>
       </div>
@@ -141,13 +141,13 @@ export function TransactionList() {
         <CardContent className="p-0">
           {isLoading ? (
             <div className="p-8 text-center text-muted-foreground">
-              Loading transactions...
+              লেনদেন লোড হচ্ছে...
             </div>
           ) : data.transactions.length === 0 ? (
             <div className="p-8 text-center text-muted-foreground">
               {searchQuery
-                ? "No transactions found matching your search."
-                : "No transactions yet."}
+                ? "আপনার অনুসন্ধানের সাথে মিলে যাওয়া কোন লেনদেন পাওয়া যায়নি।"
+                : "এখনও কোন লেনদেন নেই।"}
             </div>
           ) : (
             <>
@@ -156,25 +156,25 @@ export function TransactionList() {
                   <thead className="bg-muted">
                     <tr>
                       <th className="px-4 py-3 text-left text-sm font-medium">
-                        Transaction ID
+                        লেনদেন আইডি
                       </th>
                       <th className="px-4 py-3 text-left text-sm font-medium">
-                        User
+                        ব্যবহারকারী
                       </th>
                       <th className="px-4 py-3 text-left text-sm font-medium">
-                        Phone
+                        ফোন
                       </th>
                       <th className="px-4 py-3 text-left text-sm font-medium">
-                        Type
+                        ধরন
                       </th>
                       <th className="px-4 py-3 text-left text-sm font-medium">
-                        Status
+                        অবস্থা
                       </th>
                       <th className="px-4 py-3 text-left text-sm font-medium">
-                        Date
+                        তারিখ
                       </th>
                       <th className="px-4 py-3 text-left text-sm font-medium">
-                        Actions
+                        কাজ
                       </th>
                     </tr>
                   </thead>
@@ -192,9 +192,9 @@ export function TransactionList() {
                         </td>
                         <td className="px-4 py-3 text-sm">
                           {transaction.course
-                            ? `Course: ${transaction.course.title}`
+                            ? `কোর্স: ${transaction.course.title}`
                             : transaction.book
-                            ? `Book: ${transaction.book.title}`
+                            ? `বই: ${transaction.book.title}`
                             : "N/A"}
                         </td>
                         <td className="px-4 py-3">
@@ -217,7 +217,7 @@ export function TransactionList() {
                                 variant="default"
                                 className="bg-green-600 hover:bg-green-700 min-w-[90px]"
                               >
-                                {loading === transaction.id ? "..." : "Approve"}
+                                {loading === transaction.id ? "..." : "অনুমোদন করুন"}
                               </Button>
                               <Button
                                 onClick={() =>
@@ -228,7 +228,7 @@ export function TransactionList() {
                                 className="min-w-[70px]"
                                 variant="destructive"
                               >
-                                {loading === transaction.id ? "..." : "Reject"}
+                                {loading === transaction.id ? "..." : "প্রত্যাখ্যান"}
                               </Button>
                             </div>
                           )}
@@ -243,9 +243,9 @@ export function TransactionList() {
               {data.totalPages > 1 && (
                 <div className="flex items-center justify-between border-t px-4 py-3">
                   <div className="text-sm text-muted-foreground">
-                    Showing {(currentPage - 1) * data.limit + 1} to{" "}
-                    {Math.min(currentPage * data.limit, data.total)} of{" "}
-                    {data.total} transactions
+                    দেখানো হচ্ছে {(currentPage - 1) * data.limit + 1} থেকে{" "}
+                    {Math.min(currentPage * data.limit, data.total)} এর{" "}
+                    {data.total} লেনদেন
                   </div>
                   <div className="flex items-center gap-2">
                     <Button
@@ -255,7 +255,7 @@ export function TransactionList() {
                       disabled={currentPage === 1 || isLoading}
                     >
                       <ChevronLeft className="h-4 w-4" />
-                      Previous
+                      আগের
                     </Button>
                     <div className="flex items-center gap-1">
                       {Array.from({ length: data.totalPages }, (_, i) => i + 1)
@@ -299,7 +299,7 @@ export function TransactionList() {
                       onClick={() => handlePageChange(currentPage + 1)}
                       disabled={currentPage === data.totalPages || isLoading}
                     >
-                      Next
+                      পরবর্তী
                       <ChevronRight className="h-4 w-4" />
                     </Button>
                   </div>

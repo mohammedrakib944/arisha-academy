@@ -6,9 +6,8 @@ import "./globals.css";
 import { Footer } from "@/features/common";
 
 export const metadata: Metadata = {
-  title: "Arisha Academy",
-  description:
-    "Arisha Academy is a school for children aged 3 to 18 years old.",
+  title: "আরিশা একাডেমি",
+  description: "আরিশা একাডেমি is a school for children aged 3 to 18 years old.",
 };
 
 export default function RootLayout({

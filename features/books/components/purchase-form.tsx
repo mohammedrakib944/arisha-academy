@@ -24,7 +24,7 @@ export function BookPurchaseForm({ bookId }: { bookId: string }) {
       const result = await submitTransaction(formData);
 
       if (result.success) {
-        toast.success("Transaction submitted successfully!");
+        toast.success("লেনদেন সফলভাবে জমা দেওয়া হয়েছে!");
         router.push("/profile");
       } else {
         // Handle validation errors
@@ -53,33 +53,33 @@ export function BookPurchaseForm({ bookId }: { bookId: string }) {
   return (
     <Card className="sticky top-4">
       <CardHeader>
-        <CardTitle>Buy Now</CardTitle>
+        <CardTitle>এখনই কিনুন</CardTitle>
       </CardHeader>
       <CardContent>
         <form action={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="phoneNumber">Phone Number</Label>
+            <Label htmlFor="phoneNumber">ফোন নম্বর</Label>
             <Input
               type="tel"
               id="phoneNumber"
               name="phoneNumber"
               required
-              placeholder="+880 or 01XXXXXXXXX"
+              placeholder="+880 বা 01XXXXXXXXX"
             />
             {error && <p className="text-sm text-destructive">{error}</p>}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="transactionId">Transaction ID</Label>
+            <Label htmlFor="transactionId">লেনদেন আইডি</Label>
             <Input
               type="text"
               id="transactionId"
               name="transactionId"
               required
-              placeholder="Enter your payment transaction ID"
+              placeholder="আপনার পেমেন্ট লেনদেন আইডি লিখুন"
             />
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Submitting..." : "Submit Transaction"}
+            {loading ? "জমা দেওয়া হচ্ছে..." : "লেনদেন জমা দিন"}
           </Button>
         </form>
       </CardContent>

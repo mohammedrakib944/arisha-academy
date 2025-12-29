@@ -56,7 +56,7 @@ export function LoginPage() {
     try {
       const result = await signup(data);
       if (result.success) {
-        toast.success("Account created successfully!");
+        toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!");
         router.push("/profile");
         router.refresh();
       } else {
@@ -84,7 +84,7 @@ export function LoginPage() {
     try {
       const result = await login(data);
       if (result.success) {
-        toast.success("Logged in successfully!");
+        toast.success("সফলভাবে লগইন হয়েছে!");
         router.push("/profile");
         router.refresh();
       } else {
@@ -115,17 +115,17 @@ export function LoginPage() {
           <Card>
             <CardHeader>
               <CardTitle className="text-3xl text-center">
-                Welcome to Arisha Academy
+                আরিশা একাডেমিতে স্বাগতম
               </CardTitle>
               <CardDescription className="text-center">
-                Sign up for a new account or login to continue
+                একটি নতুন অ্যাকাউন্ট তৈরি করুন বা চালিয়ে যেতে লগইন করুন
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="login" className="w-full">
                 <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="login">Login</TabsTrigger>
-                  <TabsTrigger value="signup">Sign Up</TabsTrigger>
+                  <TabsTrigger value="login">লগইন</TabsTrigger>
+                  <TabsTrigger value="signup">সাইন আপ</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="signup">
@@ -140,7 +140,7 @@ export function LoginPage() {
                           name="firstName"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>First Name</FormLabel>
+                              <FormLabel>নামের প্রথম অংশ</FormLabel>
                               <FormControl>
                                 <Input {...field} />
                               </FormControl>
@@ -153,7 +153,7 @@ export function LoginPage() {
                           name="lastName"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Last Name</FormLabel>
+                              <FormLabel>নামের শেষ অংশ</FormLabel>
                               <FormControl>
                                 <Input {...field} />
                               </FormControl>
@@ -167,12 +167,12 @@ export function LoginPage() {
                         name="phoneNumber"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Phone Number</FormLabel>
+                            <FormLabel>ফোন নম্বর</FormLabel>
                             <FormControl>
                               <Input
                                 type="tel"
                                 {...field}
-                                placeholder="+880 or 01XXXXXXXXX"
+                                placeholder="+880 বা 01XXXXXXXXX"
                               />
                             </FormControl>
                             <FormMessage />
@@ -184,7 +184,7 @@ export function LoginPage() {
                         name="password"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Password</FormLabel>
+                            <FormLabel>পাসওয়ার্ড</FormLabel>
                             <FormControl>
                               <Input type="password" {...field} />
                             </FormControl>
@@ -197,7 +197,7 @@ export function LoginPage() {
                         name="confirmPassword"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Confirm Password</FormLabel>
+                            <FormLabel>পাসওয়ার্ড নিশ্চিত করুন</FormLabel>
                             <FormControl>
                               <Input type="password" {...field} />
                             </FormControl>
@@ -211,8 +211,8 @@ export function LoginPage() {
                         disabled={signupForm.formState.isSubmitting}
                       >
                         {signupForm.formState.isSubmitting
-                          ? "Creating Account..."
-                          : "Sign Up"}
+                          ? "অ্যাকাউন্ট তৈরি হচ্ছে..."
+                          : "সাইন আপ"}
                       </Button>
                     </form>
                   </Form>
@@ -229,12 +229,12 @@ export function LoginPage() {
                         name="phoneNumber"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Phone Number</FormLabel>
+                            <FormLabel>ফোন নম্বর</FormLabel>
                             <FormControl>
                               <Input
                                 type="tel"
                                 {...field}
-                                placeholder="+880 or 01XXXXXXXXX"
+                                placeholder="+880 বা 01XXXXXXXXX"
                               />
                             </FormControl>
                             <FormMessage />
@@ -246,7 +246,7 @@ export function LoginPage() {
                         name="password"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Password</FormLabel>
+                            <FormLabel>পাসওয়ার্ড</FormLabel>
                             <FormControl>
                               <Input type="password" {...field} />
                             </FormControl>
@@ -260,8 +260,8 @@ export function LoginPage() {
                         disabled={loginForm.formState.isSubmitting}
                       >
                         {loginForm.formState.isSubmitting
-                          ? "Logging in..."
-                          : "Login"}
+                          ? "লগইন করা হচ্ছে..."
+                          : "লগইন"}
                       </Button>
                     </form>
                   </Form>

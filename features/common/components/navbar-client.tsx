@@ -45,16 +45,16 @@ interface NavbarClientProps {
 }
 
 const adminLinks = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/courses", label: "Manage Courses", icon: GraduationCap },
-  { href: "/admin/books", label: "Manage Books", icon: BookOpen },
-  { href: "/admin/teachers", label: "Manage Teachers", icon: Users },
+  { href: "/admin", label: "ড্যাশবোর্ড", icon: LayoutDashboard },
+  { href: "/admin/courses", label: "কোর্স পরিচালনা", icon: GraduationCap },
+  { href: "/admin/books", label: "বই পরিচালনা", icon: BookOpen },
+  { href: "/admin/teachers", label: "শিক্ষক পরিচালনা", icon: Users },
 ];
 
 const mainLinks = [
-  { href: "/courses", label: "Courses", icon: GraduationCap },
-  { href: "/books", label: "Books", icon: BookOpen },
-  { href: "/teachers", label: "Teachers", icon: Users },
+  { href: "/courses", label: "কোর্স", icon: GraduationCap },
+  { href: "/books", label: "বই", icon: BookOpen },
+  { href: "/teachers", label: "শিক্ষক", icon: Users },
 ];
 
 export function NavbarClient({ user }: NavbarClientProps) {
@@ -78,7 +78,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
             className="flex items-center space-x-2 text-2xl font-bold transition-colors hover:text-primary"
           >
             <GraduationCap className="h-6 w-6" />
-            <span>Arisha Academy</span>
+            <span>আরিশা একাডেমি</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -107,12 +107,12 @@ export function NavbarClient({ user }: NavbarClientProps) {
                         variant="ghost"
                         className="flex items-center gap-1 text-sm font-medium"
                       >
-                        Admin
+                        অ্যাডমিন
                         <ChevronDown className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-56">
-                      <DropdownMenuLabel>Admin Panel</DropdownMenuLabel>
+                      <DropdownMenuLabel>অ্যাডমিন প্যানেল</DropdownMenuLabel>
                       <DropdownMenuSeparator />
                       {adminLinks.map((link) => {
                         const Icon = link.icon;
@@ -142,7 +142,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
                       isActive("/profile") ? "text-primary font-semibold" : ""
                     }
                   >
-                    Profile
+                    প্রোফাইল
                   </Button>
                 </Link>
                 <Button
@@ -153,7 +153,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
                     window.location.href = "/";
                   }}
                 >
-                  Logout
+                  লগআউট
                 </Button>
               </>
             ) : (
@@ -165,7 +165,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
                     isActive("/login") ? "text-primary font-semibold" : ""
                   }
                 >
-                  Login
+                  লগইন
                 </Button>
               </Link>
             )}
@@ -183,7 +183,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
               <SheetHeader>
                 <SheetTitle className="flex items-center gap-2">
                   <GraduationCap className="h-5 w-5" />
-                  Arisha Academy
+                  আরিশা একাডেমি
                 </SheetTitle>
               </SheetHeader>
               <div className="flex flex-col pl-2">
@@ -213,7 +213,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
                       <>
                         <div className="border-t pt-4 mt-2">
                           <p className="px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
-                            Admin
+                            অ্যাডমিন
                           </p>
                           {adminLinks.map((link) => {
                             const Icon = link.icon;
@@ -251,7 +251,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
                               : ""
                           }
                         >
-                          <User className="h-4 w-4" /> Profile
+                          <User className="h-4 w-4" /> প্রোফাইল
                         </Button>
                       </Link>
                       <Button
@@ -263,7 +263,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
                           window.location.href = "/";
                         }}
                       >
-                        Logout <LogOut className="h-4 w-4" />
+                        লগআউট <LogOut className="h-4 w-4" />
                       </Button>
                     </div>
                   </>
@@ -275,7 +275,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <Button variant="default" size="sm" className="w-full">
-                        Login
+                        লগইন
                       </Button>
                     </Link>
                   </div>

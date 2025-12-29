@@ -71,8 +71,8 @@ export function TeacherForm({ teacher }: { teacher?: Teacher }) {
       if (result.success) {
         toast.success(
           teacher
-            ? "Teacher updated successfully!"
-            : "Teacher created successfully!"
+            ? "শিক্ষক সফলভাবে আপডেট হয়েছে!"
+            : "শিক্ষক সফলভাবে তৈরি হয়েছে!"
         );
         router.push("/admin/teachers");
       } else {
@@ -119,7 +119,7 @@ export function TeacherForm({ teacher }: { teacher?: Teacher }) {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name *</FormLabel>
+              <FormLabel>নাম *</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -133,7 +133,7 @@ export function TeacherForm({ teacher }: { teacher?: Teacher }) {
           name="bio"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Bio</FormLabel>
+              <FormLabel>জীবনী</FormLabel>
               <FormControl>
                 <Textarea rows={4} {...field} />
               </FormControl>
@@ -147,7 +147,7 @@ export function TeacherForm({ teacher }: { teacher?: Teacher }) {
           name="image"
           render={({ field: { value, onChange, ...field } }) => (
             <FormItem>
-              <FormLabel>Image</FormLabel>
+              <FormLabel>ছবি</FormLabel>
               <FormControl>
                 <Input
                   type="file"
@@ -157,7 +157,7 @@ export function TeacherForm({ teacher }: { teacher?: Teacher }) {
                 />
               </FormControl>
               {teacher?.image && (
-                <FormDescription>Current: {teacher.image}</FormDescription>
+                <FormDescription>বর্তমান: {teacher.image}</FormDescription>
               )}
               <FormMessage />
             </FormItem>
@@ -166,7 +166,7 @@ export function TeacherForm({ teacher }: { teacher?: Teacher }) {
 
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <FormLabel>Subjects Taught</FormLabel>
+            <FormLabel>শিক্ষাদান করা বিষয়</FormLabel>
             <Button
               type="button"
               variant="secondary"
@@ -174,14 +174,14 @@ export function TeacherForm({ teacher }: { teacher?: Teacher }) {
               onClick={addSubject}
             >
               <Plus className="h-4 w-4 mr-1" />
-              Add Subject
+              বিষয় যোগ করুন
             </Button>
           </div>
           <div className="space-y-2">
             {(watchedSubjects || []).map((subject, index) => (
               <div key={index} className="flex gap-2">
                 <Input
-                  placeholder="Subject name (e.g., Biology)"
+                  placeholder="বিষয়ের নাম (যেমন: জীববিজ্ঞান)"
                   value={subject}
                   onChange={(e) => updateSubject(index, e.target.value)}
                   className="flex-1"
@@ -207,17 +207,17 @@ export function TeacherForm({ teacher }: { teacher?: Teacher }) {
         <div className="flex gap-4">
           <Button type="submit" disabled={form.formState.isSubmitting}>
             {form.formState.isSubmitting
-              ? "Saving..."
+              ? "সংরক্ষণ করা হচ্ছে..."
               : teacher
-              ? "Update Teacher"
-              : "Create Teacher"}
+              ? "শিক্ষক আপডেট করুন"
+              : "শিক্ষক তৈরি করুন"}
           </Button>
           <Button
             type="button"
             variant="secondary"
             onClick={() => router.back()}
           >
-            Cancel
+            বাতিল
           </Button>
         </div>
       </form>

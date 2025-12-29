@@ -10,7 +10,7 @@ export function DeleteBookButton({ bookId }: { bookId: string }) {
   const [loading, setLoading] = useState(false)
 
   async function handleDelete() {
-    if (!confirm('Are you sure you want to delete this book?')) {
+    if (!confirm('আপনি কি এই বইটি মুছে ফেলতে নিশ্চিত?')) {
       return
     }
 
@@ -27,7 +27,7 @@ export function DeleteBookButton({ bookId }: { bookId: string }) {
       variant="destructive"
       size="sm"
     >
-      {loading ? '...' : 'Delete'}
+      {loading ? '...' : 'মুছুন'}
     </Button>
   )
 }

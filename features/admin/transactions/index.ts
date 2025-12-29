@@ -1,2 +1,1 @@
-export { AdminDashboardPage } from './pages/admin-dashboard-page'
-
+export { AdminDashboardPage } from "../admin-dashboard-page";

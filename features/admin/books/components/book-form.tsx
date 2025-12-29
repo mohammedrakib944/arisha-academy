@@ -64,7 +64,7 @@ export function BookForm({ book }: { book?: Book }) {
 
       if (result.success) {
         toast.success(
-          book ? "Book updated successfully!" : "Book created successfully!"
+          book ? "বই সফলভাবে আপডেট হয়েছে!" : "বই সফলভাবে তৈরি হয়েছে!"
         );
         router.push("/admin/books");
       } else {
@@ -88,7 +88,7 @@ export function BookForm({ book }: { book?: Book }) {
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Title *</FormLabel>
+              <FormLabel>শিরোনাম *</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -102,7 +102,7 @@ export function BookForm({ book }: { book?: Book }) {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>বিবরণ</FormLabel>
               <FormControl>
                 <Textarea rows={4} {...field} />
               </FormControl>
@@ -116,7 +116,7 @@ export function BookForm({ book }: { book?: Book }) {
           name="price"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Price *</FormLabel>
+              <FormLabel>মূল্য *</FormLabel>
               <FormControl>
                 <Input
                   type="number"
@@ -138,7 +138,7 @@ export function BookForm({ book }: { book?: Book }) {
           name="thumbnail"
           render={({ field: { value, onChange, ...field } }) => (
             <FormItem>
-              <FormLabel>Thumbnail</FormLabel>
+              <FormLabel>থাম্বনেইল</FormLabel>
               <FormControl>
                 <Input
                   type="file"
@@ -148,7 +148,7 @@ export function BookForm({ book }: { book?: Book }) {
                 />
               </FormControl>
               {book?.thumbnail && (
-                <FormDescription>Current: {book.thumbnail}</FormDescription>
+                <FormDescription>বর্তমান: {book.thumbnail}</FormDescription>
               )}
               <FormMessage />
             </FormItem>
@@ -158,17 +158,17 @@ export function BookForm({ book }: { book?: Book }) {
         <div className="flex gap-4">
           <Button type="submit" disabled={form.formState.isSubmitting}>
             {form.formState.isSubmitting
-              ? "Saving..."
+              ? "সংরক্ষণ করা হচ্ছে..."
               : book
-              ? "Update Book"
-              : "Create Book"}
+              ? "বই আপডেট করুন"
+              : "বই তৈরি করুন"}
           </Button>
           <Button
             type="button"
             variant="secondary"
             onClick={() => router.back()}
           >
-            Cancel
+            বাতিল
           </Button>
         </div>
       </form>

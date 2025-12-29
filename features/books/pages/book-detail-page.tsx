@@ -30,8 +30,8 @@ export async function BookDetailPage({ id }: { id: string }) {
               {book.description}
             </p>
             <div className="mb-6">
-              <h2 className="text-2xl font-bold mb-4">Price</h2>
-              <p className="text-4xl font-bold text-primary">${book.price}</p>
+              <h2 className="text-2xl font-bold mb-4">মূল্য</h2>
+              <p className="text-4xl font-bold text-primary">৳{book.price}</p>
             </div>
           </div>
           <div>
