@@ -67,7 +67,7 @@ export async function AdminCoursesPage() {
                 <CardFooter className="flex gap-2">
                   <Link href={`/admin/courses/${course.id}`} className="flex-1">
                     <Button className="w-full" size="sm">
-                      সম্পাদনা
+                      আপডেট
                     </Button>
                   </Link>
                   <DeleteCourseButton courseId={course.id} />

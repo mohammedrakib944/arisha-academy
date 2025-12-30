@@ -45,7 +45,7 @@ type Course = {
   overview: string | null;
   courseOutlineUrl: string | null;
   thumbnail: string | null;
-  routineImage: string | null;
+  routineImage: string | null; // This will store YouTube URL
   teachers: Array<{ teacherId: string }>;
   subjects: Subject[];
 };
@@ -85,6 +85,7 @@ export function CourseForm({
             description: l.description || "",
           })),
         })) || [],
+      youtubeUrl: course?.routineImage || "",
     },
   });
 
@@ -137,18 +138,6 @@ export function CourseForm({
         }
       }
 
-      if (data.routineImage && data.routineImage.length > 0) {
-        const file = data.routineImage[0];
-        if (file.size > MAX_SIZE) {
-          toast.error(
-            `Routine image file size (${(file.size / (1024 * 1024)).toFixed(
-              2
-            )}MB) exceeds 3MB limit. Please compress the image and try again.`
-          );
-          return;
-        }
-      }
-
       // Transform FileList to File and ensure all required fields have defaults
       const transformedData: CourseFormData = {
         title: data.title,
@@ -167,10 +156,7 @@ export function CourseForm({
           data.thumbnail && data.thumbnail.length > 0
             ? data.thumbnail[0]
             : undefined,
-        routineImage:
-          data.routineImage && data.routineImage.length > 0
-            ? data.routineImage[0]
-            : undefined,
+        youtubeUrl: data.youtubeUrl || undefined,
       };
 
       const result = course
@@ -179,9 +165,7 @@ export function CourseForm({
 
       if (result.success) {
         toast.success(
-          course
-            ? "কোর্স সফলভাবে আপডেট হয়েছে!"
-            : "কোর্স সফলভাবে তৈরি হয়েছে!"
+          course ? "কোর্স সফলভাবেহয়েছে!" : "কোর্স সফলভাবে তৈরি হয়েছে!"
         );
         router.push("/admin/courses");
       } else {
@@ -547,21 +531,23 @@ export function CourseForm({
       </div>
 
       <div>
-        <label className="block mb-2 font-medium">রুটিন ছবি</label>
+        <label htmlFor="youtubeUrl" className="block mb-2 font-medium">
+          YouTube URL
+        </label>
         <Input
-          type="file"
-          id="routineImage"
-          accept="image/*"
-          {...register("routineImage")}
+          type="url"
+          id="youtubeUrl"
+          placeholder="https://www.youtube.com/watch?v=..."
+          {...register("youtubeUrl")}
         />
         {course?.routineImage && (
           <p className="mt-2 text-sm text-muted-foreground">
             বর্তমান: {course.routineImage}
           </p>
         )}
-        {errors.routineImage && (
+        {errors.youtubeUrl && (
           <p className="mt-1 text-sm text-destructive">
-            {errors.routineImage.message}
+            {errors.youtubeUrl.message}
           </p>
         )}
       </div>
@@ -699,7 +685,7 @@ export function CourseForm({
           {isSubmitting
             ? "সংরক্ষণ করা হচ্ছে..."
             : course
-            ? "কোর্স আপডেট করুন"
+            ? "সেভ করুন"
             : "কোর্স তৈরি করুন"}
         </Button>
         <Button type="button" variant="secondary" onClick={() => router.back()}>

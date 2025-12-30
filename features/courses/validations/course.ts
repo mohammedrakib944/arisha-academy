@@ -52,17 +52,16 @@ export const courseInputSchema = z.object({
   teacherIds: z.array(z.string()).default([]),
   subjects: z.array(subjectSchema).default([]),
   thumbnail: fileListSchema.optional(),
-  routineImage: fileListSchema.optional(),
+  youtubeUrl: z
+    .union([z.string().url("Must be a valid URL"), z.literal("")])
+    .optional(),
 });
 
 export const courseSchema = courseInputSchema.transform((data) => ({
   ...data,
   thumbnail:
     data.thumbnail && data.thumbnail.length > 0 ? data.thumbnail[0] : undefined,
-  routineImage:
-    data.routineImage && data.routineImage.length > 0
-      ? data.routineImage[0]
-      : undefined,
+  youtubeUrl: data.youtubeUrl || undefined,
 }));
 
 // Server-side schema that accepts File objects (after transformation)
@@ -101,7 +100,9 @@ export const courseFormDataSchema = z.object({
   teacherIds: z.array(z.string()).default([]),
   subjects: z.array(subjectSchema).default([]),
   thumbnail: fileSchema,
-  routineImage: fileSchema,
+  youtubeUrl: z
+    .union([z.string().url("Must be a valid URL"), z.literal("")])
+    .optional(),
 });
 
 export type CourseFormData = z.infer<typeof courseSchema>;

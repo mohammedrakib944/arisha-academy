@@ -9,6 +9,23 @@ import { Button } from "@/components/ui/button";
 import PaymentProcess from "../components/payment-process";
 import { getCurrentUser } from "@/lib/auth";
 
+function getYouTubeEmbedUrl(url: string): string {
+  // Handle different YouTube URL formats
+  if (url.includes("youtube.com/watch?v=")) {
+    const videoId = url.split("watch?v=")[1].split("&")[0];
+    return `https://www.youtube.com/embed/${videoId}`;
+  }
+  if (url.includes("youtu.be/")) {
+    const videoId = url.split("youtu.be/")[1].split("?")[0].split("&")[0];
+    return `https://www.youtube.com/embed/${videoId}`;
+  }
+  if (url.includes("youtube.com/embed/")) {
+    return url;
+  }
+  // If it's already an embed URL or other format, return as is
+  return url;
+}
+
 export async function CourseDetailPage({ id }: { id: string }) {
   const course = await getCourse(id);
   const user = await getCurrentUser();
@@ -22,7 +39,32 @@ export async function CourseDetailPage({ id }: { id: string }) {
       <main className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           <div className="col-span-3">
-            {course.thumbnail && (
+            {course.routineImage && (
+              <div className="mb-6">
+                {course.routineImage.startsWith("http") ? (
+                  <div className="relative w-full aspect-video rounded-lg overflow-hidden">
+                    <iframe
+                      src={getYouTubeEmbedUrl(course.routineImage)}
+                      title="YouTube video player"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      className="absolute top-0 left-0 w-full h-full"
+                    />
+                  </div>
+                ) : (
+                  <div className="relative w-full h-auto">
+                    <Image
+                      src={course.routineImage}
+                      alt="কোর্স রুটিন"
+                      width={800}
+                      height={600}
+                      className="rounded-lg"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+            {!course.routineImage && course.thumbnail && (
               <div className="relative w-full h-[200px] lg:h-[500px] mb-6 rounded-lg overflow-hidden">
                 <Image
                   src={course.thumbnail}
@@ -95,20 +137,6 @@ export async function CourseDetailPage({ id }: { id: string }) {
                   className="course-overview"
                   dangerouslySetInnerHTML={{ __html: course.overview }}
                 />
-              </div>
-            )}
-            {course.routineImage && (
-              <div className="mb-6">
-                <h2 className="text-2xl font-bold mb-4">রুটিন</h2>
-                <div className="relative w-full h-auto">
-                  <Image
-                    src={course.routineImage}
-                    alt="কোর্স রুটিন"
-                    width={800}
-                    height={600}
-                    className="rounded-lg"
-                  />
-                </div>
               </div>
             )}
           </div>

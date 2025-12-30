@@ -21,19 +21,19 @@ export async function AdminDashboardPage() {
       color: "#daf6ff",
       href: "/admin/courses",
       title: "কোর্স পরিচালনা",
-      description: "কোর্স তৈরি, সম্পাদনা এবং মুছুন",
+      description: "কোর্স তৈরি,  আপডেট  এবং মুছুন",
     },
     {
       color: "#ffe5e4",
       href: "/admin/books",
       title: "বই পরিচালনা",
-      description: "বই তৈরি, সম্পাদনা এবং মুছুন",
+      description: "বই তৈরি,  আপডেট  এবং মুছুন",
     },
     {
       color: "#ceffd3",
       href: "/admin/teachers",
       title: "শিক্ষক পরিচালনা",
-      description: "শিক্ষক তৈরি, সম্পাদনা এবং মুছুন",
+      description: "শিক্ষক তৈরি,  আপডেট  এবং মুছুন",
     },
   ];
 

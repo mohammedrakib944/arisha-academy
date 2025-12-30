@@ -70,9 +70,7 @@ export function TeacherForm({ teacher }: { teacher?: Teacher }) {
 
       if (result.success) {
         toast.success(
-          teacher
-            ? "শিক্ষক সফলভাবে আপডেট হয়েছে!"
-            : "শিক্ষক সফলভাবে তৈরি হয়েছে!"
+          teacher ? "শিক্ষক সফলভাবেহয়েছে!" : "শিক্ষক সফলভাবে তৈরি হয়েছে!"
         );
         router.push("/admin/teachers");
       } else {
@@ -209,7 +207,7 @@ export function TeacherForm({ teacher }: { teacher?: Teacher }) {
             {form.formState.isSubmitting
               ? "সংরক্ষণ করা হচ্ছে..."
               : teacher
-              ? "শিক্ষক আপডেট করুন"
+              ? "শিক্ষককরুন"
               : "শিক্ষক তৈরি করুন"}
           </Button>
           <Button

@@ -80,9 +80,9 @@ export async function AdminTeachersPage() {
               </CardContent>
               <CardFooter className="flex gap-2">
                 <Link href={`/admin/teachers/${teacher.id}`} className="flex-1">
-                    <Button className="w-full" size="sm">
-                      সম্পাদনা
-                    </Button>
+                  <Button className="w-full" size="sm">
+                    আপডেট
+                  </Button>
                 </Link>
                 <DeleteTeacherButton teacherId={teacher.id} />
               </CardFooter>

@@ -31,28 +31,14 @@ export async function createCourse(data: CourseFormData) {
       };
     }
 
-    if (data.routineImage && data.routineImage.size > 3 * 1024 * 1024) {
-      return {
-        success: false,
-        error: `Routine image file size exceeds 3MB limit. Current size: ${(
-          data.routineImage.size /
-          (1024 * 1024)
-        ).toFixed(2)}MB`,
-      };
-    }
-
     // Validate the data structure (File objects, not FileList)
     const validated = courseFormDataSchema.parse(data);
 
     let thumbnailUrl: string | undefined;
-    let routineImageUrl: string | undefined;
+    const youtubeUrl = validated.youtubeUrl || undefined;
 
     if (validated.thumbnail && validated.thumbnail.size > 0) {
       thumbnailUrl = await uploadThumbnail(validated.thumbnail);
-    }
-
-    if (validated.routineImage && validated.routineImage.size > 0) {
-      routineImageUrl = await uploadRoutineImage(validated.routineImage);
     }
 
     const course = await prisma.course.create({
@@ -65,7 +51,7 @@ export async function createCourse(data: CourseFormData) {
         overview: validated.overview,
         courseOutlineUrl: validated.courseOutlineUrl || undefined,
         thumbnail: thumbnailUrl,
-        routineImage: routineImageUrl,
+        routineImage: youtubeUrl,
         teachers: {
           create: validated.teacherIds.map((teacherId) => ({
             teacherId,
@@ -138,16 +124,6 @@ export async function updateCourse(id: string, data: CourseFormData) {
       };
     }
 
-    if (data.routineImage && data.routineImage.size > 3 * 1024 * 1024) {
-      return {
-        success: false,
-        error: `Routine image file size exceeds 3MB limit. Current size: ${(
-          data.routineImage.size /
-          (1024 * 1024)
-        ).toFixed(2)}MB`,
-      };
-    }
-
     // Validate the data structure (File objects, not FileList)
     const validated = courseFormDataSchema.parse(data);
 
@@ -161,7 +137,7 @@ export async function updateCourse(id: string, data: CourseFormData) {
     }
 
     let thumbnailUrl = existingCourse.thumbnail;
-    let routineImageUrl = existingCourse.routineImage;
+    const youtubeUrl = validated.youtubeUrl || undefined;
 
     if (validated.thumbnail && validated.thumbnail.size > 0) {
       // Delete old thumbnail if it exists
@@ -171,12 +147,12 @@ export async function updateCourse(id: string, data: CourseFormData) {
       thumbnailUrl = await uploadThumbnail(validated.thumbnail);
     }
 
-    if (validated.routineImage && validated.routineImage.size > 0) {
-      // Delete old routine image if it exists
-      if (existingCourse.routineImage) {
-        await deleteImageFile(existingCourse.routineImage);
-      }
-      routineImageUrl = await uploadRoutineImage(validated.routineImage);
+    // Delete old routine image if it exists and was an image file (not a YouTube URL)
+    if (
+      existingCourse.routineImage &&
+      !existingCourse.routineImage.startsWith("http")
+    ) {
+      await deleteImageFile(existingCourse.routineImage);
     }
 
     // Delete existing relations
@@ -199,7 +175,7 @@ export async function updateCourse(id: string, data: CourseFormData) {
         overview: validated.overview,
         courseOutlineUrl: validated.courseOutlineUrl || undefined,
         thumbnail: thumbnailUrl,
-        routineImage: routineImageUrl,
+        routineImage: youtubeUrl,
         teachers: {
           create: validated.teacherIds.map((teacherId) => ({
             teacherId,
@@ -276,7 +252,10 @@ export async function deleteCourse(id: string) {
     // Delete associated image files
     if (course) {
       await deleteImageFile(course.thumbnail);
-      await deleteImageFile(course.routineImage);
+      // Only delete if it's an image file, not a YouTube URL
+      if (course.routineImage && !course.routineImage.startsWith("http")) {
+        await deleteImageFile(course.routineImage);
+      }
     }
 
     revalidatePath("/admin/courses");

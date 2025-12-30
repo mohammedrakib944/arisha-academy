@@ -63,9 +63,7 @@ export function BookForm({ book }: { book?: Book }) {
         : await createBook(formData as any);
 
       if (result.success) {
-        toast.success(
-          book ? "বই সফলভাবে আপডেট হয়েছে!" : "বই সফলভাবে তৈরি হয়েছে!"
-        );
+        toast.success(book ? "বই সফলভাবেহয়েছে!" : "বই সফলভাবে তৈরি হয়েছে!");
         router.push("/admin/books");
       } else {
         toast.error(result.error || "Failed to save book");
@@ -160,7 +158,7 @@ export function BookForm({ book }: { book?: Book }) {
             {form.formState.isSubmitting
               ? "সংরক্ষণ করা হচ্ছে..."
               : book
-              ? "বই আপডেট করুন"
+              ? "বইকরুন"
               : "বই তৈরি করুন"}
           </Button>
           <Button

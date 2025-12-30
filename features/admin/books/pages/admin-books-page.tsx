@@ -76,9 +76,9 @@ export async function AdminBooksPage() {
               </CardContent>
               <CardFooter className="flex gap-2 px-4 pb-4">
                 <Link href={`/admin/books/${book.id}`} className="flex-1">
-                    <Button className="w-full" size="sm">
-                      সম্পাদনা
-                    </Button>
+                  <Button className="w-full" size="sm">
+                    আপডেট
+                  </Button>
                 </Link>
                 <DeleteBookButton bookId={book.id} />
               </CardFooter>
