@@ -53,7 +53,7 @@ const adminLinks = [
 
 const mainLinks = [
   { href: "/courses", label: "কোর্স", icon: GraduationCap },
-  { href: "/books", label: "বই", icon: BookOpen },
+  // { href: "/books", label: "বই", icon: BookOpen },
   { href: "/teachers", label: "শিক্ষক", icon: Users },
 ];
 
@@ -146,8 +146,8 @@ export function NavbarClient({ user }: NavbarClientProps) {
                   </Button>
                 </Link>
                 <Button
-                  variant="ghost"
                   size="sm"
+                  variant="outline"
                   onClick={async () => {
                     await logout();
                     window.location.href = "/";
@@ -159,11 +159,8 @@ export function NavbarClient({ user }: NavbarClientProps) {
             ) : (
               <Link href="/login">
                 <Button
-                  variant="ghost"
                   size="sm"
-                  className={
-                    isActive("/login") ? "text-primary font-semibold" : ""
-                  }
+                  className={isActive("/login") ? "font-semibold" : ""}
                 >
                   লগইন
                 </Button>
@@ -255,7 +252,6 @@ export function NavbarClient({ user }: NavbarClientProps) {
                         </Button>
                       </Link>
                       <Button
-                        variant="secondary"
                         size="sm"
                         className="w-full justify-start mt-5"
                         onClick={async () => {
@@ -274,7 +270,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
                       className="block"
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      <Button variant="default" size="sm" className="w-full">
+                      <Button size="sm" className="w-full">
                         লগইন
                       </Button>
                     </Link>

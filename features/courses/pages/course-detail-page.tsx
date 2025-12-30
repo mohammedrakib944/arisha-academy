@@ -1,14 +1,17 @@
 import { getCourse } from "@/features/courses/actions/courses";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import { PurchaseForm } from "@/features/courses/components/purchase-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import PaymentProcess from "../components/payment-process";
+import { getCurrentUser } from "@/lib/auth";
 
 export async function CourseDetailPage({ id }: { id: string }) {
   const course = await getCourse(id);
+  const user = await getCurrentUser();
 
   if (!course) {
     notFound();
@@ -20,7 +23,7 @@ export async function CourseDetailPage({ id }: { id: string }) {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           <div className="col-span-3">
             {course.thumbnail && (
-              <div className="relative w-full h-96 mb-6 rounded-lg overflow-hidden">
+              <div className="relative w-full h-[200px] lg:h-[500px] mb-6 rounded-lg overflow-hidden">
                 <Image
                   src={course.thumbnail}
                   alt={course.title}
@@ -110,8 +113,26 @@ export async function CourseDetailPage({ id }: { id: string }) {
             )}
           </div>
           <div className="col-span-2">
-            <PaymentProcess />
-            <PurchaseForm courseId={course.id} />
+            {user ? (
+              <>
+                <PaymentProcess />
+                <PurchaseForm courseId={course.id} />
+              </>
+            ) : (
+              <Card>
+                <CardHeader>
+                  <CardTitle>কোর্স কিনতে লগইন করুন</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground mb-4">
+                    কোর্স কেনার জন্য আপনাকে লগইন করতে হবে
+                  </p>
+                  <Link href="/login">
+                    <Button className="w-full">লগইন করুন</Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
       </main>

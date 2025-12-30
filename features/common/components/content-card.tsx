@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ArrowUpRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface ContentCardProps {
   id: string;
@@ -38,11 +39,11 @@ export function ContentCard({
     <Link href={href}>
       <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full group flex flex-col justify-between">
         {thumbnail ? (
-          <div className={`relative w-full ${imageHeight}`}>
+          <div className="relative w-full aspect-square">
             <Image src={thumbnail} alt={title} fill className="object-cover" />
           </div>
         ) : (
-          <div className={`relative w-full ${imageHeight}`}>
+          <div className="relative w-full aspect-square">
             <Image
               src="/placeholder.png"
               alt={title}
@@ -72,6 +73,7 @@ export function ContentCard({
               <ArrowUpRight className="group-hover:scale-110 transition-transform" />
             )}
           </div>
+          <Button className="w-full mt-4">Enroll Now</Button>
         </CardContent>
       </Card>
     </Link>

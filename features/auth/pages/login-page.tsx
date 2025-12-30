@@ -125,7 +125,7 @@ export function LoginPage() {
               <Tabs defaultValue="login" className="w-full">
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="login">লগইন</TabsTrigger>
-                  <TabsTrigger value="signup">সাইন আপ</TabsTrigger>
+                  <TabsTrigger value="signup">নতুন অ্যাকাউন্ট করুন</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="signup">

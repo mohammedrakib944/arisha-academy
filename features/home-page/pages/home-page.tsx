@@ -1,12 +1,13 @@
 import { getCourses } from "@/features/courses/actions/courses";
-import { getBooks } from "@/features/books/actions/books";
+import { getTeachers } from "@/features/teachers/actions/teachers";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ContentCard } from "@/features/common/components/content-card";
+import { TeacherCard } from "@/features/common/components/teacher-card";
 
 export async function HomePage() {
   const courses = await getCourses();
-  const books = await getBooks();
+  const teachers = await getTeachers();
 
   return (
     <div className="min-h-screen">
@@ -46,22 +47,21 @@ export async function HomePage() {
 
         <section>
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-bold">বিশেষ বই</h2>
-            <Link href="/books">
+            <h2 className="text-3xl font-bold">বিশেষ শিক্ষক</h2>
+            <Link href="/teachers">
               <Button variant="ghost">সব দেখুন</Button>
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {books.slice(0, 6).map((book) => (
-              <ContentCard
-                key={book.id}
-                id={book.id}
-                href={`/books/${book.id}`}
-                thumbnail={book.thumbnail}
-                title={book.title}
-                price={book.price}
-                currency="$"
-                imageHeight="h-48"
+            {teachers.slice(0, 6).map((teacher) => (
+              <TeacherCard
+                key={teacher.id}
+                id={teacher.id}
+                href={`/teachers/${teacher.id}`}
+                image={teacher.image}
+                name={teacher.name}
+                bio={teacher.bio}
+                subjects={teacher.subjects}
               />
             ))}
           </div>
