@@ -12,13 +12,11 @@ export async function HomePage() {
   return (
     <div className="min-h-screen">
       <main className="max-w-6xl mx-auto px-4 pt-8 pb-24">
-        <div className="bg-gradient-to-bl from-blue-600 to-primary p-6 lg:min-h-80 bg-cover bg-top mb-12 text-center rounded-lg bg-blend-overlay flex flex-col items-center justify-center">
+        <div className="bg-linear-to-t from-white to-primary p-6 lg:min-h-80 bg-cover bg-top mb-12 text-center rounded-lg bg-blend-overlay flex flex-col items-center justify-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white ">
             আরিশা একাডেমিতে স্বাগতম
           </h1>
-          <p className="text-lg md:text-xl text-white/80">
-            আমাদের কোর্স এবং বই দেখুন
-          </p>
+          <p className="text-lg md:text-xl text-white">আমাদের কোর্স দেখুন</p>
         </div>
 
         <section className="mb-12">

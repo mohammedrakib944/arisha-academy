@@ -30,6 +30,7 @@ import {
   User,
 } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 
 type User = {
   id: string;
@@ -75,10 +76,10 @@ export function NavbarClient({ user }: NavbarClientProps) {
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center space-x-2 text-2xl font-bold transition-colors hover:text-primary"
+            className="flex items-center space-x-2 font-semibold transition-colors hover:text-primary"
           >
-            <GraduationCap className="h-6 w-6" />
-            <span>আরিশা একাডেমি</span>
+            <Image src="/Logo.png" width="80" height="80" alt="Logo" />
+            <span>(আরিশা একাডেমি)</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -179,8 +180,8 @@ export function NavbarClient({ user }: NavbarClientProps) {
             <SheetContent side="right" className="w-[300px] sm:w-[400px]">
               <SheetHeader>
                 <SheetTitle className="flex items-center gap-2">
-                  <GraduationCap className="h-5 w-5" />
-                  আরিশা একাডেমি
+                  <Image src="/Logo.png" width="80" height="80" alt="Logo" />
+                  (আরিশা একাডেমি)
                 </SheetTitle>
               </SheetHeader>
               <div className="flex flex-col pl-2">

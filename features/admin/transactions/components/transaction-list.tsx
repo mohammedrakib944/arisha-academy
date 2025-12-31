@@ -217,7 +217,9 @@ export function TransactionList() {
                                 variant="default"
                                 className="bg-green-600 hover:bg-green-700 min-w-[90px]"
                               >
-                                {loading === transaction.id ? "..." : "অনুমোদন করুন"}
+                                {loading === transaction.id
+                                  ? "..."
+                                  : "অনুমোদন করুন"}
                               </Button>
                               <Button
                                 onClick={() =>
@@ -228,7 +230,9 @@ export function TransactionList() {
                                 className="min-w-[70px]"
                                 variant="destructive"
                               >
-                                {loading === transaction.id ? "..." : "প্রত্যাখ্যান"}
+                                {loading === transaction.id
+                                  ? "..."
+                                  : "প্রত্যাখ্যান"}
                               </Button>
                             </div>
                           )}
