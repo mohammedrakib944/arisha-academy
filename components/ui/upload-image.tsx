@@ -8,16 +8,20 @@ interface UploadImageProps extends Omit<ComponentProps<typeof Image>, "src"> {
 
 /**
  * Image component specifically for uploaded images
- * Uses unoptimized mode to avoid Next.js image optimization issues with local uploads
+ * Uses unoptimized mode to avoid Next.js image optimization issues
+ * Supports both Supabase Storage URLs and local /uploads/ paths (for migration)
  */
 export function UploadImage({ src, alt, ...props }: UploadImageProps) {
   if (!src) {
     return null;
   }
 
-  // For uploaded images (starting with /uploads/), use unoptimized
-  // For other images, use normal optimization
-  const isUpload = src.startsWith("/uploads/");
+  // For uploaded images (Supabase URLs or local /uploads/ paths), use unoptimized
+  // Images are already optimized by Sharp before upload
+  const isUpload =
+    src.startsWith("/uploads/") ||
+    src.includes("supabase.co/storage") ||
+    src.includes("supabase.in/storage");
 
   return <Image src={src} alt={alt} unoptimized={isUpload} {...props} />;
 }

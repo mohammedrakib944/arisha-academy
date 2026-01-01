@@ -1,11 +1,31 @@
 import type { NextConfig } from "next";
 
+// Extract Supabase storage domain from the Supabase URL
+const getSupabaseStorageDomain = (): string | null => {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (!supabaseUrl) return null;
+
+  try {
+    const url = new URL(supabaseUrl);
+    return url.hostname;
+  } catch {
+    return null;
+  }
+};
+
+const supabaseDomain = getSupabaseStorageDomain();
+
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [],
-    // Disable Next.js image optimization in production
-    // Uploaded images are already optimized by Sharp, and this prevents
-    // "received null" errors when Next.js tries to optimize local uploads
+    remotePatterns: supabaseDomain
+      ? [
+          {
+            protocol: "https",
+            hostname: supabaseDomain,
+            pathname: "/storage/v1/object/public/**",
+          },
+        ]
+      : [],
     unoptimized: process.env.NODE_ENV === "production",
   },
   experimental: {
