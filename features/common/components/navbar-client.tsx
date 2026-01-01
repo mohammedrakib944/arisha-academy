@@ -78,8 +78,14 @@ export function NavbarClient({ user }: NavbarClientProps) {
             href="/"
             className="flex items-center space-x-2 font-semibold transition-colors hover:text-primary"
           >
-            <Image src="/Logo.png" width="80" height="80" alt="Logo" />
-            <span>(আরিশা একাডেমি)</span>
+            <Image
+              src="/arisha-academy.jpg"
+              width="100"
+              height="60"
+              className="w-[100px] h-[50px] rounded-md object-cover"
+              alt="Logo"
+            />
+            <span className="italic">আরিশা একাডেমি</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -179,9 +185,15 @@ export function NavbarClient({ user }: NavbarClientProps) {
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px]">
               <SheetHeader>
-                <SheetTitle className="flex items-center gap-2">
-                  <Image src="/Logo.png" width="80" height="80" alt="Logo" />
-                  (আরিশা একাডেমি)
+                <SheetTitle className="flex items-center gap-2 italic">
+                  <Image
+                    className="w-[100px] h-[50px] rounded-md object-cover"
+                    src="/arisha-academy.jpg"
+                    width="100"
+                    height="80"
+                    alt="Logo"
+                  />
+                  আরিশা একাডেমি
                 </SheetTitle>
               </SheetHeader>
               <div className="flex flex-col pl-2">

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ContentCard } from "@/features/common/components/content-card";
 import { TeacherCard } from "@/features/common/components/teacher-card";
+import Image from "next/image";
 
 export async function HomePage() {
   const courses = await getCourses();
@@ -12,7 +13,14 @@ export async function HomePage() {
   return (
     <div className="min-h-screen">
       <main className="max-w-6xl mx-auto px-4 pt-8 pb-24">
-        <div className="bg-linear-to-t from-white to-primary p-6 lg:min-h-80 bg-cover bg-top mb-12 text-center rounded-lg bg-blend-overlay flex flex-col items-center justify-center">
+        <div className="bg-linear-to-br from-white to-primary p-6 lg:min-h-80 bg-cover bg-top mb-12 text-center rounded-lg bg-blend-overlay flex flex-col items-center justify-center relative">
+          <Image
+            src="/Logo.png"
+            width="100"
+            height="100"
+            className="w-14 h-14 md:w-[100px] md:h-[100px] absolute bottom-4 md:top-4 md:bottom-auto left-4 rounded-md object-cover"
+            alt="Logo"
+          />
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white ">
             আরিশা একাডেমিতে স্বাগতম
           </h1>
