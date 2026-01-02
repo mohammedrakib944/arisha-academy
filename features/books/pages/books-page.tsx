@@ -2,7 +2,7 @@ import { getBooks } from "@/features/books/actions/books";
 import { ContentCard } from "@/features/common/components/content-card";
 
 export async function BooksPage() {
-  let books = [];
+  let books: Awaited<ReturnType<typeof getBooks>> = [];
 
   try {
     books = await getBooks();
