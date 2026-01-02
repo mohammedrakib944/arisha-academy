@@ -174,12 +174,18 @@ export async function getTeachers() {
 }
 
 export async function getTeacher(id: string) {
-  return prisma.teacher.findUnique({
-    where: { id },
-    include: {
-      courses: {
-        include: { course: true },
+  try {
+    return await prisma.teacher.findUnique({
+      where: { id },
+      include: {
+        courses: {
+          include: { course: true },
+        },
       },
-    },
-  });
+    });
+  } catch (error) {
+    console.error(`Error fetching teacher ${id}:`, error);
+    // Return null on error - page will handle with notFound()
+    return null;
+  }
 }

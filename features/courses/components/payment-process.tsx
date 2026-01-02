@@ -22,7 +22,7 @@ const PaymentProcess = () => {
       instructions: [
         "Send Money করুন",
         "নিচের নম্বরে টাকা পাঠান: 01759645872",
-        "লেনদেন আইডি সংরক্ষণ করুন",
+        "Transaction ID সংরক্ষণ করুন",
       ],
     },
     {
@@ -32,7 +32,7 @@ const PaymentProcess = () => {
       instructions: [
         "Send Money করুন",
         "নিচের নম্বরে টাকা পাঠান: 01819819316",
-        "লেনদেন আইডি সংরক্ষণ করুন",
+        "Transaction ID সংরক্ষণ করুন",
       ],
     },
     {
@@ -42,7 +42,7 @@ const PaymentProcess = () => {
       instructions: [
         "Send Money করুন",
         "নিচের নম্বরে টাকা পাঠান: 017596458726",
-        "লেনদেন আইডি সংরক্ষণ করুন",
+        "Transaction ID সংরক্ষণ করুন",
       ],
     },
   ];

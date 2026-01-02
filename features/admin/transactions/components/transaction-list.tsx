@@ -129,7 +129,7 @@ export function TransactionList() {
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="text"
-            placeholder="লেনদেন আইডি বা ফোন নম্বর দিয়ে খুঁজুন..."
+            placeholder="Transaction বা ফোন নম্বর দিয়ে খুঁজুন..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9 h-10 border-2 border-primary"
@@ -156,7 +156,7 @@ export function TransactionList() {
                   <thead className="bg-muted">
                     <tr>
                       <th className="px-4 py-3 text-left text-sm font-medium">
-                        লেনদেন আইডি
+                        Transaction
                       </th>
                       <th className="px-4 py-3 text-left text-sm font-medium">
                         ব্যবহারকারী

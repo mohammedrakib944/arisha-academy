@@ -27,11 +27,25 @@ function getYouTubeEmbedUrl(url: string): string {
 }
 
 export async function CourseDetailPage({ id }: { id: string }) {
-  const course = await getCourse(id);
-  const user = await getCurrentUser();
+  let course = null;
+  let user = null;
+
+  try {
+    course = await getCourse(id);
+  } catch (error) {
+    console.error(`Error fetching course ${id}:`, error);
+    notFound();
+  }
 
   if (!course) {
     notFound();
+  }
+
+  try {
+    user = await getCurrentUser();
+  } catch (error) {
+    console.error("Error fetching user in CourseDetailPage:", error);
+    // Continue without user - page will show login prompt
   }
 
   return (

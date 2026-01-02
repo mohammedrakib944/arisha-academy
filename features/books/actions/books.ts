@@ -162,13 +162,25 @@ export async function deleteBook(id: string) {
 }
 
 export async function getBooks() {
-  return prisma.book.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  try {
+    return await prisma.book.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (error) {
+    console.error("Error fetching books:", error);
+    // Return empty array on error to prevent app crash
+    return [];
+  }
 }
 
 export async function getBook(id: string) {
-  return prisma.book.findUnique({
-    where: { id },
-  });
+  try {
+    return await prisma.book.findUnique({
+      where: { id },
+    });
+  } catch (error) {
+    console.error(`Error fetching book ${id}:`, error);
+    // Return null on error - page will handle with notFound()
+    return null;
+  }
 }

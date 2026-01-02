@@ -2,7 +2,13 @@ import { getCourses } from "@/features/courses/actions/courses";
 import { ContentCard } from "@/features/common/components/content-card";
 
 export async function CoursesPage() {
-  const courses = await getCourses();
+  let courses: Awaited<ReturnType<typeof getCourses>> = [];
+
+  try {
+    courses = await getCourses();
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+  }
 
   return (
     <div className="min-h-screen">

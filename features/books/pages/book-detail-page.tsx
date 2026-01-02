@@ -4,10 +4,17 @@ import Image from 'next/image'
 import { BookPurchaseForm } from '@/features/books/components/purchase-form'
 
 export async function BookDetailPage({ id }: { id: string }) {
-  const book = await getBook(id)
+  let book = null;
+
+  try {
+    book = await getBook(id);
+  } catch (error) {
+    console.error(`Error fetching book ${id}:`, error);
+    notFound();
+  }
 
   if (!book) {
-    notFound()
+    notFound();
   }
 
   return (

@@ -2,7 +2,14 @@ import { getTeachers } from "@/features/teachers/actions/teachers";
 import { TeacherCard } from "@/features/common/components/teacher-card";
 
 export async function TeachersPage() {
-  const teachers = await getTeachers();
+  let teachers: Awaited<ReturnType<typeof getTeachers>> = [];
+
+  try {
+    teachers = await getTeachers();
+  } catch (error) {
+    console.error("Error fetching teachers:", error);
+    // Continue with empty array
+  }
 
   return (
     <div className="min-h-screen">

@@ -15,12 +15,19 @@ import {
 } from "@/components/ui/card";
 
 export async function AdminBooksPage() {
-  const user = await getCurrentUser();
-  if (!user || !(await isAdmin())) {
-    redirect("/");
-  }
+  try {
+    const user = await getCurrentUser();
+    if (!user || !(await isAdmin())) {
+      redirect("/");
+    }
 
-  const books = await getBooks();
+    let books = [];
+    try {
+      books = await getBooks();
+    } catch (error) {
+      console.error("Error fetching books in AdminBooksPage:", error);
+      // Continue with empty array
+    }
 
   return (
     <div className="min-h-screen">
@@ -93,4 +100,8 @@ export async function AdminBooksPage() {
       </main>
     </div>
   );
+  } catch (error) {
+    console.error("Error in AdminBooksPage:", error);
+    redirect("/");
+  }
 }

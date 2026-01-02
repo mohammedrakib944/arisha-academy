@@ -7,8 +7,22 @@ import { TeacherCard } from "@/features/common/components/teacher-card";
 import Image from "next/image";
 
 export async function HomePage() {
-  const courses = await getCourses();
-  const teachers = await getTeachers();
+  let courses: Awaited<ReturnType<typeof getCourses>> = [];
+  let teachers: Awaited<ReturnType<typeof getTeachers>> = [];
+
+  try {
+    courses = await getCourses();
+  } catch (error) {
+    console.error("Error fetching courses in HomePage:", error);
+    // Continue with empty array
+  }
+
+  try {
+    teachers = await getTeachers();
+  } catch (error) {
+    console.error("Error fetching teachers in HomePage:", error);
+    // Continue with empty array
+  }
 
   return (
     <div className="min-h-screen">
@@ -59,7 +73,7 @@ export async function HomePage() {
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {teachers.slice(0, 6).map((teacher) => (
+            {teachers?.slice(0, 12)?.map((teacher) => (
               <TeacherCard
                 key={teacher.id}
                 id={teacher.id}

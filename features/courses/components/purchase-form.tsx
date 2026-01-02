@@ -91,11 +91,11 @@ export function PurchaseForm({ courseId }: { courseId: string }) {
               name="transactionId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>লেনদেন আইডি</FormLabel>
+                  <FormLabel>Transaction</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="আপনার পেমেন্ট লেনদেন আইডি লিখুন"
+                      placeholder="আপনার পেমেন্ট Transaction লিখুন"
                     />
                   </FormControl>
                   <FormMessage />

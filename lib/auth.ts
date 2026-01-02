@@ -4,19 +4,33 @@ import { prisma } from "./prisma";
 import { cookies } from "next/headers";
 
 export async function getCurrentUser() {
-  const cookieStore = await cookies();
-  const userId = cookieStore.get("userId")?.value;
+  try {
+    const cookieStore = await cookies();
+    const userId = cookieStore.get("userId")?.value;
 
-  if (!userId) return null;
+    if (!userId) return null;
 
-  return prisma.user.findUnique({
-    where: { id: userId },
-  });
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    return user;
+  } catch (error) {
+    console.error("Error fetching current user:", error);
+    // Return null on error to prevent app crash
+    return null;
+  }
 }
 
 export async function isAdmin() {
-  const user = await getCurrentUser();
-  return user?.role === "ADMIN";
+  try {
+    const user = await getCurrentUser();
+    return user?.role === "ADMIN";
+  } catch (error) {
+    console.error("Error checking admin status:", error);
+    // Return false on error to prevent unauthorized access
+    return false;
+  }
 }
 
 export async function setUserSession(userId: string) {

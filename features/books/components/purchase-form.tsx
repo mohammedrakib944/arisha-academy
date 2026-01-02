@@ -69,13 +69,13 @@ export function BookPurchaseForm({ bookId }: { bookId: string }) {
             {error && <p className="text-sm text-destructive">{error}</p>}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="transactionId">লেনদেন আইডি</Label>
+            <Label htmlFor="transactionId">Transaction</Label>
             <Input
               type="text"
               id="transactionId"
               name="transactionId"
               required
-              placeholder="আপনার পেমেন্ট লেনদেন আইডি লিখুন"
+              placeholder="আপনার পেমেন্ট Transaction লিখুন"
             />
           </div>
           <Button type="submit" className="w-full" disabled={loading}>

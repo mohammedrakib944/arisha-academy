@@ -268,29 +268,41 @@ export async function deleteCourse(id: string) {
 }
 
 export async function getCourses() {
-  return prisma.course.findMany({
-    include: {
-      teachers: {
-        include: { teacher: true },
+  try {
+    return await prisma.course.findMany({
+      include: {
+        teachers: {
+          include: { teacher: true },
+        },
+        subjects: {
+          include: { lessons: true },
+        },
       },
-      subjects: {
-        include: { lessons: true },
-      },
-    },
-    orderBy: { createdAt: "desc" },
-  });
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+    // Return empty array on error to prevent app crash
+    return [];
+  }
 }
 
 export async function getCourse(id: string) {
-  return prisma.course.findUnique({
-    where: { id },
-    include: {
-      teachers: {
-        include: { teacher: true },
+  try {
+    return await prisma.course.findUnique({
+      where: { id },
+      include: {
+        teachers: {
+          include: { teacher: true },
+        },
+        subjects: {
+          include: { lessons: true },
+        },
       },
-      subjects: {
-        include: { lessons: true },
-      },
-    },
-  });
+    });
+  } catch (error) {
+    console.error(`Error fetching course ${id}:`, error);
+    // Return null on error - page will handle with notFound()
+    return null;
+  }
 }

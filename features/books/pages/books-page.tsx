@@ -2,7 +2,14 @@ import { getBooks } from "@/features/books/actions/books";
 import { ContentCard } from "@/features/common/components/content-card";
 
 export async function BooksPage() {
-  const books = await getBooks();
+  let books = [];
+
+  try {
+    books = await getBooks();
+  } catch (error) {
+    console.error("Error fetching books:", error);
+    // Continue with empty array
+  }
 
   return (
     <div className="min-h-screen">

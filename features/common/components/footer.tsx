@@ -40,8 +40,7 @@ export function Footer() {
               <span>আরিশা একাডেমি</span>
             </Link>
             <p className="text-sm text-muted-foreground">
-              ৩ থেকে ১৮ বছর বয়সী শিশুদের জন্য একটি স্কুল। মানসম্মত শিক্ষার
-              মাধ্যমে তরুণ মনের ক্ষমতায়ন এবং তাদের সম্ভাবনার বিকাশ।
+              HSC এবং এডমিশন কোর্স
             </p>
             <div className="flex space-x-4">
               <a
@@ -109,7 +108,7 @@ export function Footer() {
               <li className="flex items-start space-x-3">
                 <Phone className="h-5 w-5 text-muted-foreground mt-0.5" />
                 <span className="text-sm text-muted-foreground">
-                  +880 1234 567890
+                  01791238115, 01782846904, 01312767146
                 </span>
               </li>
               <li className="flex items-start space-x-3">
@@ -118,13 +117,13 @@ export function Footer() {
                   href="mailto:info@arishaacademy.com"
                   className="text-sm text-muted-foreground transition-colors hover:text-primary"
                 >
-                  info@arishaacademy.com
+                  tanvinmonowar@gmail.com
                 </a>
               </li>
               <li className="flex items-start space-x-3">
                 <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
                 <span className="text-sm text-muted-foreground">
-                  Dhaka, Bangladesh
+                  Malopara Police Station, Rajshahi, Bangladesh
                 </span>
               </li>
             </ul>

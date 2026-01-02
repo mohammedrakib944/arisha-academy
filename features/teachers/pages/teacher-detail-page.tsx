@@ -5,10 +5,17 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
 export async function TeacherDetailPage({ id }: { id: string }) {
-  const teacher = await getTeacher(id)
+  let teacher = null;
+
+  try {
+    teacher = await getTeacher(id);
+  } catch (error) {
+    console.error(`Error fetching teacher ${id}:`, error);
+    notFound();
+  }
 
   if (!teacher) {
-    notFound()
+    notFound();
   }
 
   return (
