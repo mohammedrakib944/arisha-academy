@@ -13,7 +13,7 @@ export async function HomePage() {
   return (
     <div className="min-h-screen">
       <main className="max-w-6xl mx-auto px-4 pt-8 pb-24">
-        <div className="bg-linear-to-br from-white to-primary p-6 lg:min-h-80 bg-cover bg-top mb-12 text-center rounded-lg bg-blend-overlay flex flex-col items-center justify-center relative">
+        <div className="bg-linear-to-br from-primary/30 to-primary p-6 lg:min-h-80 bg-cover bg-top mb-12 text-center rounded-lg bg-blend-overlay flex flex-col items-center justify-center relative">
           <Image
             src="/Logo.png"
             width="100"
