@@ -4,6 +4,7 @@ import { Toaster } from "sonner";
 import { Navbar } from "@/features/common/components/navbar";
 import "./globals.css";
 import { Footer } from "@/features/common";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 export const metadata: Metadata = {
   title: "আরিশা একাডেমি",
@@ -25,6 +26,7 @@ export default function RootLayout({
         <Footer />
         <Toaster />
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || "G-RHG9PG5N24"} />
     </html>
   );
 }
