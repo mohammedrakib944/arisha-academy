@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createCourse, updateCourse } from "@/features/courses/actions/courses";
@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Plus, X } from "lucide-react";
+import { Plus, X, Pencil, Check, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 
 type Teacher = {
@@ -92,6 +92,20 @@ export function CourseForm({
   const watchedSubjects = watch("subjects");
   const watchedTeacherIds = watch("teacherIds");
 
+  // State to track which lessons are in edit mode
+  // Key format: `${subjectIndex}-${lessonIndex}`
+  const [editingLessons, setEditingLessons] = useState<Record<string, boolean>>(
+    {}
+  );
+
+  const toggleLessonEdit = (subjectIndex: number, lessonIndex: number) => {
+    const key = `${subjectIndex}-${lessonIndex}`;
+    setEditingLessons((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -163,6 +177,8 @@ export function CourseForm({
         ? await updateCourse(course.id, transformedData)
         : await createCourse(transformedData);
 
+      console.log("submitted data: ", transformedData, "result: ", result);
+
       if (result.success) {
         toast.success(
           course ? "কোর্স সফলভাবেহয়েছে!" : "কোর্স সফলভাবে তৈরি হয়েছে!"
@@ -214,6 +230,13 @@ export function CourseForm({
     }
     updated[subjectIndex].lessons.push({ title: "", description: "" });
     setValue("subjects", updated, { shouldValidate: true });
+
+    // Set the new lesson to edit mode automatically
+    const newLessonIndex = updated[subjectIndex].lessons.length - 1;
+    setEditingLessons((prev) => ({
+      ...prev,
+      [`${subjectIndex}-${newLessonIndex}`]: true,
+    }));
   }
 
   function removeLesson(subjectIndex: number, lessonIndex: number) {
@@ -338,11 +361,10 @@ export function CourseForm({
                     <button
                       type="button"
                       onClick={() => editor.chain().focus().toggleBold().run()}
-                      className={`px-3 py-1 rounded text-sm ${
-                        editor.isActive("bold")
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-background hover:bg-secondary"
-                      }`}
+                      className={`px-3 py-1 rounded text-sm ${editor.isActive("bold")
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-background hover:bg-secondary"
+                        }`}
                     >
                       <strong>B</strong>
                     </button>
@@ -351,11 +373,10 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleItalic().run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${
-                        editor.isActive("italic")
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-background hover:bg-secondary"
-                      }`}
+                      className={`px-3 py-1 rounded text-sm ${editor.isActive("italic")
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-background hover:bg-secondary"
+                        }`}
                     >
                       <em>I</em>
                     </button>
@@ -364,11 +385,10 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleStrike().run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${
-                        editor.isActive("strike")
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-background hover:bg-secondary"
-                      }`}
+                      className={`px-3 py-1 rounded text-sm ${editor.isActive("strike")
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-background hover:bg-secondary"
+                        }`}
                     >
                       <s>S</s>
                     </button>
@@ -378,11 +398,10 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleHeading({ level: 1 }).run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${
-                        editor.isActive("heading", { level: 1 })
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-background hover:bg-secondary"
-                      }`}
+                      className={`px-3 py-1 rounded text-sm ${editor.isActive("heading", { level: 1 })
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-background hover:bg-secondary"
+                        }`}
                     >
                       H1
                     </button>
@@ -391,11 +410,10 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleHeading({ level: 2 }).run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${
-                        editor.isActive("heading", { level: 2 })
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-background hover:bg-secondary"
-                      }`}
+                      className={`px-3 py-1 rounded text-sm ${editor.isActive("heading", { level: 2 })
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-background hover:bg-secondary"
+                        }`}
                     >
                       H2
                     </button>
@@ -404,11 +422,10 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleHeading({ level: 3 }).run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${
-                        editor.isActive("heading", { level: 3 })
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-background hover:bg-secondary"
-                      }`}
+                      className={`px-3 py-1 rounded text-sm ${editor.isActive("heading", { level: 3 })
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-background hover:bg-secondary"
+                        }`}
                     >
                       H3
                     </button>
@@ -418,11 +435,10 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleBulletList().run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${
-                        editor.isActive("bulletList")
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-background hover:bg-secondary"
-                      }`}
+                      className={`px-3 py-1 rounded text-sm ${editor.isActive("bulletList")
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-background hover:bg-secondary"
+                        }`}
                     >
                       •
                     </button>
@@ -431,11 +447,10 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleOrderedList().run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${
-                        editor.isActive("orderedList")
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-background hover:bg-secondary"
-                      }`}
+                      className={`px-3 py-1 rounded text-sm ${editor.isActive("orderedList")
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-background hover:bg-secondary"
+                        }`}
                     >
                       1.
                     </button>
@@ -445,11 +460,10 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleBlockquote().run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${
-                        editor.isActive("blockquote")
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-background hover:bg-secondary"
-                      }`}
+                      className={`px-3 py-1 rounded text-sm ${editor.isActive("blockquote")
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-background hover:bg-secondary"
+                        }`}
                     >
                       "
                     </button>
@@ -495,11 +509,10 @@ export function CourseForm({
 
       <div>
         <label htmlFor="courseOutlineUrl" className="block mb-2 font-medium">
-          ফেসবুক গ্রুপ লিংক
+          ফেসবুক গ্রুপ লিংক (Optional)
         </label>
         <Input
           type="url"
-          required
           id="courseOutlineUrl"
           {...register("courseOutlineUrl")}
         />
@@ -620,46 +633,106 @@ export function CourseForm({
                 </Button>
               </div>
               <div className="space-y-2">
-                {(subject.lessons || []).map((lesson, lessonIndex) => (
-                  <div key={lessonIndex} className="flex gap-2">
-                    <Input
-                      type="text"
-                      placeholder="পাঠের শিরোনাম"
-                      value={lesson.title}
-                      onChange={(e) =>
-                        updateLesson(
-                          subjectIndex,
-                          lessonIndex,
-                          "title",
-                          e.target.value
-                        )
-                      }
-                      className="flex-1"
-                    />
-                    <Input
-                      type="text"
-                      placeholder="বিবরণ (ঐচ্ছিক)"
-                      value={lesson.description}
-                      onChange={(e) =>
-                        updateLesson(
-                          subjectIndex,
-                          lessonIndex,
-                          "description",
-                          e.target.value
-                        )
-                      }
-                      className="flex-1"
-                    />
-                    <Button
-                      type="button"
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => removeLesson(subjectIndex, lessonIndex)}
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </div>
-                ))}
+                {(subject.lessons || []).map((lesson, lessonIndex) => {
+                  const isEditing =
+                    editingLessons[`${subjectIndex}-${lessonIndex}`];
+
+                  return (
+                    <div key={lessonIndex} className="flex gap-2 items-start">
+                      {isEditing ? (
+                        <>
+                          <div className="flex-1 space-y-2">
+                            <Input
+                              type="text"
+                              placeholder="পাঠের শিরোনাম"
+                              value={lesson.title}
+                              onChange={(e) =>
+                                updateLesson(
+                                  subjectIndex,
+                                  lessonIndex,
+                                  "title",
+                                  e.target.value
+                                )
+                              }
+                            />
+                            <Input
+                              type="text"
+                              placeholder="কোর্স লিঙ্ক (Optional)"
+                              value={lesson.description || ""}
+                              onChange={(e) =>
+                                updateLesson(
+                                  subjectIndex,
+                                  lessonIndex,
+                                  "description",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </div>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            onClick={() =>
+                              toggleLessonEdit(subjectIndex, lessonIndex)
+                            }
+                            title="Done"
+                          >
+                            <Check className="h-4 w-4" />
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <div className="flex-1 p-2 border rounded-md bg-muted/20 flex justify-between items-center">
+                            <div>
+                              {lesson.description ? (
+                                <a
+                                  href={lesson.description}
+                                  target="_blank" // Opens in new tab
+                                  rel="noopener noreferrer"
+                                  className="font-medium text-primary hover:underline flex items-center gap-1"
+                                >
+                                  {lesson.title || "Untitled Lesson"}
+                                  <ExternalLink className="h-3 w-3" />
+                                </a>
+                              ) : (
+                                <span className="font-medium">
+                                  {lesson.title || "Untitled Lesson"}
+                                </span>
+                              )}
+                              {lesson.description && (
+                                <p className="text-xs text-muted-foreground mt-1 truncate max-w-[300px]">
+                                  {lesson.description}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            onClick={() =>
+                              toggleLessonEdit(subjectIndex, lessonIndex)
+                            }
+                            title="Edit"
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                        </>
+                      )}
+                      {/* Delete is always available, or maybe only in Edit mode? User didn't specify. Keeping it always available for ease. */}
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="icon"
+                        onClick={() => removeLesson(subjectIndex, lessonIndex)}
+                        title="Remove Lesson"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  );
+                })}
                 <Button
                   type="button"
                   variant="secondary"
@@ -685,8 +758,8 @@ export function CourseForm({
           {isSubmitting
             ? "সংরক্ষণ করা হচ্ছে..."
             : course
-            ? "সেভ করুন"
-            : "কোর্স তৈরি করুন"}
+              ? "সেভ করুন"
+              : "কোর্স তৈরি করুন"}
         </Button>
         <Button type="button" variant="secondary" onClick={() => router.back()}>
           বাতিল

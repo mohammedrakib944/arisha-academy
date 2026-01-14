@@ -306,3 +306,21 @@ export async function getCourse(id: string) {
     return null;
   }
 }
+
+export async function checkCourseAccess(courseId: string, userId: string) {
+  try {
+    const enrollment = await prisma.enrollment.findUnique({
+      where: {
+        userId_courseId: {
+          userId,
+          courseId,
+        },
+      },
+    });
+
+    return enrollment?.status === "APPROVED";
+  } catch (error) {
+    console.error("Error checking course access:", error);
+    return false;
+  }
+}

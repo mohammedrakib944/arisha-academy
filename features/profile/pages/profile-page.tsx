@@ -119,7 +119,12 @@ export async function ProfilePage() {
           </div>
 
           <div className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">নিবন্ধিত কোর্স</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-semibold">নিবন্ধিত কোর্স</h2>
+              <Link href="/my-courses">
+                <Button variant="outline">সব কোর্স দেখুন</Button>
+              </Link>
+            </div>
             {validEnrollments.length === 0 ? (
               <p className="text-muted-foreground">
                 এখনও কোন নিবন্ধিত কোর্স নেই।
@@ -148,7 +153,7 @@ export async function ProfilePage() {
                     </CardHeader>
                     <CardContent className="p-3 relative">
                       {enrollment.status === "PENDING" ||
-                      enrollment.status === "REJECTED" ? (
+                        enrollment.status === "REJECTED" ? (
                         <div className="flex items-center justify-center">
                           <Badge
                             variant={getStatusVariant(enrollment.status)}
@@ -157,8 +162,8 @@ export async function ProfilePage() {
                               enrollment.status === "PENDING"
                                 ? "bg-blue-100 text-blue-500"
                                 : enrollment.status === "REJECTED"
-                                ? "bg-red-100 text-red-500"
-                                : ""
+                                  ? "bg-red-100 text-red-500"
+                                  : ""
                             )}
                           >
                             {enrollment.status === "PENDING"
@@ -167,17 +172,25 @@ export async function ProfilePage() {
                           </Badge>
                         </div>
                       ) : (
-                        <Link
-                          href={enrollment.course.courseOutlineUrl || "#"}
-                          target="_blank"
-                        >
-                          <Button
-                            className="w-full"
-                            disabled={!enrollment.course.courseOutlineUrl}
+                        <div className="flex flex-col gap-2">
+                          <Link
+                            href={enrollment.course.courseOutlineUrl || "#"}
+                            target="_blank"
                           >
-                            গ্রুপে যোগ দিন <ArrowRight />
-                          </Button>
-                        </Link>
+                            <Button
+                              className="w-full"
+                              variant="secondary"
+                              disabled={!enrollment.course.courseOutlineUrl}
+                            >
+                              গ্রুপে যোগ দিন <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
+                          </Link>
+                          <Link href="/my-courses">
+                            <Button className="w-full">
+                              কোর্স দেখুন <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
+                          </Link>
+                        </div>
                       )}
                     </CardContent>
                   </Card>
