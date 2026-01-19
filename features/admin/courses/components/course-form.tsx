@@ -32,6 +32,7 @@ type Subject = {
     id: string;
     title: string;
     description: string | null;
+    pdfUrl: string | null;
   }>;
 };
 
@@ -83,6 +84,7 @@ export function CourseForm({
           lessons: s.lessons.map((l) => ({
             title: l.title,
             description: l.description || "",
+            pdfUrl: l.pdfUrl || "",
           })),
         })) || [],
       youtubeUrl: course?.routineImage || "",
@@ -164,7 +166,13 @@ export function CourseForm({
         teacherIds: data.teacherIds || [],
         subjects: (data.subjects || []).map((subject) => ({
           name: subject.name,
-          lessons: Array.isArray(subject.lessons) ? subject.lessons : [],
+          lessons: (Array.isArray(subject.lessons) ? subject.lessons : []).map(
+            (lesson) => ({
+              title: lesson.title,
+              description: lesson.description || "",
+              pdfUrl: lesson.pdfUrl || "",
+            })
+          ),
         })),
         thumbnail:
           data.thumbnail && data.thumbnail.length > 0
@@ -214,10 +222,16 @@ export function CourseForm({
     const currentSubjects = watch("subjects") || [];
     const updated: Array<{
       name: string;
-      lessons: Array<{ title: string; description?: string }>;
+      lessons: Array<{ title: string; description: string; pdfUrl: string }>;
     }> = currentSubjects.map((subject, i) => ({
       name: i === index ? name : subject.name,
-      lessons: Array.isArray(subject.lessons) ? subject.lessons : [],
+      lessons: (Array.isArray(subject.lessons) ? subject.lessons : []).map(
+        (lesson) => ({
+          title: lesson.title,
+          description: lesson.description || "",
+          pdfUrl: lesson.pdfUrl || "",
+        })
+      ),
     }));
     setValue("subjects", updated, { shouldValidate: true });
   }
@@ -228,7 +242,7 @@ export function CourseForm({
     if (!updated[subjectIndex].lessons) {
       updated[subjectIndex].lessons = [];
     }
-    updated[subjectIndex].lessons.push({ title: "", description: "" });
+    updated[subjectIndex].lessons.push({ title: "", description: "", pdfUrl: "" });
     setValue("subjects", updated, { shouldValidate: true });
 
     // Set the new lesson to edit mode automatically
@@ -253,7 +267,7 @@ export function CourseForm({
   function updateLesson(
     subjectIndex: number,
     lessonIndex: number,
-    field: "title" | "description",
+    field: "title" | "description" | "pdfUrl",
     value: string
   ) {
     const currentSubjects = watch("subjects") || [];
@@ -668,6 +682,33 @@ export function CourseForm({
                                 )
                               }
                             />
+                            <div className="relative">
+                              <Input
+                                type="text"
+                                placeholder="পিডিএফ/স্লাইড (Optional)"
+                                value={lesson.pdfUrl || ""}
+                                onChange={(e) =>
+                                  updateLesson(
+                                    subjectIndex,
+                                    lessonIndex,
+                                    "pdfUrl",
+                                    e.target.value
+                                  )
+                                }
+                                className="pr-10"
+                              />
+                              {lesson.pdfUrl && (
+                                <a
+                                  href={lesson.pdfUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary"
+                                  title="পিডিএফ প্রিভিউ"
+                                >
+                                  <ExternalLink className="h-4 w-4" />
+                                </a>
+                              )}
+                            </div>
                           </div>
                           <Button
                             type="button"

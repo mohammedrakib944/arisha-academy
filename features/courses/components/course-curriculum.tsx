@@ -1,13 +1,22 @@
 'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
+import { ExternalLink, ChevronDown, ChevronUp, Play, FileText, Eye } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+} from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
 type Lesson = {
     id: string;
     title: string;
     description: string | null;
+    pdfUrl: string | null;
 };
 
 type Subject = {
@@ -26,6 +35,7 @@ export function CourseCurriculum({ subjects, hasAccess }: CourseCurriculumProps)
     const [openSubjectIds, setOpenSubjectIds] = useState<string[]>(
         subjects.length > 0 ? [subjects[0].id] : []
     );
+    const [previewLesson, setPreviewLesson] = useState<Lesson | null>(null);
 
     if (!subjects || subjects.length === 0) {
         return null;
@@ -73,25 +83,77 @@ export function CourseCurriculum({ subjects, hasAccess }: CourseCurriculumProps)
                         </CardHeader>
                         {showLessons && isOpen && (
                             <CardContent className="pt-6">
-                                <ul className="list-disc list-inside space-y-1">
+                                <div className="space-y-3">
                                     {subject.lessons.map((lesson) => (
-                                        <li key={lesson.id} className="text-sm">
-                                            {hasAccess && lesson.description ? (
-                                                <a
-                                                    href={lesson.description}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="hover:underline inline-flex items-center gap-1 text-primary"
-                                                >
-                                                    {lesson.title}
-                                                    <ExternalLink className="h-3 w-3" />
-                                                </a>
-                                            ) : (
-                                                <span>{lesson.title}</span>
-                                            )}
-                                        </li>
+                                        <div
+                                            key={lesson.id}
+                                            className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-lg border bg-muted/30 hover:bg-muted/50 transition-colors"
+                                        >
+                                            <div className="flex items-start gap-3">
+                                                <div className="mt-1">
+                                                    {lesson.description ? (
+                                                        <Play className="h-4 w-4 text-primary fill-primary/10" />
+                                                    ) : lesson.pdfUrl ? (
+                                                        <FileText className="h-4 w-4 text-primary" />
+                                                    ) : (
+                                                        <div className="h-4 w-4 rounded-full border-2 border-muted-foreground/30" />
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    <p className="text-sm font-medium leading-none">
+                                                        {lesson.title}
+                                                    </p>
+                                                    {lesson.description && (
+                                                        <p className="text-xs text-muted-foreground mt-1">
+                                                            Video Lesson
+                                                        </p>
+                                                    )}
+                                                    {lesson.pdfUrl && (
+                                                        <p className="text-xs text-muted-foreground mt-1">
+                                                            PDF / Slide Material
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            <div className="flex items-center gap-2">
+                                                {hasAccess && lesson.description && (
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        asChild
+                                                        className="h-8 gap-1"
+                                                    >
+                                                        <a
+                                                            href={lesson.description}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                        >
+                                                            <Play className="h-3 w-3 fill-current" />
+                                                            <span>দেখুন</span>
+                                                        </a>
+                                                    </Button>
+                                                )}
+                                                {hasAccess && lesson.pdfUrl && (
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() => setPreviewLesson(lesson)}
+                                                        className="h-8 gap-1"
+                                                    >
+                                                        <Eye className="h-3 w-3" />
+                                                        <span>প্রিভিউ</span>
+                                                    </Button>
+                                                )}
+                                                {!hasAccess && !isPreview && (
+                                                    <span className="text-xs text-muted-foreground italic px-2">
+                                                        Locked
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
                                     ))}
-                                </ul>
+                                </div>
                             </CardContent>
                         )}
                         {/* Show message for locked content if expanded */}
@@ -105,6 +167,35 @@ export function CourseCurriculum({ subjects, hasAccess }: CourseCurriculumProps)
                     </Card>
                 );
             })}
+
+            {/* PDF Preview Sheet */}
+            <Sheet open={!!previewLesson} onOpenChange={(open) => !open && setPreviewLesson(null)}>
+                <SheetContent side="right" className="w-[95%] sm:max-w-[80%] p-0 flex flex-col">
+                    <SheetHeader className="p-4 border-b">
+                        <SheetTitle className="flex items-center gap-2">
+                            <FileText className="h-5 w-5 text-primary" />
+                            {previewLesson?.title}
+                        </SheetTitle>
+                        <SheetDescription>
+                            পিডিএফ/স্লাইড মেটেরিয়াল
+                        </SheetDescription>
+                    </SheetHeader>
+                    <div className="flex-1 w-full bg-muted overflow-hidden relative">
+                        {previewLesson?.pdfUrl ? (
+                            <iframe
+                                src={previewLesson.pdfUrl}
+                                title={previewLesson.title}
+                                className="w-full h-full border-none"
+                                allow="autoplay"
+                            />
+                        ) : (
+                            <div className="flex items-center justify-center h-full">
+                                <p className="text-muted-foreground">লোড করা যাচ্ছে না...</p>
+                            </div>
+                        )}
+                    </div>
+                </SheetContent>
+            </Sheet>
         </div>
     );
 }

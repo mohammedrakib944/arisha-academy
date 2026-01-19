@@ -64,6 +64,7 @@ export async function createCourse(data: CourseFormData) {
               create: subject.lessons.map((lesson) => ({
                 title: lesson.title,
                 description: lesson.description,
+                pdfUrl: lesson.pdfUrl,
               })),
             },
           })),
@@ -188,6 +189,7 @@ export async function updateCourse(id: string, data: CourseFormData) {
               create: subject.lessons.map((lesson) => ({
                 title: lesson.title,
                 description: lesson.description,
+                pdfUrl: lesson.pdfUrl,
               })),
             },
           })),
