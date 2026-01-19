@@ -34,6 +34,7 @@ export type UserMinAggregateOutputType = {
   role: $Enums.UserRole | null
   createdAt: Date | null
   updatedAt: Date | null
+  isVerified: boolean | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -46,6 +47,7 @@ export type UserMaxAggregateOutputType = {
   role: $Enums.UserRole | null
   createdAt: Date | null
   updatedAt: Date | null
+  isVerified: boolean | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -58,6 +60,7 @@ export type UserCountAggregateOutputType = {
   role: number
   createdAt: number
   updatedAt: number
+  isVerified: number
   _all: number
 }
 
@@ -72,6 +75,7 @@ export type UserMinAggregateInputType = {
   role?: true
   createdAt?: true
   updatedAt?: true
+  isVerified?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -84,6 +88,7 @@ export type UserMaxAggregateInputType = {
   role?: true
   createdAt?: true
   updatedAt?: true
+  isVerified?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -96,6 +101,7 @@ export type UserCountAggregateInputType = {
   role?: true
   createdAt?: true
   updatedAt?: true
+  isVerified?: true
   _all?: true
 }
 
@@ -181,6 +187,7 @@ export type UserGroupByOutputType = {
   role: $Enums.UserRole
   createdAt: Date
   updatedAt: Date
+  isVerified: boolean
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
@@ -214,6 +221,7 @@ export type UserWhereInput = {
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  isVerified?: Prisma.BoolFilter<"User"> | boolean
   enrollments?: Prisma.EnrollmentListRelationFilter
   purchases?: Prisma.PurchaseListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
@@ -229,6 +237,7 @@ export type UserOrderByWithRelationInput = {
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
   enrollments?: Prisma.EnrollmentOrderByRelationAggregateInput
   purchases?: Prisma.PurchaseOrderByRelationAggregateInput
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
@@ -247,6 +256,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  isVerified?: Prisma.BoolFilter<"User"> | boolean
   enrollments?: Prisma.EnrollmentListRelationFilter
   purchases?: Prisma.PurchaseListRelationFilter
   transactions?: Prisma.TransactionListRelationFilter
@@ -262,6 +272,7 @@ export type UserOrderByWithAggregationInput = {
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
@@ -280,6 +291,7 @@ export type UserScalarWhereWithAggregatesInput = {
   role?: Prisma.EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  isVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
 }
 
 export type UserCreateInput = {
@@ -292,6 +304,7 @@ export type UserCreateInput = {
   role?: $Enums.UserRole
   createdAt?: Date | string
   updatedAt?: Date | string
+  isVerified?: boolean
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
   purchases?: Prisma.PurchaseCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
@@ -307,6 +320,7 @@ export type UserUncheckedCreateInput = {
   role?: $Enums.UserRole
   createdAt?: Date | string
   updatedAt?: Date | string
+  isVerified?: boolean
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
   purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
@@ -322,6 +336,7 @@ export type UserUpdateInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
   purchases?: Prisma.PurchaseUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
@@ -337,6 +352,7 @@ export type UserUncheckedUpdateInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
   purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -352,6 +368,7 @@ export type UserCreateManyInput = {
   role?: $Enums.UserRole
   createdAt?: Date | string
   updatedAt?: Date | string
+  isVerified?: boolean
 }
 
 export type UserUpdateManyMutationInput = {
@@ -364,6 +381,7 @@ export type UserUpdateManyMutationInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -376,6 +394,7 @@ export type UserUncheckedUpdateManyInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -388,6 +407,7 @@ export type UserCountOrderByAggregateInput = {
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -400,6 +420,7 @@ export type UserMaxOrderByAggregateInput = {
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -412,6 +433,7 @@ export type UserMinOrderByAggregateInput = {
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -434,6 +456,10 @@ export type EnumUserRoleFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type UserCreateNestedOneWithoutEnrollmentsInput = {
@@ -490,6 +516,7 @@ export type UserCreateWithoutEnrollmentsInput = {
   role?: $Enums.UserRole
   createdAt?: Date | string
   updatedAt?: Date | string
+  isVerified?: boolean
   purchases?: Prisma.PurchaseCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
 }
@@ -504,6 +531,7 @@ export type UserUncheckedCreateWithoutEnrollmentsInput = {
   role?: $Enums.UserRole
   createdAt?: Date | string
   updatedAt?: Date | string
+  isVerified?: boolean
   purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
 }
@@ -534,6 +562,7 @@ export type UserUpdateWithoutEnrollmentsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   purchases?: Prisma.PurchaseUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
 }
@@ -548,6 +577,7 @@ export type UserUncheckedUpdateWithoutEnrollmentsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -562,6 +592,7 @@ export type UserCreateWithoutPurchasesInput = {
   role?: $Enums.UserRole
   createdAt?: Date | string
   updatedAt?: Date | string
+  isVerified?: boolean
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
 }
@@ -576,6 +607,7 @@ export type UserUncheckedCreateWithoutPurchasesInput = {
   role?: $Enums.UserRole
   createdAt?: Date | string
   updatedAt?: Date | string
+  isVerified?: boolean
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
 }
@@ -606,6 +638,7 @@ export type UserUpdateWithoutPurchasesInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
 }
@@ -620,6 +653,7 @@ export type UserUncheckedUpdateWithoutPurchasesInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -634,6 +668,7 @@ export type UserCreateWithoutTransactionsInput = {
   role?: $Enums.UserRole
   createdAt?: Date | string
   updatedAt?: Date | string
+  isVerified?: boolean
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
   purchases?: Prisma.PurchaseCreateNestedManyWithoutUserInput
 }
@@ -648,6 +683,7 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   role?: $Enums.UserRole
   createdAt?: Date | string
   updatedAt?: Date | string
+  isVerified?: boolean
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
   purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutUserInput
 }
@@ -678,6 +714,7 @@ export type UserUpdateWithoutTransactionsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
   purchases?: Prisma.PurchaseUpdateManyWithoutUserNestedInput
 }
@@ -692,6 +729,7 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
   purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -755,6 +793,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   role?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  isVerified?: boolean
   enrollments?: boolean | Prisma.User$enrollmentsArgs<ExtArgs>
   purchases?: boolean | Prisma.User$purchasesArgs<ExtArgs>
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
@@ -771,6 +810,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   role?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  isVerified?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -783,6 +823,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   role?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  isVerified?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -795,9 +836,10 @@ export type UserSelectScalar = {
   role?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  isVerified?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "username" | "phoneNumber" | "password" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "username" | "phoneNumber" | "password" | "role" | "createdAt" | "updatedAt" | "isVerified", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   enrollments?: boolean | Prisma.User$enrollmentsArgs<ExtArgs>
   purchases?: boolean | Prisma.User$purchasesArgs<ExtArgs>
@@ -824,6 +866,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     role: $Enums.UserRole
     createdAt: Date
     updatedAt: Date
+    isVerified: boolean
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1259,6 +1302,7 @@ export interface UserFieldRefs {
   readonly role: Prisma.FieldRef<"User", 'UserRole'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly isVerified: Prisma.FieldRef<"User", 'Boolean'>
 }
     
 

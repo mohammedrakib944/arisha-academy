@@ -1,4 +1,4 @@
-import { getCourse } from "@/features/courses/actions/courses";
+import { getCourse, checkCourseAccess } from "@/features/courses/actions/courses";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import PaymentProcess from "../components/payment-process";
 import { getCurrentUser } from "@/lib/auth";
+import { ExternalLink } from "lucide-react";
+import { CourseCurriculum } from "@/features/courses/components/course-curriculum";
 
 function getYouTubeEmbedUrl(url: string): string {
   // Handle different YouTube URL formats
@@ -47,6 +49,8 @@ export async function CourseDetailPage({ id }: { id: string }) {
     console.error("Error fetching user in CourseDetailPage:", error);
     // Continue without user - page will show login prompt
   }
+
+  const hasAccess = user && course ? await checkCourseAccess(course.id, user.id) : false;
 
   return (
     <div className="min-h-screen">
@@ -122,26 +126,7 @@ export async function CourseDetailPage({ id }: { id: string }) {
             {course.subjects.length > 0 && (
               <div className="mb-6">
                 <h2 className="text-2xl font-bold mb-4">বিষয় ও পাঠ</h2>
-                <div className="space-y-4">
-                  {course.subjects.map((subject) => (
-                    <Card key={subject.id}>
-                      <CardHeader>
-                        <CardTitle className="text-lg">
-                          {subject.name}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <ul className="list-disc list-inside space-y-1">
-                          {subject.lessons.map((lesson) => (
-                            <li key={lesson.id} className="text-sm">
-                              {lesson.title}
-                            </li>
-                          ))}
-                        </ul>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+                <CourseCurriculum subjects={course.subjects} hasAccess={hasAccess} />
               </div>
             )}
             {course.overview && (

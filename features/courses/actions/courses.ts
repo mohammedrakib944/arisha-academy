@@ -64,6 +64,7 @@ export async function createCourse(data: CourseFormData) {
               create: subject.lessons.map((lesson) => ({
                 title: lesson.title,
                 description: lesson.description,
+                pdfUrl: lesson.pdfUrl,
               })),
             },
           })),
@@ -188,6 +189,7 @@ export async function updateCourse(id: string, data: CourseFormData) {
               create: subject.lessons.map((lesson) => ({
                 title: lesson.title,
                 description: lesson.description,
+                pdfUrl: lesson.pdfUrl,
               })),
             },
           })),
@@ -304,5 +306,23 @@ export async function getCourse(id: string) {
     console.error(`Error fetching course ${id}:`, error);
     // Return null on error - page will handle with notFound()
     return null;
+  }
+}
+
+export async function checkCourseAccess(courseId: string, userId: string) {
+  try {
+    const enrollment = await prisma.enrollment.findUnique({
+      where: {
+        userId_courseId: {
+          userId,
+          courseId,
+        },
+      },
+    });
+
+    return enrollment?.status === "APPROVED";
+  } catch (error) {
+    console.error("Error checking course access:", error);
+    return false;
   }
 }

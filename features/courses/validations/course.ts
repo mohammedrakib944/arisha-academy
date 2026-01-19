@@ -29,6 +29,7 @@ const fileListSchema = z
 export const lessonSchema = z.object({
   title: z.string().min(1, "Lesson title is required"),
   description: z.string().optional(),
+  pdfUrl: z.string().optional(),
 });
 
 export const subjectSchema = z
@@ -38,7 +39,11 @@ export const subjectSchema = z
   })
   .transform((data) => ({
     name: data.name,
-    lessons: data.lessons || [],
+    lessons: data.lessons.map(lesson => ({
+      title: lesson.title,
+      description: lesson.description || "",
+      pdfUrl: lesson.pdfUrl || "",
+    })),
   }));
 
 export const courseInputSchema = z.object({
