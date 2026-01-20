@@ -523,7 +523,7 @@ export function CourseForm({
 
       <div>
         <label htmlFor="courseOutlineUrl" className="block mb-2 font-medium">
-          ফেসবুক গ্রুপ লিংক (Optional)
+          ফেসবুক গ্রুপ লিংক *
         </label>
         <Input
           type="url"
