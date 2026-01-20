@@ -17,7 +17,6 @@ model User {
   role         UserRole      @default(USER)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
-  isVerified   Boolean       @default(false)
   enrollments  Enrollment[]
   purchases    Purchase[]
   transactions Transaction[]
@@ -87,7 +86,6 @@ model Lesson {
   subjectId   String
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
-  pdfUrl      String?
   subject     CourseSubject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
 
   @@map("lessons")
