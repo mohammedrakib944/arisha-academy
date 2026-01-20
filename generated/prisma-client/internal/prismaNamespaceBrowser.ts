@@ -88,8 +88,7 @@ export const UserScalarFieldEnum = {
   password: 'password',
   role: 'role',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  isVerified: 'isVerified'
+  updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -151,8 +150,7 @@ export const LessonScalarFieldEnum = {
   description: 'description',
   subjectId: 'subjectId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  pdfUrl: 'pdfUrl'
+  updatedAt: 'updatedAt'
 } as const
 
 export type LessonScalarFieldEnum = (typeof LessonScalarFieldEnum)[keyof typeof LessonScalarFieldEnum]

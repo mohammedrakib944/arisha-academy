@@ -32,7 +32,7 @@ type Subject = {
     id: string;
     title: string;
     description: string | null;
-    pdfUrl: string | null;
+    pdfUrl?: string | null;
   }>;
 };
 
@@ -97,7 +97,7 @@ export function CourseForm({
   // State to track which lessons are in edit mode
   // Key format: `${subjectIndex}-${lessonIndex}`
   const [editingLessons, setEditingLessons] = useState<Record<string, boolean>>(
-    {}
+    {},
   );
 
   const toggleLessonEdit = (subjectIndex: number, lessonIndex: number) => {
@@ -147,8 +147,8 @@ export function CourseForm({
         if (file.size > MAX_SIZE) {
           toast.error(
             `Thumbnail file size (${(file.size / (1024 * 1024)).toFixed(
-              2
-            )}MB) exceeds 3MB limit. Please compress the image and try again.`
+              2,
+            )}MB) exceeds 3MB limit. Please compress the image and try again.`,
           );
           return;
         }
@@ -171,7 +171,7 @@ export function CourseForm({
               title: lesson.title,
               description: lesson.description || "",
               pdfUrl: lesson.pdfUrl || "",
-            })
+            }),
           ),
         })),
         thumbnail:
@@ -189,7 +189,7 @@ export function CourseForm({
 
       if (result.success) {
         toast.success(
-          course ? "কোর্স সফলভাবেহয়েছে!" : "কোর্স সফলভাবে তৈরি হয়েছে!"
+          course ? "কোর্স সফলভাবেহয়েছে!" : "কোর্স সফলভাবে তৈরি হয়েছে!",
         );
         router.push("/admin/courses");
       } else {
@@ -197,7 +197,7 @@ export function CourseForm({
       }
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "An unexpected error occurred"
+        error instanceof Error ? error.message : "An unexpected error occurred",
       );
     }
   }
@@ -214,7 +214,7 @@ export function CourseForm({
     setValue(
       "subjects",
       currentSubjects.filter((_: unknown, i: number) => i !== index),
-      { shouldValidate: true }
+      { shouldValidate: true },
     );
   }
 
@@ -230,7 +230,7 @@ export function CourseForm({
           title: lesson.title,
           description: lesson.description || "",
           pdfUrl: lesson.pdfUrl || "",
-        })
+        }),
       ),
     }));
     setValue("subjects", updated, { shouldValidate: true });
@@ -242,7 +242,11 @@ export function CourseForm({
     if (!updated[subjectIndex].lessons) {
       updated[subjectIndex].lessons = [];
     }
-    updated[subjectIndex].lessons.push({ title: "", description: "", pdfUrl: "" });
+    updated[subjectIndex].lessons.push({
+      title: "",
+      description: "",
+      pdfUrl: "",
+    });
     setValue("subjects", updated, { shouldValidate: true });
 
     // Set the new lesson to edit mode automatically
@@ -258,7 +262,7 @@ export function CourseForm({
     const updated = [...currentSubjects];
     if (updated[subjectIndex].lessons) {
       updated[subjectIndex].lessons = updated[subjectIndex].lessons.filter(
-        (_: unknown, i: number) => i !== lessonIndex
+        (_: unknown, i: number) => i !== lessonIndex,
       );
     }
     setValue("subjects", updated, { shouldValidate: true });
@@ -268,7 +272,7 @@ export function CourseForm({
     subjectIndex: number,
     lessonIndex: number,
     field: "title" | "description" | "pdfUrl",
-    value: string
+    value: string,
   ) {
     const currentSubjects = watch("subjects") || [];
     const updated = [...currentSubjects];
@@ -375,10 +379,11 @@ export function CourseForm({
                     <button
                       type="button"
                       onClick={() => editor.chain().focus().toggleBold().run()}
-                      className={`px-3 py-1 rounded text-sm ${editor.isActive("bold")
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-background hover:bg-secondary"
-                        }`}
+                      className={`px-3 py-1 rounded text-sm ${
+                        editor.isActive("bold")
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-background hover:bg-secondary"
+                      }`}
                     >
                       <strong>B</strong>
                     </button>
@@ -387,10 +392,11 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleItalic().run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${editor.isActive("italic")
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-background hover:bg-secondary"
-                        }`}
+                      className={`px-3 py-1 rounded text-sm ${
+                        editor.isActive("italic")
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-background hover:bg-secondary"
+                      }`}
                     >
                       <em>I</em>
                     </button>
@@ -399,10 +405,11 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleStrike().run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${editor.isActive("strike")
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-background hover:bg-secondary"
-                        }`}
+                      className={`px-3 py-1 rounded text-sm ${
+                        editor.isActive("strike")
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-background hover:bg-secondary"
+                      }`}
                     >
                       <s>S</s>
                     </button>
@@ -412,10 +419,11 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleHeading({ level: 1 }).run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${editor.isActive("heading", { level: 1 })
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-background hover:bg-secondary"
-                        }`}
+                      className={`px-3 py-1 rounded text-sm ${
+                        editor.isActive("heading", { level: 1 })
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-background hover:bg-secondary"
+                      }`}
                     >
                       H1
                     </button>
@@ -424,10 +432,11 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleHeading({ level: 2 }).run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${editor.isActive("heading", { level: 2 })
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-background hover:bg-secondary"
-                        }`}
+                      className={`px-3 py-1 rounded text-sm ${
+                        editor.isActive("heading", { level: 2 })
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-background hover:bg-secondary"
+                      }`}
                     >
                       H2
                     </button>
@@ -436,10 +445,11 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleHeading({ level: 3 }).run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${editor.isActive("heading", { level: 3 })
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-background hover:bg-secondary"
-                        }`}
+                      className={`px-3 py-1 rounded text-sm ${
+                        editor.isActive("heading", { level: 3 })
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-background hover:bg-secondary"
+                      }`}
                     >
                       H3
                     </button>
@@ -449,10 +459,11 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleBulletList().run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${editor.isActive("bulletList")
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-background hover:bg-secondary"
-                        }`}
+                      className={`px-3 py-1 rounded text-sm ${
+                        editor.isActive("bulletList")
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-background hover:bg-secondary"
+                      }`}
                     >
                       •
                     </button>
@@ -461,10 +472,11 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleOrderedList().run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${editor.isActive("orderedList")
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-background hover:bg-secondary"
-                        }`}
+                      className={`px-3 py-1 rounded text-sm ${
+                        editor.isActive("orderedList")
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-background hover:bg-secondary"
+                      }`}
                     >
                       1.
                     </button>
@@ -474,10 +486,11 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleBlockquote().run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${editor.isActive("blockquote")
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-background hover:bg-secondary"
-                        }`}
+                      className={`px-3 py-1 rounded text-sm ${
+                        editor.isActive("blockquote")
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-background hover:bg-secondary"
+                      }`}
                     >
                       "
                     </button>
@@ -596,7 +609,7 @@ export function CourseForm({
                     setValue(
                       "teacherIds",
                       currentIds.filter((id) => id !== teacher.id),
-                      { shouldValidate: true }
+                      { shouldValidate: true },
                     );
                   }
                 }}
@@ -665,7 +678,7 @@ export function CourseForm({
                                   subjectIndex,
                                   lessonIndex,
                                   "title",
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                             />
@@ -678,7 +691,7 @@ export function CourseForm({
                                   subjectIndex,
                                   lessonIndex,
                                   "description",
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                             />
@@ -692,7 +705,7 @@ export function CourseForm({
                                     subjectIndex,
                                     lessonIndex,
                                     "pdfUrl",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className="pr-10"
