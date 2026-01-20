@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 import { geistSans, geistMono, hindSiliguri } from "@/assets/font/font";
 import { Toaster } from "sonner";
 import { Navbar } from "@/features/common/components/navbar";
