@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import type { Metadata } from "next";
 import { geistSans, geistMono, hindSiliguri } from "@/assets/font/font";
 import { Toaster } from "sonner";
