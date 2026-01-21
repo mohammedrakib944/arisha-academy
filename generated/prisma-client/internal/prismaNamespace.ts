@@ -1261,6 +1261,7 @@ export const LessonScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
+  pdfUrl: 'pdfUrl',
   subjectId: 'subjectId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

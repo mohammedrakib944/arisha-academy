@@ -28,6 +28,7 @@ export type LessonMinAggregateOutputType = {
   id: string | null
   title: string | null
   description: string | null
+  pdfUrl: string | null
   subjectId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -37,6 +38,7 @@ export type LessonMaxAggregateOutputType = {
   id: string | null
   title: string | null
   description: string | null
+  pdfUrl: string | null
   subjectId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -46,6 +48,7 @@ export type LessonCountAggregateOutputType = {
   id: number
   title: number
   description: number
+  pdfUrl: number
   subjectId: number
   createdAt: number
   updatedAt: number
@@ -57,6 +60,7 @@ export type LessonMinAggregateInputType = {
   id?: true
   title?: true
   description?: true
+  pdfUrl?: true
   subjectId?: true
   createdAt?: true
   updatedAt?: true
@@ -66,6 +70,7 @@ export type LessonMaxAggregateInputType = {
   id?: true
   title?: true
   description?: true
+  pdfUrl?: true
   subjectId?: true
   createdAt?: true
   updatedAt?: true
@@ -75,6 +80,7 @@ export type LessonCountAggregateInputType = {
   id?: true
   title?: true
   description?: true
+  pdfUrl?: true
   subjectId?: true
   createdAt?: true
   updatedAt?: true
@@ -157,6 +163,7 @@ export type LessonGroupByOutputType = {
   id: string
   title: string
   description: string | null
+  pdfUrl: string | null
   subjectId: string
   createdAt: Date
   updatedAt: Date
@@ -187,6 +194,7 @@ export type LessonWhereInput = {
   id?: Prisma.StringFilter<"Lesson"> | string
   title?: Prisma.StringFilter<"Lesson"> | string
   description?: Prisma.StringNullableFilter<"Lesson"> | string | null
+  pdfUrl?: Prisma.StringNullableFilter<"Lesson"> | string | null
   subjectId?: Prisma.StringFilter<"Lesson"> | string
   createdAt?: Prisma.DateTimeFilter<"Lesson"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lesson"> | Date | string
@@ -197,6 +205,7 @@ export type LessonOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -210,6 +219,7 @@ export type LessonWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.LessonWhereInput | Prisma.LessonWhereInput[]
   title?: Prisma.StringFilter<"Lesson"> | string
   description?: Prisma.StringNullableFilter<"Lesson"> | string | null
+  pdfUrl?: Prisma.StringNullableFilter<"Lesson"> | string | null
   subjectId?: Prisma.StringFilter<"Lesson"> | string
   createdAt?: Prisma.DateTimeFilter<"Lesson"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lesson"> | Date | string
@@ -220,6 +230,7 @@ export type LessonOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -235,6 +246,7 @@ export type LessonScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Lesson"> | string
   title?: Prisma.StringWithAggregatesFilter<"Lesson"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Lesson"> | string | null
+  pdfUrl?: Prisma.StringNullableWithAggregatesFilter<"Lesson"> | string | null
   subjectId?: Prisma.StringWithAggregatesFilter<"Lesson"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Lesson"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Lesson"> | Date | string
@@ -244,6 +256,7 @@ export type LessonCreateInput = {
   id?: string
   title: string
   description?: string | null
+  pdfUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   subject: Prisma.CourseSubjectCreateNestedOneWithoutLessonsInput
@@ -253,6 +266,7 @@ export type LessonUncheckedCreateInput = {
   id?: string
   title: string
   description?: string | null
+  pdfUrl?: string | null
   subjectId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -262,6 +276,7 @@ export type LessonUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject?: Prisma.CourseSubjectUpdateOneRequiredWithoutLessonsNestedInput
@@ -271,6 +286,7 @@ export type LessonUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -280,6 +296,7 @@ export type LessonCreateManyInput = {
   id?: string
   title: string
   description?: string | null
+  pdfUrl?: string | null
   subjectId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -289,6 +306,7 @@ export type LessonUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -297,6 +315,7 @@ export type LessonUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -316,6 +335,7 @@ export type LessonCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  pdfUrl?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -325,6 +345,7 @@ export type LessonMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  pdfUrl?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -334,6 +355,7 @@ export type LessonMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  pdfUrl?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -385,6 +407,7 @@ export type LessonCreateWithoutSubjectInput = {
   id?: string
   title: string
   description?: string | null
+  pdfUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -393,6 +416,7 @@ export type LessonUncheckedCreateWithoutSubjectInput = {
   id?: string
   title: string
   description?: string | null
+  pdfUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -430,6 +454,7 @@ export type LessonScalarWhereInput = {
   id?: Prisma.StringFilter<"Lesson"> | string
   title?: Prisma.StringFilter<"Lesson"> | string
   description?: Prisma.StringNullableFilter<"Lesson"> | string | null
+  pdfUrl?: Prisma.StringNullableFilter<"Lesson"> | string | null
   subjectId?: Prisma.StringFilter<"Lesson"> | string
   createdAt?: Prisma.DateTimeFilter<"Lesson"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lesson"> | Date | string
@@ -439,6 +464,7 @@ export type LessonCreateManySubjectInput = {
   id?: string
   title: string
   description?: string | null
+  pdfUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -447,6 +473,7 @@ export type LessonUpdateWithoutSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -455,6 +482,7 @@ export type LessonUncheckedUpdateWithoutSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -463,6 +491,7 @@ export type LessonUncheckedUpdateManyWithoutSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -473,6 +502,7 @@ export type LessonSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   id?: boolean
   title?: boolean
   description?: boolean
+  pdfUrl?: boolean
   subjectId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -483,6 +513,7 @@ export type LessonSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   id?: boolean
   title?: boolean
   description?: boolean
+  pdfUrl?: boolean
   subjectId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -493,6 +524,7 @@ export type LessonSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   id?: boolean
   title?: boolean
   description?: boolean
+  pdfUrl?: boolean
   subjectId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -503,12 +535,13 @@ export type LessonSelectScalar = {
   id?: boolean
   title?: boolean
   description?: boolean
+  pdfUrl?: boolean
   subjectId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type LessonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "subjectId" | "createdAt" | "updatedAt", ExtArgs["result"]["lesson"]>
+export type LessonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "pdfUrl" | "subjectId" | "createdAt" | "updatedAt", ExtArgs["result"]["lesson"]>
 export type LessonInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subject?: boolean | Prisma.CourseSubjectDefaultArgs<ExtArgs>
 }
@@ -528,6 +561,7 @@ export type $LessonPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     id: string
     title: string
     description: string | null
+    pdfUrl: string | null
     subjectId: string
     createdAt: Date
     updatedAt: Date
@@ -958,6 +992,7 @@ export interface LessonFieldRefs {
   readonly id: Prisma.FieldRef<"Lesson", 'String'>
   readonly title: Prisma.FieldRef<"Lesson", 'String'>
   readonly description: Prisma.FieldRef<"Lesson", 'String'>
+  readonly pdfUrl: Prisma.FieldRef<"Lesson", 'String'>
   readonly subjectId: Prisma.FieldRef<"Lesson", 'String'>
   readonly createdAt: Prisma.FieldRef<"Lesson", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Lesson", 'DateTime'>
