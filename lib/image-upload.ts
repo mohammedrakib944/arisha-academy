@@ -1,15 +1,17 @@
 import sharp from "sharp";
-import { supabase, STORAGE_BUCKET } from "@/lib/supabase";
+// import { supabase, STORAGE_BUCKET } from "@/lib/supabase";
+import { writeFile, mkdir, unlink } from "node:fs/promises";
+import path from "node:path";
 
 /**
- * Uploads and optimizes an image to Supabase Storage
+ * Uploads and optimizes an image to local server storage
  * @param file - The image file to upload
- * @param folder - The folder name in the storage bucket (e.g., "thumbnails", "teachers")
+ * @param folder - The folder name in the public/uploads directory
  * @returns The public URL of the uploaded image
  */
 export async function uploadAndOptimizeImage(
   file: File,
-  folder: string = "general"
+  folder: string = "general",
 ): Promise<string> {
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
@@ -28,44 +30,24 @@ export async function uploadAndOptimizeImage(
     .webp({ quality: 85 })
     .toBuffer();
 
-  // Upload to Supabase Storage
-  const filePath = `${folder}/${filename}`;
-  const { data, error } = await supabase.storage
-    .from(STORAGE_BUCKET)
-    .upload(filePath, optimizedBuffer, {
-      contentType: "image/webp",
-      upsert: false, // Don't overwrite existing files
-    });
+  // Ensure directory exists
+  const publicDir = path.join(process.cwd(), "public");
+  const uploadsDir = path.join(publicDir, "uploads");
+  const targetDir = path.join(uploadsDir, folder);
 
-  if (error) {
-    if (
-      error.message.includes("Bucket not found") ||
-      error.message.includes("not found")
-    ) {
-      throw new Error(
-        `Bucket "${STORAGE_BUCKET}" not found in Supabase Storage.\n\n` +
-          `To fix this:\n` +
-          `1. Go to your Supabase Dashboard: https://app.supabase.com\n` +
-          `2. Select your project\n` +
-          `3. Go to "Storage" in the left sidebar\n` +
-          `4. Click "New bucket"\n` +
-          `5. Name it: "${STORAGE_BUCKET}"\n` +
-          `6. ✅ Enable "Public bucket"\n` +
-          `7. Set allowed MIME types: image/jpeg, image/png, image/webp, image/gif\n` +
-          `8. Click "Create bucket"\n\n` +
-          `Or check your existing buckets by visiting: http://localhost:3000/api/check-bucket\n` +
-          `If you have a bucket with a different name, update SUPABASE_STORAGE_BUCKET in your .env.local file.`
-      );
-    }
-    throw new Error(`Failed to upload image to Supabase: ${error.message}`);
+  try {
+    await mkdir(targetDir, { recursive: true });
+  } catch (error) {
+    console.error("Error creating directory:", error);
+    // Continue attempting to write - mkdir might fail if it exists (though recursive: true handles that usually)
   }
 
-  // Get public URL
-  const {
-    data: { publicUrl },
-  } = supabase.storage.from(STORAGE_BUCKET).getPublicUrl(filePath);
+  // Write to local filesystem
+  const filePath = path.join(targetDir, filename);
+  await writeFile(filePath, optimizedBuffer);
 
-  return publicUrl;
+  // Return public URL path
+  return `/uploads/${folder}/${filename}`;
 }
 
 export async function uploadThumbnail(file: File): Promise<string> {
@@ -81,39 +63,33 @@ export async function uploadTeacherImage(file: File): Promise<string> {
 }
 
 /**
- * Deletes an image file from Supabase Storage
- * @param imageUrl - The public URL of the image (Supabase Storage URL)
+ * Deletes an image file from local server storage
+ * @param imageUrl - The public URL of the image
  */
 export async function deleteImageFile(
-  imageUrl: string | null | undefined
+  imageUrl: string | null | undefined,
 ): Promise<void> {
   if (!imageUrl) return;
 
   try {
-    // Extract file path from Supabase Storage URL
-    // URL format: https://[project].supabase.co/storage/v1/object/public/[bucket]/[path]
-    const url = new URL(imageUrl);
-    const pathParts = url.pathname.split("/");
-    const bucketIndex = pathParts.indexOf("public");
+    // Check if it's a local upload
+    if (imageUrl.startsWith("/uploads/")) {
+      const publicDir = path.join(process.cwd(), "public");
+      // Remove leading slash to join correctly
+      const relativePath = imageUrl.substring(1);
+      const fullPath = path.join(publicDir, relativePath);
 
-    if (bucketIndex === -1 || bucketIndex === pathParts.length - 1) {
-      // Invalid URL format or old local path format
-      console.warn(`Invalid image URL format: ${imageUrl}`);
+      await unlink(fullPath);
       return;
     }
 
-    // Extract the file path after the bucket name
-    const filePath = pathParts.slice(bucketIndex + 2).join("/");
-
-    // Delete from Supabase Storage
-    const { error } = await supabase.storage
-      .from(STORAGE_BUCKET)
-      .remove([filePath]);
-
-    if (error) {
-      console.error(`Failed to delete image from Supabase: ${error.message}`);
-      // Don't throw - we don't want to fail the operation if image deletion fails
+    // Legacy Supabase cleanup (optional, but good to keep if we are transitioning)
+    // Commented out to avoid using Supabase client
+    /*
+    if (imageUrl.includes("supabase.co/storage")) {
+       // ... existing supabase logic would go here if we wanted to keep it
     }
+    */
   } catch (error) {
     // Log error but don't throw - we don't want to fail the operation if image deletion fails
     console.error(`Error deleting image: ${error}`);

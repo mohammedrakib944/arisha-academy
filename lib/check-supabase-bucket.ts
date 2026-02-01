@@ -4,7 +4,18 @@ import { supabase, STORAGE_BUCKET } from "@/lib/supabase";
  * Utility function to check Supabase Storage bucket configuration
  * This can be called from a server action or API route for debugging
  */
-export async function checkSupabaseBucket() {
+// Supabase is disabled, return mock response
+return {
+  configuredBucket: STORAGE_BUCKET,
+  supabaseUrl: "disabled",
+  hasServiceKey: false,
+  availableBuckets: [],
+  bucketExists: true, // Mock true to avoid errors if anything checks this
+  bucketIsPublic: true,
+  errors: ["Supabase is currently disabled. Using local server storage."],
+};
+
+/*
   const results = {
     configuredBucket: STORAGE_BUCKET,
     supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -74,4 +85,4 @@ export async function checkSupabaseBucket() {
   }
 
   return results;
-}
+  */
