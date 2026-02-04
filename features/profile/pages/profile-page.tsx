@@ -16,12 +16,13 @@ import { cn } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
 
 export async function ProfilePage() {
-  try {
-    const user = await getCurrentUser();
+  const user = await getCurrentUser();
 
-    if (!user) {
-      redirect("/login");
-    }
+  if (!user) {
+    redirect("/login");
+  }
+
+  try {
 
     let enrollments: Awaited<
       ReturnType<
