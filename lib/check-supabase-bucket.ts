@@ -5,15 +5,15 @@ import { supabase, STORAGE_BUCKET } from "@/lib/supabase";
  * This can be called from a server action or API route for debugging
  */
 // Supabase is disabled, return mock response
-return {
-  configuredBucket: STORAGE_BUCKET,
-  supabaseUrl: "disabled",
-  hasServiceKey: false,
-  availableBuckets: [],
-  bucketExists: true, // Mock true to avoid errors if anything checks this
-  bucketIsPublic: true,
-  errors: ["Supabase is currently disabled. Using local server storage."],
-};
+// return {
+//   configuredBucket: STORAGE_BUCKET,
+//   supabaseUrl: "disabled",
+//   hasServiceKey: false,
+//   availableBuckets: [],
+//   bucketExists: true, // Mock true to avoid errors if anything checks this
+//   bucketIsPublic: true,
+//   errors: ["Supabase is currently disabled. Using local server storage."],
+// };
 
 /*
   const results = {

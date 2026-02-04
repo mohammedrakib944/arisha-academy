@@ -21,7 +21,8 @@ export function UploadImage({ src, alt, ...props }: UploadImageProps) {
   const isUpload =
     src.startsWith("/uploads/") ||
     src.includes("supabase.co/storage") ||
-    src.includes("supabase.in/storage");
+    src.includes("supabase.in/storage") ||
+    src.includes("/uploads/"); // MinIO bucket name check
 
   return <Image src={src} alt={alt} unoptimized={isUpload} {...props} />;
 }
