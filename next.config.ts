@@ -80,10 +80,9 @@ const nextConfig: NextConfig = {
     ] as any[], // Explicit cast to any[] to avoid strict type checking issues with conditional spreads of different shapes
     unoptimized: process.env.NODE_ENV === "production",
   },
-  experimental: {
-    serverActions: {
-      bodySizeLimit: "10mb",
-    },
+  // @ts-ignore
+  serverActions: {
+    bodySizeLimit: "10mb",
   },
 };
 
