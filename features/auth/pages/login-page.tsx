@@ -82,9 +82,12 @@ export function LoginPage() {
 
   async function onLoginSubmit(data: LoginFormData) {
     try {
+      console.log("[Auth Debug] Submitting login form...");
       const result = await login(data);
+      console.log("[Auth Debug] Login result:", result);
       if (result.success) {
         toast.success("সফলভাবে লগইন হয়েছে!");
+        console.log("[Auth Debug] Redirecting to /profile");
         router.push("/profile");
         router.refresh();
       } else {

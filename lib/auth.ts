@@ -42,7 +42,7 @@ export async function isAdmin() {
 
 export async function setUserSession(userId: string) {
   const cookieStore = await cookies();
-  const isSecure = process.env.NODE_ENV === "production";
+  const isSecure = false; // Set to false to support HTTP servers. Change back to process.env.NODE_ENV === "production" when SSL is enabled.
   console.log("[Auth Debug] setSession called for userId:", userId, "Secure:", isSecure);
   cookieStore.set("userId", userId, {
     httpOnly: true,
