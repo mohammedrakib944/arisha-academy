@@ -8,11 +8,18 @@ export async function getCurrentUser() {
     const cookieStore = await cookies();
     const userId = cookieStore.get("userId")?.value;
 
-    if (!userId) return null;
+    console.log("[Auth Debug] getCurrentUser called. userId in cookie:", userId);
+
+    if (!userId) {
+      console.log("[Auth Debug] No userId in cookie, returning null");
+      return null;
+    }
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
     });
+
+    console.log("[Auth Debug] User found in Prisma:", user ? "Yes" : "No", user?.phoneNumber);
 
     return user;
   } catch (error) {
@@ -35,9 +42,11 @@ export async function isAdmin() {
 
 export async function setUserSession(userId: string) {
   const cookieStore = await cookies();
+  const isSecure = process.env.NODE_ENV === "production";
+  console.log("[Auth Debug] setSession called for userId:", userId, "Secure:", isSecure);
   cookieStore.set("userId", userId, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: isSecure,
     sameSite: "lax",
     maxAge: 60 * 60 * 24 * 7, // 7 days
   });

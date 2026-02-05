@@ -39,7 +39,10 @@ export async function POST(request: NextRequest) {
       where: { phoneNumber: validated.phoneNumber },
     });
 
+    console.log("[Auth Debug] Login attempt for:", validated.phoneNumber, "User found:", !!user);
+
     if (!user) {
+      console.log("[Auth Debug] User not found");
       return NextResponse.json(
         {
           success: false,
@@ -56,7 +59,10 @@ export async function POST(request: NextRequest) {
       user.password
     );
 
+    console.log("[Auth Debug] Password valid:", isPasswordValid);
+
     if (!isPasswordValid) {
+      console.log("[Auth Debug] Invalid password");
       return NextResponse.json(
         {
           success: false,
@@ -68,6 +74,7 @@ export async function POST(request: NextRequest) {
     }
 
     await setUserSession(user.id);
+    console.log("[Auth Debug] Session set for user:", user.id);
 
     return NextResponse.json({ success: true, user });
   } catch (error) {
