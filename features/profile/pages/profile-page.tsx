@@ -18,10 +18,7 @@ import { ArrowRight } from "lucide-react";
 export async function ProfilePage() {
   const user = await getCurrentUser();
 
-  console.log("[Auth Debug] ProfilePage loaded. User:", user ? "Found" : "Not Found");
-
   if (!user) {
-    console.log("[Auth Debug] ProfilePage redirecting to login because user is null");
     redirect("/login");
   }
 

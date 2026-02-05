@@ -185,8 +185,6 @@ export function CourseForm({
         ? await updateCourse(course.id, transformedData)
         : await createCourse(transformedData);
 
-      console.log("submitted data: ", transformedData, "result: ", result);
-
       if (result.success) {
         toast.success(
           course ? "কোর্স সফলভাবেহয়েছে!" : "কোর্স সফলভাবে তৈরি হয়েছে!",
@@ -379,11 +377,10 @@ export function CourseForm({
                     <button
                       type="button"
                       onClick={() => editor.chain().focus().toggleBold().run()}
-                      className={`px-3 py-1 rounded text-sm ${
-                        editor.isActive("bold")
+                      className={`px-3 py-1 rounded text-sm ${editor.isActive("bold")
                           ? "bg-primary text-primary-foreground"
                           : "bg-background hover:bg-secondary"
-                      }`}
+                        }`}
                     >
                       <strong>B</strong>
                     </button>
@@ -392,11 +389,10 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleItalic().run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${
-                        editor.isActive("italic")
+                      className={`px-3 py-1 rounded text-sm ${editor.isActive("italic")
                           ? "bg-primary text-primary-foreground"
                           : "bg-background hover:bg-secondary"
-                      }`}
+                        }`}
                     >
                       <em>I</em>
                     </button>
@@ -405,11 +401,10 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleStrike().run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${
-                        editor.isActive("strike")
+                      className={`px-3 py-1 rounded text-sm ${editor.isActive("strike")
                           ? "bg-primary text-primary-foreground"
                           : "bg-background hover:bg-secondary"
-                      }`}
+                        }`}
                     >
                       <s>S</s>
                     </button>
@@ -419,11 +414,10 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleHeading({ level: 1 }).run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${
-                        editor.isActive("heading", { level: 1 })
+                      className={`px-3 py-1 rounded text-sm ${editor.isActive("heading", { level: 1 })
                           ? "bg-primary text-primary-foreground"
                           : "bg-background hover:bg-secondary"
-                      }`}
+                        }`}
                     >
                       H1
                     </button>
@@ -432,11 +426,10 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleHeading({ level: 2 }).run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${
-                        editor.isActive("heading", { level: 2 })
+                      className={`px-3 py-1 rounded text-sm ${editor.isActive("heading", { level: 2 })
                           ? "bg-primary text-primary-foreground"
                           : "bg-background hover:bg-secondary"
-                      }`}
+                        }`}
                     >
                       H2
                     </button>
@@ -445,11 +438,10 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleHeading({ level: 3 }).run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${
-                        editor.isActive("heading", { level: 3 })
+                      className={`px-3 py-1 rounded text-sm ${editor.isActive("heading", { level: 3 })
                           ? "bg-primary text-primary-foreground"
                           : "bg-background hover:bg-secondary"
-                      }`}
+                        }`}
                     >
                       H3
                     </button>
@@ -459,11 +451,10 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleBulletList().run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${
-                        editor.isActive("bulletList")
+                      className={`px-3 py-1 rounded text-sm ${editor.isActive("bulletList")
                           ? "bg-primary text-primary-foreground"
                           : "bg-background hover:bg-secondary"
-                      }`}
+                        }`}
                     >
                       •
                     </button>
@@ -472,11 +463,10 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleOrderedList().run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${
-                        editor.isActive("orderedList")
+                      className={`px-3 py-1 rounded text-sm ${editor.isActive("orderedList")
                           ? "bg-primary text-primary-foreground"
                           : "bg-background hover:bg-secondary"
-                      }`}
+                        }`}
                     >
                       1.
                     </button>
@@ -486,11 +476,10 @@ export function CourseForm({
                       onClick={() =>
                         editor.chain().focus().toggleBlockquote().run()
                       }
-                      className={`px-3 py-1 rounded text-sm ${
-                        editor.isActive("blockquote")
+                      className={`px-3 py-1 rounded text-sm ${editor.isActive("blockquote")
                           ? "bg-primary text-primary-foreground"
                           : "bg-background hover:bg-secondary"
-                      }`}
+                        }`}
                     >
                       "
                     </button>
