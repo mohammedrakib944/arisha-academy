@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { IMAGE_BASE_URL } from "@/lib/environment";
 
 interface ContentCardProps {
   id: string;
@@ -40,7 +41,7 @@ export function ContentCard({
       <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full group flex flex-col justify-between">
         {thumbnail ? (
           <div className="relative w-full aspect-square">
-            <Image src={thumbnail} alt={title} fill className="object-cover" />
+            <Image src={IMAGE_BASE_URL + "/" + thumbnail} alt={title} fill className="object-cover" />
           </div>
         ) : (
           <div className="relative w-full aspect-square">

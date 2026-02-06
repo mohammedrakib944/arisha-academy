@@ -13,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { IMAGE_BASE_URL } from "@/lib/environment";
 
 export async function AdminCoursesPage() {
   try {
@@ -47,7 +48,7 @@ export async function AdminCoursesPage() {
                 {course.thumbnail && (
                   <div className="relative w-full h-48">
                     <Image
-                      src={course.thumbnail}
+                      src={IMAGE_BASE_URL + "/" + course.thumbnail}
                       alt={course.title}
                       fill
                       className="object-cover"

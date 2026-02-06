@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
+import { IMAGE_BASE_URL } from "@/lib/environment";
 
 export async function ProfilePage() {
   const user = await getCurrentUser();
@@ -140,7 +141,7 @@ export async function ProfilePage() {
                     {enrollment.course.thumbnail && (
                       <div className="relative w-full h-48">
                         <Image
-                          src={enrollment.course.thumbnail}
+                          src={IMAGE_BASE_URL + "/" + enrollment.course.thumbnail}
                           alt={enrollment.course.title}
                           fill
                           className="object-cover"
@@ -211,7 +212,7 @@ export async function ProfilePage() {
                     {purchase.book.thumbnail && (
                       <div className="relative w-full h-48">
                         <Image
-                          src={purchase.book.thumbnail}
+                          src={IMAGE_BASE_URL + "/" + purchase.book.thumbnail}
                           alt={purchase.book.title}
                           fill
                           className="object-cover"

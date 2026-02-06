@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { IMAGE_BASE_URL } from '@/lib/environment'
 
 export async function TeacherDetailPage({ id }: { id: string }) {
   let teacher = null;
@@ -26,7 +27,7 @@ export async function TeacherDetailPage({ id }: { id: string }) {
             {teacher.image && (
               <div className="relative w-full h-96 rounded-lg overflow-hidden">
                 <Image
-                  src={teacher.image}
+                  src={IMAGE_BASE_URL + "/" + teacher.image}
                   alt={teacher.name}
                   fill
                   className="object-cover"
@@ -64,7 +65,7 @@ export async function TeacherDetailPage({ id }: { id: string }) {
                       {ct.course.thumbnail && (
                         <div className="relative w-full h-48">
                           <Image
-                            src={ct.course.thumbnail}
+                            src={IMAGE_BASE_URL + "/" + ct.course.thumbnail}
                             alt={ct.course.title}
                             fill
                             className="object-cover"

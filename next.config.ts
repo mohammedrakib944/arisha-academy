@@ -14,7 +14,7 @@ const getSupabaseStorageDomain = (): string | null => {
 };
 
 const getMinioConfig = () => {
-  const minioEndpoint = process.env.MINIO_ENDPOINT;
+  const minioEndpoint = process.env.NEXT_PUBLIC_MINIO_ENDPOINT;
   if (!minioEndpoint) return null;
   try {
     const url = new URL(minioEndpoint);
@@ -60,27 +60,15 @@ const nextConfig: NextConfig = {
         pathname: "/storage/v1/object/public/**",
       },
       {
-        protocol: "http",
-        hostname: "localhost",
-        port: "9000",
-        pathname: "/uploads/**",
-      },
-      {
-        protocol: "http",
-        hostname: "minio",
-        port: "9000",
+        protocol: "https",
+        hostname: "storage.arishaacademy.com",
+        port: "443",
         pathname: "/uploads/**",
       },
       {
         protocol: "http",
         hostname: "159.223.89.58",
         port: "9000",
-        pathname: "/uploads/**",
-      },
-      {
-        protocol: "https",
-        hostname: "storage.arishaacademy.com",
-        port: "443",
         pathname: "/uploads/**",
       },
     ] as any[], // Explicit cast to any[] to avoid strict type checking issues with conditional spreads of different shapes

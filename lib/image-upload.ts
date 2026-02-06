@@ -45,14 +45,14 @@ export async function uploadAndOptimizeImage(
   );
 
   // Construct public URL
-  // If MINIO_ENDPOINT is set, use it. Otherwise construct from client config.
+  // If NEXT_PUBLIC_MINIO_ENDPOINT is set, use it. Otherwise construct from client config.
   // Note: For local development with Docker/MinIO, the browser needs to be able to access this URL.
   // If running in Docker compose, localhost:9000 often works for browser.
 
   // Construct public URL
   // We can construct the URL from the environment variables or the client config we know we set
   const protocol = process.env.MINIO_USE_SSL === "true" ? "https" : "http";
-  const endpoint = process.env.MINIO_ENDPOINT || "http://localhost:9000";
+  const endpoint = process.env.NEXT_PUBLIC_MINIO_ENDPOINT || "http://localhost:9000";
 
   // If endpoint is a full URL, use it
   let baseUrl = endpoint;
@@ -65,7 +65,7 @@ export async function uploadAndOptimizeImage(
     baseUrl = baseUrl.slice(0, -1);
   }
 
-  const contentUrl = `${baseUrl}/${MINIO_BUCKET}/${objectName}`;
+  const contentUrl = `${MINIO_BUCKET}/${objectName}`;
 
   return contentUrl;
 }

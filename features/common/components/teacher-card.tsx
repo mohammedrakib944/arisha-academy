@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { IMAGE_BASE_URL } from "@/lib/environment";
 
 interface TeacherCardProps {
   id: string;
@@ -31,14 +32,14 @@ export function TeacherCard({
       <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full">
         {image && (
           <div className="relative w-full h-48">
-            <Image src={image} alt={name} fill className="object-cover" />
+            <Image src={IMAGE_BASE_URL + "/" + image} alt={name} fill className="object-cover" />
           </div>
         )}
 
         {image && (
           <div className="relative w-24 h-24 -mt-12 ml-4">
             <Image
-              src={image}
+              src={IMAGE_BASE_URL + "/" + image}
               alt={name}
               fill
               className="object-cover rounded-full border-2 border-primary p-0.5"

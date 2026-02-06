@@ -1,6 +1,6 @@
 import * as Minio from "minio";
 
-const minioEndpoint = process.env.MINIO_ENDPOINT || "http://localhost:9000";
+const minioEndpoint = process.env.NEXT_PUBLIC_MINIO_ENDPOINT || "http://localhost:9000";
 // Parse URL to get hostname and port
 const url = new URL(minioEndpoint);
 const useSSL = url.protocol === "https:";

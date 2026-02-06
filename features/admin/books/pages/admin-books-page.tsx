@@ -13,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { IMAGE_BASE_URL } from "@/lib/environment";
 
 export async function AdminBooksPage() {
   try {
@@ -38,7 +39,7 @@ export async function AdminBooksPage() {
               <Button>নতুন বই তৈরি করুন</Button>
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {books.map((book) => (
               <Card
@@ -48,7 +49,7 @@ export async function AdminBooksPage() {
                 {book.thumbnail && (
                   <div className="relative w-full h-48">
                     <Image
-                      src={book.thumbnail}
+                      src={IMAGE_BASE_URL + "/" + book.thumbnail}
                       alt={book.title}
                       fill
                       className="object-cover"
@@ -59,7 +60,7 @@ export async function AdminBooksPage() {
                 {book.thumbnail && (
                   <div className="relative w-24 h-24 -mt-12 ml-4">
                     <Image
-                      src={book.thumbnail}
+                      src={IMAGE_BASE_URL + "/" + book.thumbnail}
                       alt={book.title}
                       fill
                       className="object-cover rounded"

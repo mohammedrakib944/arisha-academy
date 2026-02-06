@@ -14,6 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { IMAGE_BASE_URL } from "@/lib/environment";
 
 export async function AdminTeachersPage() {
   try {
@@ -48,7 +49,7 @@ export async function AdminTeachersPage() {
                 {teacher.image && (
                   <div className="relative w-full h-48">
                     <Image
-                      src={teacher.image}
+                      src={IMAGE_BASE_URL + "/" + teacher.image}
                       alt={teacher.name}
                       fill
                       className="object-cover"
@@ -59,7 +60,7 @@ export async function AdminTeachersPage() {
                 {teacher.image && (
                   <div className="relative w-24 h-24 -mt-12 ml-4">
                     <Image
-                      src={teacher.image}
+                      src={IMAGE_BASE_URL + "/" + teacher.image}
                       alt={teacher.name}
                       fill
                       className="object-cover rounded-full border-2 border-primary p-0.5"

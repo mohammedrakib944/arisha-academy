@@ -1,3 +1,4 @@
+import { IMAGE_BASE_URL } from "@/lib/environment";
 import Image from "next/image";
 import { ComponentProps } from "react";
 
@@ -24,5 +25,5 @@ export function UploadImage({ src, alt, ...props }: UploadImageProps) {
     src.includes("supabase.in/storage") ||
     src.includes("/uploads/"); // MinIO bucket name check
 
-  return <Image src={src} alt={alt} unoptimized={isUpload} {...props} />;
+  return <Image src={IMAGE_BASE_URL + "/" + src} alt={alt} unoptimized={isUpload} {...props} />;
 }

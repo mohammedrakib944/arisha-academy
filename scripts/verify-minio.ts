@@ -3,7 +3,7 @@ import { minioClient, MINIO_BUCKET, ensureBucketExists } from "@/lib/minio";
 
 async function verifyMinio() {
     console.log("Starting MinIO verification...");
-    console.log("Endpoint:", process.env.MINIO_ENDPOINT);
+    console.log("Endpoint:", process.env.NEXT_PUBLIC_MINIO_ENDPOINT);
 
     try {
         console.log("Checking bucket existence...");

@@ -10,6 +10,7 @@ import PaymentProcess from "../components/payment-process";
 import { getCurrentUser } from "@/lib/auth";
 import { ExternalLink } from "lucide-react";
 import { CourseCurriculum } from "@/features/courses/components/course-curriculum";
+import { IMAGE_BASE_URL } from "@/lib/environment";
 
 function getYouTubeEmbedUrl(url: string): string {
   // Handle different YouTube URL formats
@@ -72,7 +73,7 @@ export async function CourseDetailPage({ id }: { id: string }) {
                 ) : (
                   <div className="relative w-full h-auto">
                     <Image
-                      src={course.routineImage}
+                      src={IMAGE_BASE_URL + "/" + course.routineImage}
                       alt="কোর্স রুটিন"
                       width={800}
                       height={600}
@@ -85,7 +86,7 @@ export async function CourseDetailPage({ id }: { id: string }) {
             {!course.routineImage && course.thumbnail && (
               <div className="relative w-full h-[200px] lg:h-[500px] mb-6 rounded-lg overflow-hidden">
                 <Image
-                  src={course.thumbnail}
+                  src={IMAGE_BASE_URL + "/" + course.thumbnail}
                   alt={course.title}
                   fill
                   className="object-cover"

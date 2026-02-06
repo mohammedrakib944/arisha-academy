@@ -2,6 +2,7 @@ import { getBook } from '@/features/books/actions/books'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { BookPurchaseForm } from '@/features/books/components/purchase-form'
+import { IMAGE_BASE_URL } from '@/lib/environment';
 
 export async function BookDetailPage({ id }: { id: string }) {
   let book = null;
@@ -25,7 +26,7 @@ export async function BookDetailPage({ id }: { id: string }) {
             {book.thumbnail && (
               <div className="relative w-full h-96 mb-6 rounded-lg overflow-hidden">
                 <Image
-                  src={book.thumbnail}
+                  src={IMAGE_BASE_URL + "/" + book.thumbnail}
                   alt={book.title}
                   fill
                   className="object-cover"

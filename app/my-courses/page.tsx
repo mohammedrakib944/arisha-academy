@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Users } from "lucide-react";
 import { CourseCurriculum } from "@/features/courses/components/course-curriculum";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { IMAGE_BASE_URL } from "@/lib/environment";
 
 export default async function MyCoursesPage() {
     const user = await getCurrentUser();
@@ -65,7 +66,7 @@ export default async function MyCoursesPage() {
                                         {course.thumbnail ? (
                                             <div className="relative aspect-video rounded-lg overflow-hidden border">
                                                 <Image
-                                                    src={course.thumbnail}
+                                                    src={IMAGE_BASE_URL + "/" + course.thumbnail}
                                                     alt={course.title}
                                                     fill
                                                     className="object-cover"
