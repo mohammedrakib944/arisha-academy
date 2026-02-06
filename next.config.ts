@@ -77,6 +77,12 @@ const nextConfig: NextConfig = {
         port: "9000",
         pathname: "/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "storage.arishaacademy.com",
+        port: "443",
+        pathname: "/uploads/**",
+      },
     ] as any[], // Explicit cast to any[] to avoid strict type checking issues with conditional spreads of different shapes
     unoptimized: process.env.NODE_ENV === "production",
   },
